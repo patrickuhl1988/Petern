@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heute Petern? – Dein Entscheidungshelfer</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="couch-bg"></div>
+
+  <main class="container">
+    <header class="header">
+      <h1>🛋️ Heute Petern?</h1>
+      <p class="tagline">Dein Entscheidungshelfer für den inneren Couch-Potato</p>
+    </header>
+
+    <section class="input-section">
+      <label for="activity">Was steht an?</label>
+      <div class="input-row">
+        <input type="text" id="activity" placeholder="z.B. Feiern, Sport, Kino, Treffen..." autocomplete="off">
+        <button type="button" id="btn-decide" class="btn btn-primary">Soll ich oder soll ich nicht?</button>
+      </div>
+      <div class="quick-activities">
+        <span class="quick-label">Schnellauswahl:</span>
+        <button type="button" class="chip" data-activity="Feiern gehen">Feiern</button>
+        <button type="button" class="chip" data-activity="Sport">Sport</button>
+        <button type="button" class="chip" data-activity="Kino">Kino</button>
+        <button type="button" class="chip" data-activity="Treffen mit Freunden">Treffen</button>
+        <button type="button" class="chip" data-activity="Früh aufstehen">Früh aufstehen</button>
+        <button type="button" class="chip" data-activity="Einkaufen">Einkaufen</button>
+      </div>
+    </section>
+
+    <section class="result-section hidden" id="result-section">
+      <div class="result-card" id="result-card">
+        <div class="result-icon" id="result-icon"></div>
+        <h2 id="result-title"></h2>
+        <p class="result-text" id="result-text"></p>
+        <p class="result-sub" id="result-sub"></p>
+        <div class="petern-level" id="petern-level"></div>
+        <div class="result-actions">
+          <button type="button" class="btn btn-secondary" id="btn-copy">📋 Ausrede kopieren</button>
+          <button type="button" class="btn btn-secondary" id="btn-again">Nochmal entscheiden</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="extras">
+      <div class="extra-card">
+        <h3>📜 Letzte Entscheidungen</h3>
+        <ul id="history-list"></ul>
+        <button type="button" class="btn btn-ghost" id="btn-clear-history">Verlauf leeren</button>
+      </div>
+      <div class="extra-card">
+        <h3>🎲 Petern des Tages</h3>
+        <p class="daily-excuse" id="daily-excuse"></p>
+        <button type="button" class="btn btn-ghost" id="btn-new-daily">Neue Tages-Ausrede</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Mit 90 % Wahrscheinlichkeit sagt dir diese App, was du eh schon denkst. 🛋️</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
