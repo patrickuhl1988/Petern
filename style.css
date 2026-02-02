@@ -70,6 +70,82 @@ body {
   font-weight: 600;
 }
 
+/* Peter-Sektionen (collapsible) */
+.peter-section {
+  margin-bottom: 0.75rem;
+}
+
+.collapse-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--couch-dark);
+  background: rgba(245, 230, 211, 0.9);
+  border: 1px solid rgba(201, 168, 108, 0.4);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.collapse-trigger:hover {
+  background: var(--couch-cream);
+  box-shadow: 0 2px 8px var(--couch-shadow);
+}
+
+.collapse-trigger .collapse-icon {
+  font-size: 0.7rem;
+  transition: transform 0.2s;
+}
+
+.collapse-trigger.open .collapse-icon {
+  transform: rotate(180deg);
+}
+
+.collapse-content {
+  margin-top: 0.25rem;
+  padding: 1rem;
+  background: rgba(245, 230, 211, 0.6);
+  border: 1px solid rgba(201, 168, 108, 0.3);
+  border-radius: 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--couch-text);
+}
+
+.peter-profile p,
+.peter-profile .peter-sub,
+.peteritis {
+  margin-bottom: 0.6rem;
+}
+
+.peter-profile .peter-sub {
+  font-size: 0.88rem;
+  color: var(--couch-muted);
+}
+
+.peteritis {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--couch-brown);
+  border-top: 1px dashed rgba(139, 115, 85, 0.3);
+  padding-top: 0.6rem;
+}
+
+.gebrauchsanweisung ul {
+  margin: 0.5rem 0 0 1rem;
+  padding-left: 0.5rem;
+}
+
+.gebrauchsanweisung li {
+  margin-bottom: 0.4rem;
+}
+
 /* Input section */
 .input-section {
   background: var(--couch-cream);
@@ -298,6 +374,32 @@ body {
   margin-bottom: 0.75rem;
 }
 
+/* Ausreden-Bot / Alibi-Sprachnachricht */
+.extra-card.ausreden-bot .alibi-text {
+  font-size: 0.95rem;
+  color: var(--couch-text);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  font-style: italic;
+  min-height: 2.5em;
+}
+
+.extra-card.ausreden-bot .alibi-text.alibi-generated {
+  font-style: normal;
+  color: var(--couch-dark);
+}
+
+.alibi-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.alibi-actions .btn-primary {
+  flex: 1;
+  min-width: 160px;
+}
+
 #history-list {
   list-style: none;
   font-size: 0.9rem;
@@ -322,6 +424,32 @@ body {
   font-style: italic;
   margin-bottom: 0.75rem;
   line-height: 1.4;
+}
+
+.standardphrase-text,
+.exit-strategy-text {
+  font-size: 0.95rem;
+  color: var(--couch-text);
+  font-style: italic;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.peteritis-card .peteritis-result {
+  font-size: 0.9rem;
+  color: var(--couch-text);
+  margin-bottom: 0.75rem;
+  line-height: 1.45;
+  min-height: 2.5em;
+}
+
+.peteritis-card .peteritis-result.peteritis-done {
+  font-style: italic;
+  color: var(--couch-dark);
+}
+
+.peteritis-card .btn-primary {
+  width: 100%;
 }
 
 /* Footer */

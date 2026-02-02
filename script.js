@@ -3,7 +3,7 @@
  * 90 % Ausrede, 10 % darfst du gehen.
  */
 
-// Ausreden: locker, vage, relatable
+// Ausreden: locker, vage, relatable + Peters Klassiker (Leo, Annka, Technik, Arbeit …)
 const AUSREDEN = [
   "Bin heute irgendwie komplett durch.",
   "Morgen vielleicht? Heute ist nicht mein Tag.",
@@ -30,6 +30,17 @@ const AUSREDEN = [
   "Social Battery: 0 %. Muss laden.",
   "Irgendwas mit dem Rücken. Oder so.",
   "Heute ist Ruhetag. Seit Januar.",
+  // Peters Klassiker
+  "Leo ist heute total unruhig. Schaff's nicht.",
+  "Kind ist krank. Muss daheim bleiben.",
+  "Annka ist gestresst, ich muss unterstützen.",
+  "Erkältung. Oder Allergie. Egal, fühl mich nicht gut.",
+  "Spülmaschine muss noch … und dann Update auf dem Rechner.",
+  "Update läuft. Dauert ewig. Heute nichts.",
+  "Arbeit hat reingegrätscht. Nächstes Mal.",
+  "Müdigkeit. Einfach Müdigkeit.",
+  "Download läuft noch. Kann nicht weg.",
+  "Irgendwas mit dem Dienst. Kurzfristig dazwischengekommen.",
 ];
 
 // Positive Antworten (10 %)
@@ -41,6 +52,45 @@ const JA_ANTWORTEN = [
   "Okay, du hast gewonnen. Geh raus, du Rebell.",
 ];
 
+// Alibi-Sprachnachrichten (klingen wie echte Sprachnachrichten)
+const ALIBI_SPRACHNACHRICHTEN = [
+  "Hey, sorry … bin heute total durch, schaff's irgendwie nicht. Nächstes Mal?",
+  "Ähm, also … mir geht's grad nicht so gut, ich bleib heute lieber daheim. Sorry!",
+  "Hey! Irgendwas ist dazwischengekommen, ich muss passen. Wir machen's bald nochmal, ja?",
+  "Sorry, hab mich schon eingerichtet … heute geht's nicht mehr. Morgen vielleicht?",
+  "Hey, bin mental schon im Pyjama. Heute leider nein. Danke dass du fragst!",
+  "Also … Kopf sagt ja, Körper sagt nein. Heute gewinnt der Körper. Nächstes Mal!",
+  "Hey! Hab so gar keine Energie heute. Lieber Couch. Wir sehen uns bald!",
+  "Sorry, heute ist nicht mein Tag. Irgendwie durch. Danke fürs Verständnis!",
+  "Hey … etwas ist dazwischengekommen. Schaff's heute nicht. Bis bald!",
+  "Ähm, ich fühl mich nicht so. Heute lieber nicht. Nächstes Mal bin ich dabei!",
+  "Hey, Social Battery ist leer. Muss laden. Sonst bald wieder!",
+  "Sorry, hab was mit mir selbst vor … also Couch. Nächstes Mal!",
+  "Hey! Wetter passt nicht. Oder so. Egal – heute bleib ich daheim. Sorry!",
+  "Also … heute ist Ruhetag. Seit Januar. Nächstes Mal, versprochen!",
+  "Hey, irgendwie kein Bock heute. Keine Ahnung warum. Danke!",
+  "Sorry … die Couch hat mich gerufen. Heute muss ich. Bis bald!",
+  "Hey! Hab vergessen, dass ich was anderes vorhatte. Tja. Nächstes Mal!",
+  "Ähm … heute nicht. Einfach heute nicht. Danke dass du fragst!",
+  "Hey, klingt anstrengend. Heute nee. Wir machen bald was!",
+  "Sorry, mein Bett braucht mich mehr. Heute pass ich. Bis bald!",
+  "Hey … hab mir die Haare nicht gewaschen. Du willst das nicht. Nächstes Mal!",
+  "Also, heute ist mein Nichts-tun-Tag. War schon immer so geplant. Sorry!",
+  "Hey! Bin schon zu Hause. Rausgehen … heute nicht. Danke!",
+  "Sorry, morgen vielleicht? Heute ist nicht mein Tag. Bis bald!",
+  "Hey … Energie-Level leer. Sorry. Sonst bald wieder!",
+  // Peter-Alibis (Leo, Annka, Technik, Arbeit)
+  "Hey, Leo ist heute total unruhig … schaff's nicht. Nächstes Mal!",
+  "Sorry, Kind ist krank, muss daheim bleiben. Danke!",
+  "Hey … Annka ist gestresst, ich muss unterstützen. Bis bald!",
+  "Ähm, Erkältung. Oder Allergie. Fühl mich nicht gut. Sorry!",
+  "Hey! Update läuft noch, dauert ewig. Heute nichts. Nächstes Mal!",
+  "Sorry, Arbeit hat reingegrätscht. Kurzfristig. Bis bald!",
+  "Hey … Download läuft noch, kann nicht weg. Morgen vielleicht?",
+  "Also, Spülmaschine und dann Update … heute geht's nicht. Danke!",
+  "Hey, Müdigkeit. Einfach Müdigkeit. Nächstes Mal bin ich dabei!",
+];
+
 // Petern-Level-Namen
 const PETERN_LEVELS = [
   "Petern-Level: Sofa-Pilot",
@@ -48,6 +98,47 @@ const PETERN_LEVELS = [
   "Petern-Level: Meister:in des Absagens",
   "Petern-Level: Profi-Peterner",
   "Petern-Level: Legende der Ausrede",
+  "Petern-Level: Peteritis Maxima",
+];
+
+// Peter-Standardphrasen
+const STANDARDPHRASEN = [
+  "Mal schauen.",
+  "Ich meld mich später.",
+  "Ist gerade schwierig.",
+  "Muss ich kurz mit Annka klären.",
+  "Je nachdem wie Leo drauf ist.",
+  "Nicht so lange vielleicht.",
+  "Irgendwann mal.",
+  "Sag ich dir Bescheid.",
+  "Schauen wir.",
+  "Weiß ich noch nicht so genau.",
+  "Muss ich mir überlegen.",
+  "Klingt gut, aber … mal schauen.",
+];
+
+// Exit-Strategien (wenn man doch zugesagt hat)
+const EXIT_STRATEGIEN = [
+  "„Nicht so lange vielleicht.“",
+  "„Je nachdem wie Leo drauf ist.“",
+  "„Ich schau, dass ich mal vorbeikomme.“",
+  "„Ohne Garantie, aber ich versuch's.“",
+  "„Kurz vorbeischauen geht vielleicht.“",
+  "„Muss ich mit Annka absprechen, wie lang.“",
+  "„So gegen … mal schauen, ob ich schaff.“",
+  "„Keine Ahnung ob ich lange kann.“",
+  "„Ich meld mich, wenn ich losfahr.“",
+  "„Wenn es passt, komme ich.“",
+];
+
+// Peteritis-Diagnosen (humorvoll)
+const PETERITIS_DIAGNOSEN = [
+  "Peteritis leichte Form: Du denkst oft „mal schauen“. Heilbar durch konkrete Termine.",
+  "Peteritis Maxima: Spontane Erschöpfung vor jedem Termin. Einzige Heilung: Gruppendruck oder Bastis Geburtstag.",
+  "Chronische Verbindlichkeitsvermeidung. Symptom: „Ich meld mich später.“ Therapie: Peter-Gebrauchsanweisung befolgen.",
+  "Peteritis positiv. Du bist Meister:in des unverbindlichen Lebens. Couch + später = natürlicher Zustand.",
+  "Subklinische Peteritis: Rennrad und Trips = „irgendwann mal“. Prognose: stabil, keine Besserung in Sicht.",
+  "Peteritis mit Exit-Strategie: Du sagst Ja und baust direkt „nicht so lange“ ein. Klassiker.",
 ];
 
 // DOM
@@ -66,6 +157,15 @@ const historyList = document.getElementById("history-list");
 const btnClearHistory = document.getElementById("btn-clear-history");
 const dailyExcuseEl = document.getElementById("daily-excuse");
 const btnNewDaily = document.getElementById("btn-new-daily");
+const alibiTextEl = document.getElementById("alibi-text");
+const btnAlibi = document.getElementById("btn-alibi");
+const btnCopyAlibi = document.getElementById("btn-copy-alibi");
+const standardphraseTextEl = document.getElementById("standardphrase-text");
+const btnStandardphrase = document.getElementById("btn-standardphrase");
+const exitStrategyTextEl = document.getElementById("exit-strategy-text");
+const btnExit = document.getElementById("btn-exit");
+const peteritisResultEl = document.getElementById("peteritis-result");
+const btnPeteritis = document.getElementById("btn-peteritis");
 
 // State
 let lastResult = null;
@@ -212,6 +312,61 @@ btnClearHistory.addEventListener("click", () => {
 });
 
 btnNewDaily.addEventListener("click", setNewDailyExcuse);
+
+// Ausreden-Bot: Alibi-Sprachnachricht
+let lastAlibi = null;
+
+function generateAlibiSprachnachricht() {
+  lastAlibi = pick(ALIBI_SPRACHNACHRICHTEN);
+  alibiTextEl.textContent = lastAlibi;
+  alibiTextEl.classList.add("alibi-generated");
+}
+
+btnAlibi.addEventListener("click", generateAlibiSprachnachricht);
+
+btnCopyAlibi.addEventListener("click", () => {
+  if (!lastAlibi) return;
+  navigator.clipboard.writeText(lastAlibi).then(() => {
+    const old = btnCopyAlibi.textContent;
+    btnCopyAlibi.textContent = "✓ Kopiert!";
+    setTimeout(() => (btnCopyAlibi.textContent = old), 1500);
+  });
+});
+
+// Collapse: Wer ist Peter? + Gebrauchsanweisung
+function setupCollapse(triggerId, contentId) {
+  const trigger = document.getElementById(triggerId);
+  const content = document.getElementById(contentId);
+  if (!trigger || !content) return;
+  trigger.addEventListener("click", () => {
+    const open = content.hidden;
+    content.hidden = !open;
+    trigger.setAttribute("aria-expanded", open);
+    trigger.classList.toggle("open", open);
+  });
+  content.hidden = true;
+}
+setupCollapse("btn-wer-ist-peter", "wer-ist-peter-content");
+setupCollapse("btn-gebrauchsanweisung", "gebrauchsanweisung-content");
+
+// Peter-Standardphrasen
+function generateStandardphrase() {
+  standardphraseTextEl.textContent = pick(STANDARDPHRASEN);
+}
+btnStandardphrase.addEventListener("click", generateStandardphrase);
+
+// Exit-Strategie
+function generateExitStrategy() {
+  exitStrategyTextEl.textContent = pick(EXIT_STRATEGIEN);
+}
+btnExit.addEventListener("click", generateExitStrategy);
+
+// Peteritis-Check
+function runPeteritisCheck() {
+  peteritisResultEl.textContent = pick(PETERITIS_DIAGNOSEN);
+  peteritisResultEl.classList.add("peteritis-done");
+}
+btnPeteritis.addEventListener("click", runPeteritisCheck);
 
 // Init
 loadDailyExcuse();

@@ -18,6 +18,42 @@
       <p class="tagline">Dein Entscheidungshelfer für den inneren Couch-Potato</p>
     </header>
 
+    <section class="peter-section">
+      <button type="button" class="collapse-trigger" id="btn-wer-ist-peter" aria-expanded="false">
+        <span>👤 Wer ist Peter?</span>
+        <span class="collapse-icon" aria-hidden="true">▼</span>
+      </button>
+      <div class="collapse-content" id="wer-ist-peter-content">
+        <div class="peter-profile">
+          <p><strong>Peter</strong> (*1987), Beamter (Polizist), verheiratet mit <strong>Annka</strong>, Vater von <strong>Leo</strong> (1) und <strong>Emilia</strong> (12). Verdient gut, achtet auf sein Auftreten – und will bloß nicht negativ auffallen.</p>
+          <p class="peter-sub">🛋️ <strong>Petern</strong> = geplantes Nichtstun: selten klares Ja/Nein. Standards: „Mal schauen“, „Ich meld mich später“, „Ist gerade schwierig“. Liebt Couch, Cola Zero, iPad, ruhige Abende. Aktivitäten existieren oft nur theoretisch.</p>
+          <p class="peter-sub">🧠 <strong>Typisch:</strong> 90 % Ausrede, 10 % Teilnahme. Wenn er zusagt: Exit-Strategien („nicht so lange“, „je nachdem wie Leo drauf ist“). Klassiker: Kind unruhig/krank, Annka gestresst, Erkältung, Spülmaschine, Update, Arbeit, Müdigkeit. Technik-Ausreden besonders beliebt.</p>
+          <p class="peter-sub">👨‍👩‍👧‍👦 Annka hat mehr Einfluss; Peter macht viel im Haushalt, ordnet sich oft unter. Wenn Annka und Leo dabei sind, kommt er eher – dann aber zeitlich begrenzt. Eigene Einladungen selten, Absagen planbar. Früher aktiv/sportlich, heute: Rennrad, Trips → „Irgendwann mal“. Kein Bösewicht – <strong>Meister des unverbindlichen Lebens</strong>. Natürlicher Zustand: Couch + später.</p>
+          <p class="peteritis">🩺 <strong>Peteritis / Peteritis Maxima</strong> (fiktiv): Verbindlichkeitsvermeidung, spontane Erschöpfung vor Terminen. Heilbar nur durch Gruppendruck oder außergewöhnliche Motivation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="peter-section">
+      <button type="button" class="collapse-trigger" id="btn-gebrauchsanweisung" aria-expanded="false">
+        <span>📋 Peter-Gebrauchsanweisung</span>
+        <span class="collapse-icon" aria-hidden="true">▼</span>
+      </button>
+      <div class="collapse-content" id="gebrauchsanweisung-content">
+        <div class="gebrauchsanweisung">
+          <p><strong>So erreichst du Peter (oder dich selbst):</strong></p>
+          <ul>
+            <li>Druck rausnehmen – wenn andere planen und keinen Druck machen, steigt die Teilnahmechance.</li>
+            <li>Konkrete Termine vorschlagen – er schlägt selten selbst neue Daten vor.</li>
+            <li>Annka und Leo einbeziehen – wenn sie dabei sind, kommt er eher (dann aber zeitlich begrenzt).</li>
+            <li>„Nicht so lange“ akzeptieren – dann baut er weniger Exit-Strategien ein.</li>
+            <li>Gaming/Home-Aktivität anbieten – geht eher, wenn es bequem und zu Hause ist.</li>
+            <li>Bei neuem Grill / neuer Idee: schnell einen festen Termin machen, sonst versandet es.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section class="input-section">
       <label for="activity">Was steht an?</label>
       <div class="input-row">
@@ -50,6 +86,14 @@
     </section>
 
     <section class="extras">
+      <div class="extra-card ausreden-bot">
+        <h3>🎙️ Ausreden-Bot – Alibi-Sprachnachricht</h3>
+        <p class="alibi-text" id="alibi-text">Klick auf „Sprachnachricht generieren“ – dann hast du einen Text zum Vorlesen oder Senden.</p>
+        <div class="alibi-actions">
+          <button type="button" class="btn btn-primary" id="btn-alibi">🎙️ Sprachnachricht generieren</button>
+          <button type="button" class="btn btn-secondary" id="btn-copy-alibi">📋 Kopieren</button>
+        </div>
+      </div>
       <div class="extra-card">
         <h3>📜 Letzte Entscheidungen</h3>
         <ul id="history-list"></ul>
@@ -59,6 +103,21 @@
         <h3>🎲 Petern des Tages</h3>
         <p class="daily-excuse" id="daily-excuse"></p>
         <button type="button" class="btn btn-ghost" id="btn-new-daily">Neue Tages-Ausrede</button>
+      </div>
+      <div class="extra-card">
+        <h3>💬 Peter-Standardphrasen</h3>
+        <p class="standardphrase-text" id="standardphrase-text">„Mal schauen“, „Ich meld mich später“ …</p>
+        <button type="button" class="btn btn-ghost" id="btn-standardphrase">Neue Phrase</button>
+      </div>
+      <div class="extra-card">
+        <h3>🚪 Exit-Strategie (wenn du doch zugesagt hast)</h3>
+        <p class="exit-strategy-text" id="exit-strategy-text">Bau dir eine Hintertür ein.</p>
+        <button type="button" class="btn btn-ghost" id="btn-exit">Exit-Strategie generieren</button>
+      </div>
+      <div class="extra-card peteritis-card">
+        <h3>🩺 Peteritis-Check</h3>
+        <p class="peteritis-result" id="peteritis-result">Bin ich petern-krank?</p>
+        <button type="button" class="btn btn-primary" id="btn-peteritis">Peteritis messen</button>
       </div>
     </section>
 
