@@ -29,6 +29,12 @@ python -m http.server 8000
 
 Oder `index.html` direkt im Browser öffnen.
 
+## Live
+
+**Seite:** [https://patrickuhl1988.github.io/Petern/](https://patrickuhl1988.github.io/Petern/)
+
+(GitHub Pages einmal aktivieren: Repo → **Settings** → **Pages** → Source: **Deploy from a branch** → Branch: **main**, Folder: **/ (root)** → Save.)
+
 ## Lizenz
 
 Spielerei – nutzen wie du magst.
