@@ -1,10 +1,100 @@
 /**
  * Heute Petern? – Dein Entscheidungshelfer
  * 90 % Ausrede, 10 % darfst du gehen.
+ * DE / EN language support
  */
 
+// ========== TRANSLATIONS ==========
+const TRANSLATIONS = {
+  de: {
+    // UI
+    title: "🛋️ Heute Petern?",
+    tagline: "Dein Entscheidungshelfer für den inneren Couch-Potato",
+    whoIsPeter: "👤 Wer ist Peter?",
+    manual: "📋 Peter-Gebrauchsanweisung",
+    whatsOn: "Was steht an?",
+    activityPlaceholder: "z.B. Feiern, Sport, Kino, Treffen...",
+    btnDecide: "Soll ich oder soll ich nicht?",
+    quickSelect: "Schnellauswahl:",
+    copyExcuse: "📋 Ausrede kopieren",
+    decideAgain: "Nochmal entscheiden",
+    copied: "✓ Kopiert!",
+    alibiTitle: "🎙️ Ausreden-Bot – Alibi-Sprachnachricht",
+    alibiIntro: "Klick auf „Sprachnachricht generieren" – dann hast du einen Text zum Vorlesen oder Senden.",
+    generateAlibi: "🎙️ Sprachnachricht generieren",
+    copy: "📋 Kopieren",
+    historyTitle: "📜 Letzte Entscheidungen",
+    clearHistory: "Verlauf leeren",
+    dailyTitle: "🎲 Petern des Tages",
+    newDailyExcuse: "Neue Tages-Ausrede",
+    phrasesTitle: "💬 Peter-Standardphrasen",
+    phrasesIntro: "„Mal schauen", „Ich meld mich später" …",
+    newPhrase: "Neue Phrase",
+    exitTitle: "🚪 Exit-Strategie (wenn du doch zugesagt hast)",
+    exitIntro: "Bau dir eine Hintertür ein.",
+    generateExit: "Exit-Strategie generieren",
+    peteritisTitle: "🩺 Peteritis-Check",
+    peteritisIntro: "Bin ich petern-krank?",
+    measurePeteritis: "Peteritis messen",
+    footer: "Mit 90 % Wahrscheinlichkeit sagt dir diese App, was du eh schon denkst. 🛋️",
+    noHistory: "Noch keine Entscheidungen.",
+    resultPetern: "Lieber nicht.",
+    resultGo: "Darfst du.",
+    defaultActivity: "irgendwas",
+    manualIntro: "So erreichst du Peter (oder dich selbst):",
+    manual1: "Druck rausnehmen – wenn andere planen und keinen Druck machen, steigt die Teilnahmechance.",
+    manual2: "Konkrete Termine vorschlagen – er schlägt selten selbst neue Daten vor.",
+    manual3: "Annka und Leo einbeziehen – wenn sie dabei sind, kommt er eher (dann aber zeitlich begrenzt).",
+    manual4: "„Nicht so lange" akzeptieren – dann baut er weniger Exit-Strategien ein.",
+    manual5: "Gaming/Home-Aktivität anbieten – geht eher, wenn es bequem und zu Hause ist.",
+    manual6: "Bei neuem Grill / neuer Idee: schnell einen festen Termin machen, sonst versandet es.",
+  },
+  en: {
+    title: "🛋️ Petern Today?",
+    tagline: "Your decision helper for the inner couch potato",
+    whoIsPeter: "👤 Who is Peter?",
+    manual: "📋 Peter's User Manual",
+    whatsOn: "What's on?",
+    activityPlaceholder: "e.g. Party, Sports, Cinema, Meet-up...",
+    btnDecide: "Should I or shouldn't I?",
+    quickSelect: "Quick select:",
+    copyExcuse: "📋 Copy excuse",
+    decideAgain: "Decide again",
+    copied: "✓ Copied!",
+    alibiTitle: "🎙️ Excuse Bot – Alibi Voice Message",
+    alibiIntro: "Click \"Generate voice message\" – then you have a text to read aloud or send.",
+    generateAlibi: "🎙️ Generate voice message",
+    copy: "📋 Copy",
+    historyTitle: "📜 Recent decisions",
+    clearHistory: "Clear history",
+    dailyTitle: "🎲 Petern of the day",
+    newDailyExcuse: "New daily excuse",
+    phrasesTitle: "💬 Peter's standard phrases",
+    phrasesIntro: "\"We'll see\", \"I'll let you know later\" …",
+    newPhrase: "New phrase",
+    exitTitle: "🚪 Exit strategy (when you said yes)",
+    exitIntro: "Build yourself a back door.",
+    generateExit: "Generate exit strategy",
+    peteritisTitle: "🩺 Peteritis check",
+    peteritisIntro: "Am I petern-sick?",
+    measurePeteritis: "Measure Peteritis",
+    footer: "With 90% probability, this app tells you what you were already thinking. 🛋️",
+    noHistory: "No decisions yet.",
+    resultPetern: "Better not.",
+    resultGo: "You're allowed.",
+    defaultActivity: "something",
+    manualIntro: "How to reach Peter (or yourself):",
+    manual1: "Reduce pressure – when others plan and don't push, participation chance increases.",
+    manual2: "Suggest concrete dates – he rarely suggests new dates himself.",
+    manual3: "Include Annka and Leo – if they're coming, he's more likely (but time-limited).",
+    manual4: "Accept \"not too long\" – then he builds fewer exit strategies.",
+    manual5: "Offer gaming/home activities – more likely when it's comfortable and at home.",
+    manual6: "New grill / new idea: quickly set a firm date, or it fizzles out.",
+  },
+};
+
 // Ausreden: locker, vage, relatable + Peters Klassiker (Leo, Annka, Technik, Arbeit …)
-const AUSREDEN = [
+const AUSREDEN_DE = [
   "Bin heute irgendwie komplett durch.",
   "Morgen vielleicht? Heute ist nicht mein Tag.",
   "Hab grad so gar keine Energie dafür.",
@@ -43,8 +133,46 @@ const AUSREDEN = [
   "Irgendwas mit dem Dienst. Kurzfristig dazwischengekommen.",
 ];
 
+const AUSREDEN_EN = [
+  "I'm completely drained today somehow.",
+  "Maybe tomorrow? Today's not my day.",
+  "I have zero energy for that right now.",
+  "Something came up. Next time!",
+  "Don't feel like it. Couch sounds better.",
+  "Head says yes, body says no. Body wins.",
+  "Weather doesn't fit. Or something. Whatever.",
+  "Already settled in. Too late now.",
+  "Mentally already in my PJs.",
+  "Today's my do-nothing day. Was always planned that way.",
+  "The couch is calling. I must obey.",
+  "Forgot I had something else planned. Oops.",
+  "Energy level: empty. Sorry.",
+  "Just no motivation. No idea why.",
+  "I'll be more motivated tomorrow. Promise. Maybe.",
+  "Already in relaxation mode. Too late.",
+  "I have plans with myself. (Netflix.)",
+  "Not today. Just not today.",
+  "Sounds exhausting. Nope.",
+  "My bed/couch needs me more.",
+  "Already home. Leave the house? In this economy?",
+  "Didn't wash my hair. You don't want that.",
+  "Social battery: 0%. Must recharge.",
+  "Something with my back. Or whatever.",
+  "Today's rest day. Since January.",
+  "Leo's super restless today. Can't make it.",
+  "Kid's sick. Have to stay home.",
+  "Annka's stressed, I need to support.",
+  "Cold. Or allergy. Anyway, don't feel well.",
+  "Dishwasher still needs to … and then update on the laptop.",
+  "Update running. Takes forever. Nothing today.",
+  "Work got in the way. Next time.",
+  "Tired. Just tired.",
+  "Download still running. Can't leave.",
+  "Something with the shift. Came up last minute.",
+];
+
 // Positive Antworten (10 %)
-const JA_ANTWORTEN = [
+const JA_ANTWORTEN_DE = [
   "Okay, du darfst. Aber nur, weil du gefragt hast.",
   "Ja, los. Geh. Wir sehen uns auf der Couch später.",
   "Ausnahmsweise: Ja. Genieß es.",
@@ -52,8 +180,16 @@ const JA_ANTWORTEN = [
   "Okay, du hast gewonnen. Geh raus, du Rebell.",
 ];
 
+const JA_ANTWORTEN_EN = [
+  "Okay, you can go. But only because you asked.",
+  "Yeah, go ahead. See you on the couch later.",
+  "Exception: Yes. Enjoy it.",
+  "The couch forgives you. This one time.",
+  "Okay, you win. Go out, you rebel.",
+];
+
 // Alibi-Sprachnachrichten (klingen wie echte Sprachnachrichten)
-const ALIBI_SPRACHNACHRICHTEN = [
+const ALIBI_SPRACHNACHRICHTEN_DE = [
   "Hey, sorry … bin heute total durch, schaff's irgendwie nicht. Nächstes Mal?",
   "Ähm, also … mir geht's grad nicht so gut, ich bleib heute lieber daheim. Sorry!",
   "Hey! Irgendwas ist dazwischengekommen, ich muss passen. Wir machen's bald nochmal, ja?",
@@ -91,8 +227,45 @@ const ALIBI_SPRACHNACHRICHTEN = [
   "Hey, Müdigkeit. Einfach Müdigkeit. Nächstes Mal bin ich dabei!",
 ];
 
+const ALIBI_SPRACHNACHRICHTEN_EN = [
+  "Hey, sorry … I'm totally drained today, can't make it. Next time?",
+  "Um, so … I'm not feeling great, I'll stay home today. Sorry!",
+  "Hey! Something came up, I have to pass. We'll do it again soon, okay?",
+  "Sorry, already settled in … can't do it today. Maybe tomorrow?",
+  "Hey, mentally already in my PJs. Sorry, no today. Thanks for asking!",
+  "So … head says yes, body says no. Body wins today. Next time!",
+  "Hey! Zero energy today. Couch wins. See you soon!",
+  "Sorry, not my day today. Kind of drained. Thanks for understanding!",
+  "Hey … something came up. Can't make it today. See you soon!",
+  "Um, I don't feel like it. Not today. I'll join next time!",
+  "Hey, social battery's empty. Must recharge. See you soon!",
+  "Sorry, have plans with myself … meaning couch. Next time!",
+  "Hey! Weather doesn't fit. Or whatever – staying home today. Sorry!",
+  "So … rest day today. Since January. Next time, promise!",
+  "Hey, just no motivation today. No idea why. Thanks!",
+  "Sorry … the couch is calling. Today I must. See you soon!",
+  "Hey! Forgot I had something else planned. Oops. Next time!",
+  "Um … not today. Just not today. Thanks for asking!",
+  "Hey, sounds exhausting. Nope today. We'll do something soon!",
+  "Sorry, my bed needs me more. Passing today. See you soon!",
+  "Hey … didn't wash my hair. You don't want that. Next time!",
+  "So, today's my do-nothing day. Was always planned. Sorry!",
+  "Hey! Already home. Going out … not today. Thanks!",
+  "Sorry, maybe tomorrow? Not my day today. See you soon!",
+  "Hey … energy level empty. Sorry. See you soon!",
+  "Hey, Leo's super restless today … can't make it. Next time!",
+  "Sorry, kid's sick, have to stay home. Thanks!",
+  "Hey … Annka's stressed, I need to support. See you soon!",
+  "Um, cold. Or allergy. Don't feel well. Sorry!",
+  "Hey! Update still running, takes forever. Nothing today. Next time!",
+  "Sorry, work got in the way. Last minute. See you soon!",
+  "Hey … download still running, can't leave. Maybe tomorrow?",
+  "So, dishwasher and then update … can't today. Thanks!",
+  "Hey, tired. Just tired. I'll join next time!",
+];
+
 // Petern-Level-Namen
-const PETERN_LEVELS = [
+const PETERN_LEVELS_DE = [
   "Petern-Level: Sofa-Pilot",
   "Petern-Level: Couch-König:in",
   "Petern-Level: Meister:in des Absagens",
@@ -101,8 +274,17 @@ const PETERN_LEVELS = [
   "Petern-Level: Peteritis Maxima",
 ];
 
+const PETERN_LEVELS_EN = [
+  "Petern-Level: Sofa Pilot",
+  "Petern-Level: Couch King/Queen",
+  "Petern-Level: Master of Declining",
+  "Petern-Level: Pro Peterner",
+  "Petern-Level: Legend of Excuses",
+  "Petern-Level: Peteritis Maxima",
+];
+
 // Peter-Standardphrasen
-const STANDARDPHRASEN = [
+const STANDARDPHRASEN_DE = [
   "Mal schauen.",
   "Ich meld mich später.",
   "Ist gerade schwierig.",
@@ -117,8 +299,23 @@ const STANDARDPHRASEN = [
   "Klingt gut, aber … mal schauen.",
 ];
 
+const STANDARDPHRASEN_EN = [
+  "We'll see.",
+  "I'll let you know later.",
+  "It's tricky right now.",
+  "Need to check with Annka first.",
+  "Depends how Leo's doing.",
+  "Maybe not for too long.",
+  "Someday.",
+  "I'll tell you.",
+  "We'll see.",
+  "Not sure yet.",
+  "Need to think about it.",
+  "Sounds good, but … we'll see.",
+];
+
 // Exit-Strategien (wenn man doch zugesagt hat)
-const EXIT_STRATEGIEN = [
+const EXIT_STRATEGIEN_DE = [
   "„Nicht so lange vielleicht.“",
   "„Je nachdem wie Leo drauf ist.“",
   "„Ich schau, dass ich mal vorbeikomme.“",
@@ -131,14 +328,54 @@ const EXIT_STRATEGIEN = [
   "„Wenn es passt, komme ich.“",
 ];
 
+const EXIT_STRATEGIEN_EN = [
+  "\"Maybe not for too long.\"",
+  "\"Depends how Leo's doing.\"",
+  "\"I'll try to swing by.\"",
+  "\"No guarantees, but I'll try.\"",
+  "\"Quick stop might work.\"",
+  "\"Need to check with Annka how long.\"",
+  "\"Around … we'll see if I can make it.\"",
+  "\"No idea if I can stay long.\"",
+  "\"I'll text when I'm heading out.\"",
+  "\"If it works, I'll come.\"",
+];
+
 // Peteritis-Diagnosen (humorvoll)
-const PETERITIS_DIAGNOSEN = [
+const PETERITIS_DIAGNOSEN_DE = [
   "Peteritis leichte Form: Du denkst oft „mal schauen“. Heilbar durch konkrete Termine.",
   "Peteritis Maxima: Spontane Erschöpfung vor jedem Termin. Einzige Heilung: Gruppendruck oder Bastis Geburtstag.",
   "Chronische Verbindlichkeitsvermeidung. Symptom: „Ich meld mich später.“ Therapie: Peter-Gebrauchsanweisung befolgen.",
   "Peteritis positiv. Du bist Meister:in des unverbindlichen Lebens. Couch + später = natürlicher Zustand.",
   "Subklinische Peteritis: Rennrad und Trips = „irgendwann mal“. Prognose: stabil, keine Besserung in Sicht.",
   "Peteritis mit Exit-Strategie: Du sagst Ja und baust direkt „nicht so lange“ ein. Klassiker.",
+];
+
+const PETERITIS_DIAGNOSEN_EN = [
+  "Mild Peteritis: You often think \"we'll see\". Curable with concrete dates.",
+  "Peteritis Maxima: Spontaneous exhaustion before every appointment. Only cure: peer pressure or Bestie's birthday.",
+  "Chronic commitment avoidance. Symptom: \"I'll let you know later.\" Therapy: follow Peter's user manual.",
+  "Peteritis positive. You're a master of the non-committal life. Couch + later = natural state.",
+  "Subclinical Peteritis: Road bike and trips = \"someday\". Prognosis: stable, no improvement in sight.",
+  "Peteritis with exit strategy: You say yes and immediately add \"not for too long\". Classic.",
+];
+
+// Chips (quick activities)
+const CHIPS_DE = [
+  { activity: "Feiern gehen", label: "Feiern" },
+  { activity: "Sport", label: "Sport" },
+  { activity: "Kino", label: "Kino" },
+  { activity: "Treffen mit Freunden", label: "Treffen" },
+  { activity: "Früh aufstehen", label: "Früh aufstehen" },
+  { activity: "Einkaufen", label: "Einkaufen" },
+];
+const CHIPS_EN = [
+  { activity: "Going to a party", label: "Party" },
+  { activity: "Sports", label: "Sports" },
+  { activity: "Cinema", label: "Cinema" },
+  { activity: "Meeting friends", label: "Meet-up" },
+  { activity: "Getting up early", label: "Early rise" },
+  { activity: "Shopping", label: "Shopping" },
 ];
 
 // DOM
@@ -170,6 +407,17 @@ const btnPeteritis = document.getElementById("btn-peteritis");
 // State
 let lastResult = null;
 let history = JSON.parse(localStorage.getItem("petern-history") || "[]");
+let currentLang = localStorage.getItem("petern-lang") || "de";
+
+// Content getters by language
+function getAusreden() { return currentLang === "en" ? AUSREDEN_EN : AUSREDEN_DE; }
+function getJaAntworten() { return currentLang === "en" ? JA_ANTWORTEN_EN : JA_ANTWORTEN_DE; }
+function getAlibi() { return currentLang === "en" ? ALIBI_SPRACHNACHRICHTEN_EN : ALIBI_SPRACHNACHRICHTEN_DE; }
+function getPeternLevels() { return currentLang === "en" ? PETERN_LEVELS_EN : PETERN_LEVELS_DE; }
+function getStandardphrasen() { return currentLang === "en" ? STANDARDPHRASEN_EN : STANDARDPHRASEN_DE; }
+function getExitStrategien() { return currentLang === "en" ? EXIT_STRATEGIEN_EN : EXIT_STRATEGIEN_DE; }
+function getPeteritisDiagnosen() { return currentLang === "en" ? PETERITIS_DIAGNOSEN_EN : PETERITIS_DIAGNOSEN_DE; }
+function getChips() { return currentLang === "en" ? CHIPS_EN : CHIPS_DE; }
 
 // Zufälliges Element aus Array
 function pick(arr) {
@@ -178,27 +426,29 @@ function pick(arr) {
 
 // Entscheidung: 90 % Petern, 10 % Go
 function decide(activity) {
-  const normalized = (activity || "irgendwas").trim() || "irgendwas";
+  const t = TRANSLATIONS[currentLang];
+  const defaultAct = t.defaultActivity;
+  const normalized = (activity || defaultAct).trim() || defaultAct;
   const petern = Math.random() < 0.9;
 
   if (petern) {
-    const excuse = pick(AUSREDEN);
-    const level = pick(PETERN_LEVELS);
+    const excuse = pick(getAusreden());
+    const level = pick(getPeternLevels());
     lastResult = {
       type: "petern",
       activity: normalized,
       text: excuse,
-      sub: `„${normalized}" – lieber nicht.`,
+      sub: `"${normalized}" – ${t.resultPetern}`,
       level,
       copyText: excuse,
     };
   } else {
-    const yes = pick(JA_ANTWORTEN);
+    const yes = pick(getJaAntworten());
     lastResult = {
       type: "go",
       activity: normalized,
       text: yes,
-      sub: `„${normalized}" – darfst du machen.`,
+      sub: `"${normalized}" – ${t.resultGo}`,
       level: null,
       copyText: yes,
     };
@@ -213,19 +463,21 @@ function showResult(result) {
   resultCard.classList.remove("petern", "go");
   resultCard.classList.add(result.type);
 
+  const t = TRANSLATIONS[currentLang];
   resultIcon.textContent = result.type === "petern" ? "🛋️" : "👍";
-  resultTitle.textContent = result.type === "petern" ? "Lieber nicht." : "Darfst du.";
+  resultTitle.textContent = result.type === "petern" ? t.resultPetern : t.resultGo;
   resultText.textContent = result.text;
   resultSub.textContent = result.sub;
   peternLevelEl.textContent = result.level || "";
   peternLevelEl.style.display = result.level ? "block" : "none";
 
   // In Verlauf speichern
+  const locale = currentLang === "en" ? "en-US" : "de-DE";
   history.unshift({
     activity: result.activity,
     type: result.type,
     text: result.text,
-    time: new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" }),
+    time: new Date().toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" }),
   });
   history = history.slice(0, 10);
   localStorage.setItem("petern-history", JSON.stringify(history));
@@ -233,8 +485,9 @@ function showResult(result) {
 }
 
 function renderHistory() {
+  const t = TRANSLATIONS[currentLang];
   if (history.length === 0) {
-    historyList.innerHTML = "<li>Noch keine Entscheidungen.</li>";
+    historyList.innerHTML = `<li>${t.noHistory}</li>`;
     return;
   }
   historyList.innerHTML = history
@@ -265,7 +518,7 @@ function loadDailyExcuse() {
 }
 
 function setNewDailyExcuse() {
-  const excuse = pick(AUSREDEN);
+  const excuse = pick(getAusreden());
   dailyExcuseEl.textContent = excuse;
   localStorage.setItem("petern-daily", excuse);
   localStorage.setItem("petern-daily-date", getDailyExcuseKey());
@@ -273,7 +526,8 @@ function setNewDailyExcuse() {
 
 // Event-Handler
 function onDecide() {
-  const activity = activityInput.value.trim() || "irgendwas";
+  const t = TRANSLATIONS[currentLang];
+  const activity = activityInput.value.trim() || t.defaultActivity;
   const result = decide(activity);
   showResult(result);
 }
@@ -284,12 +538,22 @@ activityInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") onDecide();
 });
 
-document.querySelectorAll(".chip").forEach((chip) => {
-  chip.addEventListener("click", () => {
-    activityInput.value = chip.dataset.activity;
-    activityInput.focus();
+function renderChips() {
+  const container = document.querySelector(".quick-activities");
+  if (!container) return;
+  const t = TRANSLATIONS[currentLang];
+  const chips = getChips();
+  const chipsHtml = chips.map((c) =>
+    `<button type="button" class="chip" data-activity="${c.activity.replace(/"/g, "&quot;")}">${c.label}</button>`
+  ).join("");
+  container.innerHTML = `<span class="quick-label" data-i18n="quickSelect">${t.quickSelect}</span>${chipsHtml}`;
+  container.querySelectorAll(".chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      activityInput.value = chip.dataset.activity;
+      activityInput.focus();
+    });
   });
-});
+}
 
 btnAgain.addEventListener("click", () => {
   resultSection.classList.add("hidden");
@@ -300,8 +564,8 @@ btnCopy.addEventListener("click", () => {
   if (!lastResult) return;
   navigator.clipboard.writeText(lastResult.copyText).then(() => {
     const old = btnCopy.textContent;
-    btnCopy.textContent = "✓ Kopiert!";
-    setTimeout(() => (btnCopy.textContent = old), 1500);
+    btnCopy.textContent = TRANSLATIONS[currentLang].copied;
+    setTimeout(() => { btnCopy.textContent = TRANSLATIONS[currentLang].copyExcuse; }, 1500);
   });
 });
 
@@ -317,7 +581,7 @@ btnNewDaily.addEventListener("click", setNewDailyExcuse);
 let lastAlibi = null;
 
 function generateAlibiSprachnachricht() {
-  lastAlibi = pick(ALIBI_SPRACHNACHRICHTEN);
+  lastAlibi = pick(getAlibi());
   alibiTextEl.textContent = lastAlibi;
   alibiTextEl.classList.add("alibi-generated");
 }
@@ -328,8 +592,8 @@ btnCopyAlibi.addEventListener("click", () => {
   if (!lastAlibi) return;
   navigator.clipboard.writeText(lastAlibi).then(() => {
     const old = btnCopyAlibi.textContent;
-    btnCopyAlibi.textContent = "✓ Kopiert!";
-    setTimeout(() => (btnCopyAlibi.textContent = old), 1500);
+    btnCopyAlibi.textContent = TRANSLATIONS[currentLang].copied;
+    setTimeout(() => { btnCopyAlibi.textContent = TRANSLATIONS[currentLang].copy; }, 1500);
   });
 });
 
@@ -351,23 +615,69 @@ setupCollapse("btn-gebrauchsanweisung", "gebrauchsanweisung-content");
 
 // Peter-Standardphrasen
 function generateStandardphrase() {
-  standardphraseTextEl.textContent = pick(STANDARDPHRASEN);
+  standardphraseTextEl.textContent = pick(getStandardphrasen());
 }
 btnStandardphrase.addEventListener("click", generateStandardphrase);
 
 // Exit-Strategie
 function generateExitStrategy() {
-  exitStrategyTextEl.textContent = pick(EXIT_STRATEGIEN);
+  exitStrategyTextEl.textContent = pick(getExitStrategien());
 }
 btnExit.addEventListener("click", generateExitStrategy);
 
 // Peteritis-Check
 function runPeteritisCheck() {
-  peteritisResultEl.textContent = pick(PETERITIS_DIAGNOSEN);
+  peteritisResultEl.textContent = pick(getPeteritisDiagnosen());
   peteritisResultEl.classList.add("peteritis-done");
 }
 btnPeteritis.addEventListener("click", runPeteritisCheck);
 
+// Apply translations to all data-i18n elements
+function applyTranslations(clearDailyCache = false) {
+  const t = TRANSLATIONS[currentLang];
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  document.documentElement.lang = currentLang;
+  document.title = currentLang === "en" ? "Petern Today? – Your Decision Helper" : "Heute Petern? – Dein Entscheidungshelfer";
+  // Update lang switcher active state
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.lang === currentLang);
+  });
+  renderChips();
+  renderHistory();
+  if (clearDailyCache) {
+    localStorage.removeItem("petern-daily");
+    localStorage.removeItem("petern-daily-date");
+  }
+  loadDailyExcuse();
+  // Reset intro texts to new language
+  if (clearDailyCache) {
+    standardphraseTextEl.textContent = t.phrasesIntro;
+    peteritisResultEl.textContent = t.peteritisIntro;
+    peteritisResultEl.classList.remove("peteritis-done");
+    exitStrategyTextEl.textContent = t.exitIntro;
+    alibiTextEl.textContent = t.alibiIntro;
+    alibiTextEl.classList.remove("alibi-generated");
+  }
+}
+
+// Language switcher
+document.querySelectorAll(".lang-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const lang = btn.dataset.lang;
+    if (lang && (lang === "de" || lang === "en")) {
+      currentLang = lang;
+      localStorage.setItem("petern-lang", lang);
+      applyTranslations(true); // clear daily cache on language switch
+    }
+  });
+});
+
 // Init
-loadDailyExcuse();
-renderHistory();
+applyTranslations();

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <!-- Deploy from branch - live -->
 <head>
@@ -15,13 +15,18 @@
 
   <main class="container">
     <header class="header">
-      <h1>🛋️ Heute Petern?</h1>
-      <p class="tagline">Dein Entscheidungshelfer für den inneren Couch-Potato</p>
+      <div class="lang-switcher">
+        <button type="button" class="lang-btn active" data-lang="de" aria-label="Deutsch">DE</button>
+        <span class="lang-sep">|</span>
+        <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+      </div>
+      <h1 data-i18n="title">🛋️ Heute Petern?</h1>
+      <p class="tagline" data-i18n="tagline">Dein Entscheidungshelfer für den inneren Couch-Potato</p>
     </header>
 
     <section class="peter-section">
       <button type="button" class="collapse-trigger" id="btn-wer-ist-peter" aria-expanded="false">
-        <span>👤 Wer ist Peter?</span>
+        <span data-i18n="whoIsPeter">👤 Wer ist Peter?</span>
         <span class="collapse-icon" aria-hidden="true">▼</span>
       </button>
       <div class="collapse-content" id="wer-ist-peter-content">
@@ -37,32 +42,32 @@
 
     <section class="peter-section">
       <button type="button" class="collapse-trigger" id="btn-gebrauchsanweisung" aria-expanded="false">
-        <span>📋 Peter-Gebrauchsanweisung</span>
+        <span data-i18n="manual">📋 Peter-Gebrauchsanweisung</span>
         <span class="collapse-icon" aria-hidden="true">▼</span>
       </button>
       <div class="collapse-content" id="gebrauchsanweisung-content">
         <div class="gebrauchsanweisung">
-          <p><strong>So erreichst du Peter (oder dich selbst):</strong></p>
+          <p><strong data-i18n="manualIntro">So erreichst du Peter (oder dich selbst):</strong></p>
           <ul>
-            <li>Druck rausnehmen – wenn andere planen und keinen Druck machen, steigt die Teilnahmechance.</li>
-            <li>Konkrete Termine vorschlagen – er schlägt selten selbst neue Daten vor.</li>
-            <li>Annka und Leo einbeziehen – wenn sie dabei sind, kommt er eher (dann aber zeitlich begrenzt).</li>
-            <li>„Nicht so lange“ akzeptieren – dann baut er weniger Exit-Strategien ein.</li>
-            <li>Gaming/Home-Aktivität anbieten – geht eher, wenn es bequem und zu Hause ist.</li>
-            <li>Bei neuem Grill / neuer Idee: schnell einen festen Termin machen, sonst versandet es.</li>
+            <li data-i18n="manual1"></li>
+            <li data-i18n="manual2"></li>
+            <li data-i18n="manual3"></li>
+            <li data-i18n="manual4"></li>
+            <li data-i18n="manual5"></li>
+            <li data-i18n="manual6"></li>
           </ul>
         </div>
       </div>
     </section>
 
     <section class="input-section">
-      <label for="activity">Was steht an?</label>
+      <label for="activity" data-i18n="whatsOn">Was steht an?</label>
       <div class="input-row">
-        <input type="text" id="activity" placeholder="z.B. Feiern, Sport, Kino, Treffen..." autocomplete="off">
-        <button type="button" id="btn-decide" class="btn btn-primary">Soll ich oder soll ich nicht?</button>
+        <input type="text" id="activity" data-i18n-placeholder="activityPlaceholder" placeholder="z.B. Feiern, Sport, Kino, Treffen..." autocomplete="off">
+        <button type="button" id="btn-decide" class="btn btn-primary" data-i18n="btnDecide">Soll ich oder soll ich nicht?</button>
       </div>
       <div class="quick-activities">
-        <span class="quick-label">Schnellauswahl:</span>
+        <span class="quick-label" data-i18n="quickSelect">Schnellauswahl:</span>
         <button type="button" class="chip" data-activity="Feiern gehen">Feiern</button>
         <button type="button" class="chip" data-activity="Sport">Sport</button>
         <button type="button" class="chip" data-activity="Kino">Kino</button>
@@ -80,50 +85,50 @@
         <p class="result-sub" id="result-sub"></p>
         <div class="petern-level" id="petern-level"></div>
         <div class="result-actions">
-          <button type="button" class="btn btn-secondary" id="btn-copy">📋 Ausrede kopieren</button>
-          <button type="button" class="btn btn-secondary" id="btn-again">Nochmal entscheiden</button>
+          <button type="button" class="btn btn-secondary" id="btn-copy" data-i18n="copyExcuse">📋 Ausrede kopieren</button>
+          <button type="button" class="btn btn-secondary" id="btn-again" data-i18n="decideAgain">Nochmal entscheiden</button>
         </div>
       </div>
     </section>
 
     <section class="extras">
       <div class="extra-card ausreden-bot">
-        <h3>🎙️ Ausreden-Bot – Alibi-Sprachnachricht</h3>
-        <p class="alibi-text" id="alibi-text">Klick auf „Sprachnachricht generieren“ – dann hast du einen Text zum Vorlesen oder Senden.</p>
+        <h3 data-i18n="alibiTitle">🎙️ Ausreden-Bot – Alibi-Sprachnachricht</h3>
+        <p class="alibi-text" id="alibi-text" data-i18n="alibiIntro">Klick auf „Sprachnachricht generieren“ – dann hast du einen Text zum Vorlesen oder Senden.</p>
         <div class="alibi-actions">
-          <button type="button" class="btn btn-primary" id="btn-alibi">🎙️ Sprachnachricht generieren</button>
-          <button type="button" class="btn btn-secondary" id="btn-copy-alibi">📋 Kopieren</button>
+          <button type="button" class="btn btn-primary" id="btn-alibi" data-i18n="generateAlibi">🎙️ Sprachnachricht generieren</button>
+          <button type="button" class="btn btn-secondary" id="btn-copy-alibi" data-i18n="copy">📋 Kopieren</button>
         </div>
       </div>
       <div class="extra-card">
-        <h3>📜 Letzte Entscheidungen</h3>
+        <h3 data-i18n="historyTitle">📜 Letzte Entscheidungen</h3>
         <ul id="history-list"></ul>
-        <button type="button" class="btn btn-ghost" id="btn-clear-history">Verlauf leeren</button>
+        <button type="button" class="btn btn-ghost" id="btn-clear-history" data-i18n="clearHistory">Verlauf leeren</button>
       </div>
       <div class="extra-card">
-        <h3>🎲 Petern des Tages</h3>
+        <h3 data-i18n="dailyTitle">🎲 Petern des Tages</h3>
         <p class="daily-excuse" id="daily-excuse"></p>
-        <button type="button" class="btn btn-ghost" id="btn-new-daily">Neue Tages-Ausrede</button>
+        <button type="button" class="btn btn-ghost" id="btn-new-daily" data-i18n="newDailyExcuse">Neue Tages-Ausrede</button>
       </div>
       <div class="extra-card">
         <h3>💬 Peter-Standardphrasen</h3>
-        <p class="standardphrase-text" id="standardphrase-text">„Mal schauen“, „Ich meld mich später“ …</p>
-        <button type="button" class="btn btn-ghost" id="btn-standardphrase">Neue Phrase</button>
+        <p class="standardphrase-text" id="standardphrase-text" data-i18n="phrasesIntro">„Mal schauen“, „Ich meld mich später“ …</p>
+        <button type="button" class="btn btn-ghost" id="btn-standardphrase" data-i18n="newPhrase">Neue Phrase</button>
       </div>
       <div class="extra-card">
-        <h3>🚪 Exit-Strategie (wenn du doch zugesagt hast)</h3>
-        <p class="exit-strategy-text" id="exit-strategy-text">Bau dir eine Hintertür ein.</p>
-        <button type="button" class="btn btn-ghost" id="btn-exit">Exit-Strategie generieren</button>
+        <h3 data-i18n="exitTitle">🚪 Exit-Strategie (wenn du doch zugesagt hast)</h3>
+        <p class="exit-strategy-text" id="exit-strategy-text" data-i18n="exitIntro">Bau dir eine Hintertür ein.</p>
+        <button type="button" class="btn btn-ghost" id="btn-exit" data-i18n="generateExit">Exit-Strategie generieren</button>
       </div>
       <div class="extra-card peteritis-card">
-        <h3>🩺 Peteritis-Check</h3>
-        <p class="peteritis-result" id="peteritis-result">Bin ich petern-krank?</p>
-        <button type="button" class="btn btn-primary" id="btn-peteritis">Peteritis messen</button>
+        <h3 data-i18n="peteritisTitle">🩺 Peteritis-Check</h3>
+        <p class="peteritis-result" id="peteritis-result" data-i18n="peteritisIntro">Bin ich petern-krank?</p>
+        <button type="button" class="btn btn-primary" id="btn-peteritis" data-i18n="measurePeteritis">Peteritis messen</button>
       </div>
     </section>
 
     <footer class="footer">
-      <p>Mit 90 % Wahrscheinlichkeit sagt dir diese App, was du eh schon denkst. 🛋️</p>
+      <p data-i18n="footer">Mit 90 % Wahrscheinlichkeit sagt dir diese App, was du eh schon denkst. 🛋️</p>
     </footer>
   </main>
 

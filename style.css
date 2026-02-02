@@ -54,6 +54,43 @@ body {
 .header {
   text-align: center;
   margin-bottom: 2rem;
+  position: relative;
+}
+
+.lang-switcher {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.lang-btn {
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  color: var(--couch-muted);
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.35rem;
+  transition: color 0.2s, background 0.2s;
+}
+
+.lang-btn:hover {
+  color: var(--couch-dark);
+}
+
+.lang-btn.active {
+  color: var(--couch-dark);
+  background: rgba(201, 168, 108, 0.4);
+}
+
+.lang-sep {
+  color: var(--couch-muted);
+  font-weight: 400;
 }
 
 .header h1 {
