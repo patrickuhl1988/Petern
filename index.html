@@ -38,32 +38,6 @@
 <body>
   <div class="couch-bg"></div>
 
-  <div class="peter-on-couch" aria-hidden="true">
-    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" class="peter-illustration">
-      <!-- Couch -->
-      <path d="M0 75 L0 95 Q0 105 15 105 L185 105 Q200 105 200 95 L200 75 Q200 65 185 65 L15 65 Q0 65 0 75 Z" fill="#8b7355" stroke="#5c4a3a" stroke-width="1"/>
-      <path d="M15 65 L20 45 Q25 35 45 35 L155 35 Q175 35 180 45 L185 65" fill="#a08060" stroke="#5c4a3a" stroke-width="1"/>
-      <!-- Peter: body lying on couch -->
-      <ellipse cx="100" cy="72" rx="55" ry="18" fill="#6b5344"/>
-      <!-- Legs -->
-      <ellipse cx="65" cy="88" rx="12" ry="8" fill="#5a4a3a"/>
-      <ellipse cx="135" cy="88" rx="12" ry="8" fill="#5a4a3a"/>
-      <!-- Torso/shoulder -->
-      <ellipse cx="95" cy="65" rx="25" ry="12" fill="#4a3d32"/>
-      <!-- Head with dark hair -->
-      <ellipse cx="95" cy="38" rx="18" ry="20" fill="#2d2520"/>
-      <ellipse cx="95" cy="40" rx="14" ry="16" fill="#e8d5c4"/>
-      <!-- Beard -->
-      <path d="M82 42 Q95 52 108 42 Q105 48 95 50 Q85 48 82 42" fill="#2d2520"/>
-      <!-- Cola Zero can in hand -->
-      <rect x="108" y="48" width="8" height="18" rx="1" fill="#c41e2a" stroke="#8b0000" stroke-width="0.5"/>
-      <line x1="110" y1="52" x2="114" y2="52" stroke="#fff" stroke-width="0.8"/>
-      <rect x="109" y="55" width="6" height="8" rx="0.5" fill="#e0e0e0"/>
-      <!-- Arm holding can -->
-      <path d="M95 55 L108 52 L110 58 L98 60 Z" fill="#e8d5c4" stroke="#d4c4b0" stroke-width="0.5"/>
-    </svg>
-  </div>
-
   <main class="container">
     <header class="header">
       <div class="header-top">
@@ -73,8 +47,24 @@
           <button type="button" class="lang-btn" data-lang="en" data-action="lang" aria-label="English">EN</button>
         </div>
       </div>
-      <h1 data-i18n="title">🛋️ Heute Petern?</h1>
-      <p class="tagline" data-i18n="tagline">Dein Entscheidungshelfer für den inneren Couch-Potato</p>
+      <div class="couch-hero">
+        <div class="peter-slide-in" aria-hidden="true">
+          <svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="30" cy="50" rx="18" ry="10" fill="#5c4a3a"/>
+            <ellipse cx="30" cy="38" rx="10" ry="8" fill="#4a3d32"/>
+            <circle cx="30" cy="22" r="10" fill="#2d2520"/>
+            <circle cx="30" cy="24" r="7" fill="#e8d5c4"/>
+            <path d="M24 26 Q30 32 36 26" stroke="#2d2520" stroke-width="1.5" fill="none"/>
+            <rect x="34" y="18" width="6" height="14" rx="1" fill="#c41e2a"/>
+            <line x1="35" y1="21" x2="39" y2="21" stroke="#fff" stroke-width="0.5"/>
+            <path d="M28 30 L34 20 L36 22 L30 32 Z" fill="#e8d5c4"/>
+          </svg>
+        </div>
+        <div class="couch-label">
+          <h1 data-i18n="title">🛋️ Heute Petern?</h1>
+          <p class="tagline" data-i18n="tagline">Dein Entscheidungshelfer für den inneren Couch-Potato</p>
+        </div>
+      </div>
     </header>
 
     <section class="peter-section">

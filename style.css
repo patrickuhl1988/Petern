@@ -43,28 +43,50 @@ body {
   z-index: 0;
 }
 
-/* Peter on couch – animates in from left on load */
-.peter-on-couch {
-  position: fixed;
-  left: 0;
-  bottom: 1rem;
-  width: 140px;
-  max-width: 28vw;
-  z-index: 2;
-  pointer-events: none;
-  animation: peterSlideIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  transform: translateX(-120%);
+/* Couch hero: Petern title + Peter sliding in from left */
+.couch-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 80px;
+  padding: 0.5rem 0 1rem;
 }
 
-.peter-illustration {
+.peter-slide-in {
+  width: 50px;
+  flex-shrink: 0;
+  animation: peterSlideIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.peter-slide-in svg {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 4px 12px rgba(92, 74, 58, 0.25));
+  filter: drop-shadow(0 2px 6px rgba(92, 74, 58, 0.3));
+}
+
+.couch-label {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
 }
 
 @keyframes peterSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
   to {
+    opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .peter-slide-in {
+    animation: none;
+    opacity: 1;
   }
 }
 
