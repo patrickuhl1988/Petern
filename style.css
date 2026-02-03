@@ -72,38 +72,38 @@ body {
   transform-origin: 55px 72px;
 }
 
-/* Peter lying: fades in, lies across couch with feet up */
+/* Peter lying: fades in, head right, higher on couch */
 .peter-lying {
   animation: peterLieDown 4s ease-in-out infinite;
-  transform-origin: 85px 72px;
+  transform-origin: 175px 62px;
 }
 
 @keyframes peterEnter {
   0% {
     opacity: 1;
-    transform: translateX(-100px);
+    transform: translateX(-120px);
   }
-  35% {
+  42% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(70px);
   }
-  45% {
+  48% {
     opacity: 0;
-    transform: translateX(0);
+    transform: translateX(70px);
   }
-  46%, 100% {
+  49%, 100% {
     opacity: 0;
   }
 }
 
 @keyframes peterLieDown {
-  0%, 45% {
+  0%, 48% {
     opacity: 0;
   }
   55% {
     opacity: 1;
   }
-  65%, 100% {
+  60%, 100% {
     opacity: 1;
   }
 }
