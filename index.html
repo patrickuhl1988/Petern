@@ -139,7 +139,7 @@
       <div class="extra-card">
         <h3 data-i18n="exitTitle">🚪 Exit-Strategie (wenn du doch zugesagt hast)</h3>
         <p class="exit-strategy-text" id="exit-strategy-text" data-i18n="exitIntro">Bau dir eine Hintertür ein.</p>
-        <button type="button" class="btn btn-ghost" id="btn-exit" data-i18n="generateExit">Exit-Strategie generieren</button>
+        <button type="button" class="btn btn-ghost" id="btn-exit" data-action="exit" data-i18n="generateExit">Exit-Strategie generieren</button>
       </div>
       <div class="extra-card peteritis-card">
         <h3 data-i18n="peteritisTitle">🩺 Peteritis-Check</h3>
@@ -153,9 +153,14 @@
     </footer>
   </main>
 
-  <script src="script.js?v=8"></script>
+  <script src="script.js?v=10"></script>
   <script>
-  document.addEventListener("click",function(e){
+  (function(){
+  var EXIT_DE=["Nicht so lange vielleicht.","Je nachdem wie Leo drauf ist.","Ich schau, dass ich mal vorbeikomme."];
+  var EXIT_EN=["Maybe not for too long.","Depends how Leo is doing.","I will try to swing by."];
+  if(!window.generateExitStrategy){window.generateExitStrategy=function(){var el=document.getElementById("exit-strategy-text");var lang=document.documentElement.lang==="en"?"en":"de";var arr=lang==="en"?EXIT_EN:EXIT_DE;if(el)el.textContent=arr[Math.floor(Math.random()*arr.length)];};}
+  if(!window.runPeteritisCheck){window.runPeteritisCheck=function(){var el=document.getElementById("peteritis-result");if(el)el.textContent="Peteritis Maxima! Couch + spaeter = natuerlicher Zustand.";el.classList.add("peteritis-done");};}
+  function handleClick(e){
     var t=e.target.closest("button");
     if(!t)return;
     var a=t.getAttribute("data-action"),id=t.id,l=t.getAttribute("data-lang");
@@ -169,9 +174,12 @@
     if(id==="btn-clear-history"){if(window.clearHistory)window.clearHistory();return;}
     if(id==="btn-new-daily"){if(window.setNewDailyExcuse)window.setNewDailyExcuse();return;}
     if(id==="btn-standardphrase"){if(window.generateStandardphrase)window.generateStandardphrase();return;}
-    if(id==="btn-exit"){if(window.generateExitStrategy)window.generateExitStrategy();return;}
+    if(a==="exit"||id==="btn-exit"){if(window.generateExitStrategy)window.generateExitStrategy();return;}
     if(t.classList.contains("chip")&&t.dataset.activity){var i=document.getElementById("activity");if(i)i.value=t.dataset.activity;}
-  });
+  }
+  function initDelegation(){document.addEventListener("click",handleClick,true);}
+  if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initDelegation);}else{initDelegation();}
+  })();
   </script>
 </body>
 </html>
