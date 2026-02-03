@@ -114,11 +114,11 @@ const TRANSLATIONS = {
     peteritisStageLight: "Peteritis light",
     peteritisStageNormal: "Peteritis normal",
     peteritisStageChronic: "Peteritis chronic",
-    petTodayTitle: "🛋️ Should I pet today?",
-    petTodayIntro: "What's on today? Peter tells you whether you should pet or not.",
+    petTodayTitle: "🛋️ Should I Peter today?",
+    petTodayIntro: "What's on today? Peter tells you whether you should Peter or not.",
     petTodayPlaceholder: "e.g. Invited to cinema with friends",
     petTodayQuick: "Suggestions:",
-    btnPetOrNot: "Pet or not?",
+    btnPetOrNot: "Peter or not?",
     petTodayChipL: ["Cinema", "Sports", "Party", "BBQ", "Meet-up", "Early rise"],
     petTodayChipA: ["Invited to cinema with friends", "Sports / Jogging", "Birthday party", "BBQ in the park", "Meeting with colleagues", "Getting up early"],
     footer: "With 90% probability, this app tells you what you were already thinking. 🛋️",
@@ -964,31 +964,31 @@ const PET_TODAY_YES_DE = [
   "Peter schaut. Peter nickt. Peter petert. So läuft das.",
 ];
 const PET_TODAY_YES_EN = [
-  "Yes, today you should pet. Couch wins.",
-  "Yes, pet today! Staying home is the right choice.",
-  "Definitely pet. Your inner couch potato is right.",
-  "Yes! Today the answer is: pet.",
-  "98% say: Yes, pet today. You're one of them.",
+  "Yes, today you should Peter. Couch wins.",
+  "Yes, Peter today! Staying home is the right choice.",
+  "Definitely Peter. Your inner couch potato is right.",
+  "Yes! Today the answer is: Peter.",
+  "98% say: Yes, Peter today. You're one of them.",
   "He thinks about it. He looks at it. Classic Peter.",
   "We'll see … says Peter. And stays on the couch.",
-  "Peter looks. Peter thinks. Peter pets.",
-  "Typical Peter: quick think, then – nah, better pet.",
+  "Peter looks. Peter thinks. Peter Peters.",
+  "Typical Peter: quick think, then – nah, better Peter.",
   "Peter nods thoughtfully. Then: Not today. Couch calls.",
-  "Hmm … Peter considers. Peter decides: Pet.",
+  "Hmm … Peter considers. Peter decides: Peter.",
   "Peter has looked at it. His verdict: Staying home is better.",
-  "After careful consideration: Yes, pet today. People will understand.",
+  "After careful consideration: Yes, Peter today. People will understand.",
   "Peter checks the option. Result: Couch wins. Again.",
   "Peter looks at it. Peter thinks. Peter says: Nah, not today.",
-  "Classic Peter moment: think, look, then – pet.",
+  "Classic Peter moment: think, look, then – Peter.",
   "Peter considers … and chooses as always: couch over activity.",
   "Typical: Peter thinks about it, looks at it – and stays home.",
-  "Peter has had a look. His verdict: Pet. Definitely.",
-  "We'll see, says Peter – meaning: no. Pet today.",
-  "Peter analyzes. Peter decides. Peter pets. As usual.",
+  "Peter has had a look. His verdict: Peter. Definitely.",
+  "We'll see, says Peter – meaning: no. Peter today.",
+  "Peter analyzes. Peter decides. Peter Peters. As usual.",
   "He looks at it, thinks – and stays. Classic Peter.",
-  "Peter thinks: Hmm. Peter acts: Pet. Done.",
+  "Peter thinks: Hmm. Peter acts: Peter. Done.",
   "After a brief moment: Peter stays. Couch 1, world 0.",
-  "Peter looks. Peter nods. Peter pets. That's how it goes.",
+  "Peter looks. Peter nods. Peter Peters. That's how it goes.",
 ];
 const PET_TODAY_NO_DE = [
   "Nein, heute nicht. Du darfst raus. Selten, aber heute ja.",
@@ -1010,7 +1010,7 @@ function onPetToday() {
   const text = petern ? pick(yesArr) : pick(noArr);
   const t = TRANSLATIONS[currentLang];
   const title = petern
-    ? (currentLang === "en" ? "Yes, pet today!" : "Ja, heute petern!")
+    ? (currentLang === "en" ? "Yes, Peter today!" : "Ja, heute petern!")
     : (currentLang === "en" ? "No, not today." : "Nein, heute nicht.");
   if (petTodayResultEl) {
     petTodayResultEl.innerHTML = `
