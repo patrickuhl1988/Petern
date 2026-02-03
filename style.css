@@ -68,7 +68,7 @@ body {
 
 .peter-anim {
   animation: peterWalkInAndLie 3s ease-in-out infinite;
-  transform-origin: 70px 75px;
+  transform-origin: 65px 65px;
 }
 
 @keyframes peterWalkInAndLie {

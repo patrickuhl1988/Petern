@@ -30,7 +30,7 @@
     if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",applyLangOnLoad);}else{setTimeout(applyLangOnLoad,0);}
   })();
   </script>
-  <link rel="stylesheet" href="style.css?v=30">
+  <link rel="stylesheet" href="style.css?v=32">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -49,32 +49,34 @@
       </div>
       <div class="couch-hero">
         <div class="petern-gif" aria-hidden="true">
-          <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg">
             <!-- Blue couch -->
-            <rect x="20" y="60" width="240" height="50" rx="8" fill="#4a7ba7" stroke="#2c5a7a" stroke-width="2"/>
-            <rect x="30" y="30" width="220" height="35" rx="6" fill="#5a8bb7" stroke="#2c5a7a" stroke-width="2"/>
-            <text x="140" y="95" text-anchor="middle" fill="white" font-size="18" font-weight="bold" font-family="Nunito,sans-serif">Petern</text>
-            <!-- Peter: clear silhouette - head, torso, arm up with Cola, legs bent feet up -->
+            <rect x="15" y="55" width="230" height="45" rx="6" fill="#4a7ba7" stroke="#2c5a7a"/>
+            <rect x="25" y="28" width="210" height="32" rx="4" fill="#5a8bb7" stroke="#2c5a7a"/>
+            <text x="130" y="88" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Nunito,sans-serif">Petern</text>
+            <!-- Peter: blocky style - each part separate, no overlap -->
             <g class="peter-anim">
-              <!-- Head -->
-              <circle cx="70" cy="42" r="14" fill="#1a1a2e"/>
-              <!-- Neck -->
-              <rect x="62" y="54" width="16" height="10" fill="#1a1a2e"/>
-              <!-- Torso -->
-              <path d="M58 64 L82 64 L92 72 L92 90 L48 90 L48 72 Z" fill="#1a1a2e"/>
-              <!-- Raised arm + Cola -->
-              <path d="M82 66 L98 48 L108 54 L94 72 Z" fill="#1a1a2e"/>
-              <rect x="96" y="38" width="16" height="30" rx="3" fill="#c41e2a"/>
-              <line x1="99" y1="45" x2="109" y2="45" stroke="#fff" stroke-width="1"/>
-              <text x="104" y="60" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">0</text>
-              <!-- Left leg: thigh, calf up, foot -->
-              <path d="M50 88 L42 92 L42 98 L56 98 L58 92 Z" fill="#1a1a2e"/>
-              <path d="M42 94 L32 78 L36 74 L48 90 Z" fill="#1a1a2e"/>
-              <ellipse cx="32" cy="74" rx="8" ry="6" fill="#1a1a2e"/>
-              <!-- Right leg -->
-              <path d="M90 88 L98 92 L98 98 L84 98 L82 92 Z" fill="#1a1a2e"/>
-              <path d="M98 94 L108 78 L104 74 L92 90 Z" fill="#1a1a2e"/>
-              <ellipse cx="108" cy="74" rx="8" ry="6" fill="#1a1a2e"/>
+              <!-- Head (face) - circle, peach -->
+              <circle cx="58" cy="38" r="12" fill="#f0c9a8" stroke="#2d2520"/>
+              <!-- Hair - arc on top -->
+              <path d="M48 30 Q58 22 68 30" stroke="#2d2520" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <!-- Body (shirt) - rounded rect -->
+              <rect x="44" y="50" width="36" height="28" rx="4" fill="#6b7b8c" stroke="#2d2520"/>
+              <!-- Arm up (skin) - bent rect -->
+              <rect x="78" y="52" width="8" height="28" rx="2" fill="#f0c9a8" stroke="#2d2520" transform="rotate(-45 82 68)"/>
+              <!-- Cola Zero can -->
+              <rect x="92" y="28" width="14" height="26" rx="2" fill="#c41e2a" stroke="#2d2520"/>
+              <rect x="93" y="32" width="12" height="3" fill="#fff" opacity="0.9"/>
+              <text x="99" y="48" text-anchor="middle" fill="#fff" font-size="7" font-weight="bold">0</text>
+              <!-- Legs - simple rectangles, feet up -->
+              <rect x="46" y="76" width="12" height="16" rx="2" fill="#4a5568" stroke="#2d2520"/>
+              <rect x="68" y="76" width="12" height="16" rx="2" fill="#4a5568" stroke="#2d2520"/>
+              <!-- Calves bent up -->
+              <rect x="44" y="62" width="8" height="18" rx="2" fill="#4a5568" stroke="#2d2520" transform="rotate(-25 48 71)"/>
+              <rect x="80" y="62" width="8" height="18" rx="2" fill="#4a5568" stroke="#2d2520" transform="rotate(25 84 71)"/>
+              <!-- Feet -->
+              <ellipse cx="44" cy="58" rx="7" ry="4" fill="#2d3748" stroke="#2d2520"/>
+              <ellipse cx="88" cy="58" rx="7" ry="4" fill="#2d3748" stroke="#2d2520"/>
             </g>
           </svg>
         </div>
