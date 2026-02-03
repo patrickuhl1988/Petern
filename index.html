@@ -34,7 +34,7 @@
     if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",applyLangOnLoad);}else{setTimeout(applyLangOnLoad,0);}
   })();
   </script>
-  <link rel="stylesheet" href="style.css?v=36">
+  <link rel="stylesheet" href="style.css?v=37">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -61,6 +61,8 @@
             <!-- Peter STANDING (entering, feet down) - visible 0-45% -->
             <g class="peter-standing" stroke="#2d2520" stroke-width="1">
               <circle cx="55" cy="22" r="10" fill="#f0c9a8"/>
+              <circle cx="60" cy="20" r="1.5" fill="#2d2520"/>
+              <ellipse cx="62" cy="24" rx="2" ry="1.5" fill="#d4b896"/>
               <path d="M48 18 Q55 14 62 18" stroke="#2d2520" stroke-width="3" fill="none" stroke-linecap="round"/>
               <rect x="48" y="30" width="14" height="22" rx="2" fill="#6b7b8c"/>
               <rect x="58" y="28" width="6" height="18" rx="1" fill="#f0c9a8" transform="rotate(-30 61 37)"/>
@@ -75,8 +77,12 @@
 
             <!-- Peter LYING (head RIGHT, higher at couch junction, feet left, feet up) - visible 50-100% -->
             <g class="peter-lying" stroke="#2d2520" stroke-width="1">
+              <!-- Pillow under head -->
+              <ellipse cx="218" cy="60" rx="24" ry="14" fill="#d4c4a8" stroke="#b8a890"/>
               <!-- Head right -->
               <circle cx="218" cy="54" r="11" fill="#f0c9a8"/>
+              <circle cx="212" cy="52" r="1.5" fill="#2d2520"/>
+              <ellipse cx="208" cy="56" rx="2" ry="1.5" fill="#d4b896"/>
               <path d="M210 48 Q218 44 226 48" stroke="#2d2520" stroke-width="3" fill="none" stroke-linecap="round"/>
               <!-- Neck -->
               <rect x="212" y="62" width="8" height="12" rx="2" fill="#f0c9a8"/>
