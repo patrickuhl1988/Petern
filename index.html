@@ -156,7 +156,7 @@
     </footer>
   </main>
 
-  <script src="script.js?v=21"></script>
+  <script src="script.js?v=22"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
@@ -225,8 +225,27 @@
   }
   function initDelegation(){document.addEventListener("click",handleClick,true);}
   if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initDelegation);}else{initDelegation();}
-  var vEl=document.getElementById("visitor-count");
-  if(vEl)fetch("https://api.countapi.xyz/hit/petern-app/visits").then(function(r){return r.json();}).then(function(d){if(d&&typeof d.value==="number")vEl.textContent=d.value.toLocaleString();}).catch(function(){vEl.textContent="—";});
+  (function(){
+    var vEl=document.getElementById("visitor-count");
+    if(!vEl)return;
+    fetch("https://visitor.6developer.com/visit",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        domain:window.location.hostname||"petern",
+        timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||"UTC",
+        page_path:window.location.pathname||"/",
+        page_title:document.title,
+        referrer:document.referrer||""
+      })
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d&&(typeof d.totalCount==="number"||d.totalCount))vEl.textContent=Number(d.totalCount).toLocaleString();
+    }).catch(function(){
+      fetch("https://countapi.mileshilliard.com/api/v1/hit/petern-patrickuhl-visits").then(function(r){return r.json();}).then(function(d){
+        if(d&&(d.value!==undefined))vEl.textContent=Number(d.value).toLocaleString();
+      }).catch(function(){vEl.textContent="—";});
+    });
+  })();
   })();
   </script>
 </body>
