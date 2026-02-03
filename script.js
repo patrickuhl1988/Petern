@@ -48,6 +48,11 @@ const TRANSLATIONS = {
     manual4: "„Nicht so lange" akzeptieren – dann baut er weniger Exit-Strategien ein.",
     manual5: "Gaming/Home-Aktivität anbieten – geht eher, wenn es bequem und zu Hause ist.",
     manual6: "Bei neuem Grill / neuer Idee: schnell einen festen Termin machen, sonst versandet es.",
+    peter1: "Peter (*1987), Beamter (Polizist), verheiratet mit Annka, Vater von Leo (1) und Emilia (12). Verdient gut, achtet auf sein Auftreten – und will bloß nicht negativ auffallen.",
+    peter2: "🛋️ Petern = geplantes Nichtstun: selten klares Ja/Nein. Standards: „Mal schauen“, „Ich meld mich später“, „Ist gerade schwierig“. Liebt Couch, Cola Zero, iPad, ruhige Abende. Aktivitäten existieren oft nur theoretisch.",
+    peter3: "🧠 Typisch: 90 % Ausrede, 10 % Teilnahme. Wenn er zusagt: Exit-Strategien („nicht so lange“, „je nachdem wie Leo drauf ist“). Klassiker: Kind unruhig/krank, Annka gestresst, Erkältung, Spülmaschine, Update, Arbeit, Müdigkeit. Technik-Ausreden besonders beliebt.",
+    peter4: "👨‍👩‍👧‍👦 Annka hat mehr Einfluss; Peter macht viel im Haushalt, ordnet sich oft unter. Wenn Annka und Leo dabei sind, kommt er eher – dann aber zeitlich begrenzt. Eigene Einladungen selten, Absagen planbar. Früher aktiv/sportlich, heute: Rennrad, Trips → „Irgendwann mal“. Kein Bösewicht – Meister des unverbindlichen Lebens. Natürlicher Zustand: Couch + später.",
+    peter5: "🩺 Peteritis / Peteritis Maxima (fiktiv): Verbindlichkeitsvermeidung, spontane Erschöpfung vor Terminen. Heilbar nur durch Gruppendruck oder außergewöhnliche Motivation.",
   },
   en: {
     title: "🛋️ Petern Today?",
@@ -90,6 +95,11 @@ const TRANSLATIONS = {
     manual4: "Accept \"not too long\" – then he builds fewer exit strategies.",
     manual5: "Offer gaming/home activities – more likely when it's comfortable and at home.",
     manual6: "New grill / new idea: quickly set a firm date, or it fizzles out.",
+    peter1: "Peter (*1987), civil servant (police officer), married to Annka, father of Leo (1) and Emilia (12). Earns well, cares about his appearance – and just doesn't want to stand out negatively.",
+    peter2: "🛋️ Petern = planned inactivity: rarely a clear yes/no. Standards: \"We'll see\", \"I'll let you know later\", \"It's tricky right now\". Loves couch, Coke Zero, iPad, quiet evenings. Activities often only exist in theory.",
+    peter3: "🧠 Typical: 90% excuse, 10% participation. When he agrees: exit strategies (\"not too long\", \"depends how Leo's doing\"). Classics: child restless/sick, Annka stressed, cold, dishwasher, update, work, fatigue. Tech excuses especially popular.",
+    peter4: "👨‍👩‍👧‍👦 Annka has more influence; Peter does a lot at home, often defers. When Annka and Leo are coming, he's more likely – but time-limited. Own invitations rare, declining predictable. Used to be active/sporty, now: road bike, trips → \"Someday\". Not a villain – Master of the non-committal life. Natural state: couch + later.",
+    peter5: "🩺 Peteritis / Peteritis Maxima (fictional): commitment avoidance, spontaneous exhaustion before appointments. Curable only through peer pressure or extraordinary motivation.",
   },
 };
 
@@ -705,6 +715,14 @@ document.addEventListener("click", (e) => {
     return;
   }
 });
+
+// Fuer Inline-setPeternLang: vollstaendige Sprachumschaltung inkl. Chips, History, etc.
+window.applyPeternTranslations = function(lang) {
+  if (lang !== "de" && lang !== "en") return;
+  currentLang = lang;
+  try { localStorage.setItem("petern-lang", lang); } catch (_) {}
+  applyTranslations(true);
+};
 
 // Init – erst wenn DOM bereit
 function init() {
