@@ -23,7 +23,11 @@
       var labels=s.chipL||t.de.chipL;
       var activities=s.chipA||t.de.chipA;
       if(labels&&activities)chips.forEach(function(c,i){if(labels[i]){c.textContent=labels[i];c.setAttribute("data-activity",activities[i]||labels[i]);}});
+      if(window.setNewDailyExcuse){var de=document.getElementById("daily-excuse");if(de&&!de.textContent.trim())window.setNewDailyExcuse();}
+      if(window.renderHistory){window.renderHistory();}else{var list=document.getElementById("history-list");if(list){try{var h=JSON.parse(localStorage.getItem("petern-history")||"[]");list.innerHTML=h.length?h.map(function(x){return"<li><strong>"+x.activity+"</strong> \u2192 "+(x.type==="petern"?"\ud83c\udf6b":"\ud83d\udc4d")+" "+x.text.slice(0,40)+"... ("+x.time+")</li>";}).join(""):"<li>"+(l==="en"?"No decisions yet.":"Noch keine Entscheidungen.")+"</li>";}catch(x){list.innerHTML="<li>"+(l==="en"?"No decisions yet.":"Noch keine Entscheidungen.")+"</li>";}}}
     };
+    function applyLangOnLoad(){window.setPeternLang(lang);}
+    if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",applyLangOnLoad);}else{setTimeout(applyLangOnLoad,0);}
   })();
   </script>
   <link rel="stylesheet" href="style.css">
@@ -85,7 +89,7 @@
       <label for="activity" data-i18n="whatsOn">Was steht an?</label>
       <div class="input-row">
         <input type="text" id="activity" data-i18n-placeholder="activityPlaceholder" placeholder="z.B. Feiern, Sport, Kino, Treffen..." autocomplete="off">
-        <button type="button" id="btn-decide" class="btn btn-primary" data-i18n="btnDecide">Soll ich oder soll ich nicht?</button>
+        <button type="button" id="btn-decide" class="btn btn-primary" data-action="decide" data-i18n="btnDecide">Soll ich oder soll ich nicht?</button>
       </div>
       <div class="quick-activities">
         <span class="quick-label" data-i18n="quickSelect">Schnellauswahl:</span>
@@ -124,17 +128,17 @@
       <div class="extra-card">
         <h3 data-i18n="historyTitle">📜 Letzte Entscheidungen</h3>
         <ul id="history-list"></ul>
-        <button type="button" class="btn btn-ghost" id="btn-clear-history" data-i18n="clearHistory">Verlauf leeren</button>
+        <button type="button" class="btn btn-ghost" id="btn-clear-history" data-action="clear-history" data-i18n="clearHistory">Verlauf leeren</button>
       </div>
       <div class="extra-card">
         <h3 data-i18n="dailyTitle">🎲 Petern des Tages</h3>
         <p class="daily-excuse" id="daily-excuse"></p>
-        <button type="button" class="btn btn-ghost" id="btn-new-daily" data-i18n="newDailyExcuse">Neue Tages-Ausrede</button>
+        <button type="button" class="btn btn-ghost" id="btn-new-daily" data-action="new-daily" data-i18n="newDailyExcuse">Neue Tages-Ausrede</button>
       </div>
       <div class="extra-card">
         <h3 data-i18n="phrasesTitle">💬 Peter-Standardphrasen</h3>
         <p class="standardphrase-text" id="standardphrase-text" data-i18n="phrasesIntro">„Mal schauen“, „Ich meld mich später“ …</p>
-        <button type="button" class="btn btn-ghost" id="btn-standardphrase" data-i18n="newPhrase">Neue Phrase</button>
+        <button type="button" class="btn btn-ghost" id="btn-standardphrase" data-action="new-phrase" data-i18n="newPhrase">Neue Phrase</button>
       </div>
       <div class="extra-card">
         <h3 data-i18n="exitTitle">🚪 Exit-Strategie (wenn du doch zugesagt hast)</h3>
@@ -156,24 +160,36 @@
   <script src="script.js?v=10"></script>
   <script>
   (function(){
+  var lang=document.documentElement.lang==="en"?"en":"de";
   var EXIT_DE=["Nicht so lange vielleicht.","Je nachdem wie Leo drauf ist.","Ich schau, dass ich mal vorbeikomme."];
   var EXIT_EN=["Maybe not for too long.","Depends how Leo is doing.","I will try to swing by."];
-  if(!window.generateExitStrategy){window.generateExitStrategy=function(){var el=document.getElementById("exit-strategy-text");var lang=document.documentElement.lang==="en"?"en":"de";var arr=lang==="en"?EXIT_EN:EXIT_DE;if(el)el.textContent=arr[Math.floor(Math.random()*arr.length)];};}
-  if(!window.runPeteritisCheck){window.runPeteritisCheck=function(){var el=document.getElementById("peteritis-result");if(el)el.textContent="Peteritis Maxima! Couch + spaeter = natuerlicher Zustand.";el.classList.add("peteritis-done");};}
+  var ALIBI_DE=["Hey, sorry … bin heute total durch. Naechstes Mal?","Aehm, ich bleib heute lieber daheim. Sorry!","Hey! Irgendwas ist dazwischengekommen. Bis bald!"];
+  var ALIBI_EN=["Hey, sorry … I'm totally drained today. Next time?","Um, I'll stay home today. Sorry!","Hey! Something came up. See you soon!"];
+  var PHRASE_DE=["Mal schauen.","Ich meld mich spaeter.","Ist gerade schwierig."];
+  var PHRASE_EN=["We'll see.","I'll let you know later.","It's tricky right now."];
+  var AUSREDE_DE=["Bin heute komplett durch.","Morgen vielleicht?","Hab grad keine Energie.","Couch gewinnt heute."];
+  var AUSREDE_EN=["I'm completely drained today.","Maybe tomorrow?","Zero energy right now.","Couch wins today."];
+  if(!window.generateExitStrategy){window.generateExitStrategy=function(){var el=document.getElementById("exit-strategy-text");var l=document.documentElement.lang==="en"?"en":"de";if(el)el.textContent=(l==="en"?EXIT_EN:EXIT_DE)[Math.floor(Math.random()*3)];};}
+  if(!window.runPeteritisCheck){window.runPeteritisCheck=function(){var el=document.getElementById("peteritis-result");if(el){el.textContent="Peteritis Maxima! Couch + spaeter = natuerlicher Zustand.";el.classList.add("peteritis-done");}};}
+  if(!window.generateAlibiSprachnachricht){window.generateAlibiSprachnachricht=function(){var el=document.getElementById("alibi-text");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?ALIBI_EN:ALIBI_DE;window.lastAlibi=arr[Math.floor(Math.random()*arr.length)];if(el){el.textContent=window.lastAlibi;el.classList.add("alibi-generated");}};}
+  if(!window.generateStandardphrase){window.generateStandardphrase=function(){var el=document.getElementById("standardphrase-text");var l=document.documentElement.lang==="en"?"en":"de";if(el)el.textContent=(l==="en"?PHRASE_EN:PHRASE_DE)[Math.floor(Math.random()*3)];};}
+  if(!window.setNewDailyExcuse){window.setNewDailyExcuse=function(){var el=document.getElementById("daily-excuse");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?AUSREDE_EN:AUSREDE_DE;var exc=arr[Math.floor(Math.random()*arr.length)];if(el)el.textContent=exc;try{localStorage.setItem("petern-daily",exc);}catch(x){};};}
+  if(!window.clearHistory){window.clearHistory=function(){try{localStorage.setItem("petern-history","[]");}catch(x){};var list=document.getElementById("history-list");var l=document.documentElement.lang==="en"?"en":"de";if(list)list.innerHTML="<li>"+(l==="en"?"No decisions yet.":"Noch keine Entscheidungen.")+"</li>";};}
+  if(!window.onDecide){window.onDecide=function(){var inp=document.getElementById("activity");var t=inp&&inp.value.trim()||(document.documentElement.lang==="en"?"something":"irgendwas");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?AUSREDE_EN:AUSREDE_DE;var petern=Math.random()<0.9;var text=petern?arr[Math.floor(Math.random()*arr.length)]:(l==="en"?"Okay, you can go. See you on the couch later.":"Okay, du darfst. Wir sehen uns auf der Couch.");window.lastResult={copyText:text};var sec=document.getElementById("result-section");var card=document.getElementById("result-card");var icon=document.getElementById("result-icon");var title=document.getElementById("result-title");var txt=document.getElementById("result-text");var sub=document.getElementById("result-sub");var lvl=document.getElementById("petern-level");if(sec){sec.classList.remove("hidden");}if(card){card.classList.remove("petern","go");card.classList.add(petern?"petern":"go");}if(icon)icon.textContent=petern?"\ud83c\udf6b":"\ud83d\udc4d";if(title)title.textContent=petern?(l==="en"?"Better not.":"Lieber nicht."):(l==="en"?"You're allowed.":"Darfst du.");if(txt)txt.textContent=text;if(sub)sub.textContent='"'+t+'" – '+(petern?(l==="en"?"Better not.":"Lieber nicht."):(l==="en"?"You're allowed.":"Darfst du."));if(lvl){lvl.textContent=petern?(l==="en"?"Petern-Level: Couch King":"Petern-Level: Couch-Koenig"):"";lvl.style.display=petern?"block":"none";}};}
   function handleClick(e){
-    var t=e.target.closest("button");
+    var t=e.target&&e.target.closest?e.target.closest("button"):null;
     if(!t)return;
     var a=t.getAttribute("data-action"),id=t.id,l=t.getAttribute("data-lang");
     if((a==="lang"||t.classList.contains("lang-btn"))&&l&&window.setPeternLang){window.setPeternLang(l);return;}
     if(a==="alibi"||id==="btn-alibi"){if(window.generateAlibiSprachnachricht)window.generateAlibiSprachnachricht();return;}
     if(a==="peteritis"||id==="btn-peteritis"){if(window.runPeteritisCheck)window.runPeteritisCheck();return;}
-    if(id==="btn-decide"){if(window.onDecide)window.onDecide();return;}
+    if(a==="decide"||id==="btn-decide"){if(window.onDecide)window.onDecide();return;}
     if(id==="btn-again"){var r=document.getElementById("result-section");if(r)r.classList.add("hidden");return;}
     if(id==="btn-copy"&&window.lastResult){navigator.clipboard.writeText(window.lastResult.copyText);return;}
     if(id==="btn-copy-alibi"&&window.lastAlibi){navigator.clipboard.writeText(window.lastAlibi);return;}
-    if(id==="btn-clear-history"){if(window.clearHistory)window.clearHistory();return;}
-    if(id==="btn-new-daily"){if(window.setNewDailyExcuse)window.setNewDailyExcuse();return;}
-    if(id==="btn-standardphrase"){if(window.generateStandardphrase)window.generateStandardphrase();return;}
+    if(a==="clear-history"||id==="btn-clear-history"){if(window.clearHistory)window.clearHistory();return;}
+    if(a==="new-daily"||id==="btn-new-daily"){if(window.setNewDailyExcuse)window.setNewDailyExcuse();return;}
+    if(a==="new-phrase"||id==="btn-standardphrase"){if(window.generateStandardphrase)window.generateStandardphrase();return;}
     if(a==="exit"||id==="btn-exit"){if(window.generateExitStrategy)window.generateExitStrategy();return;}
     if(t.classList.contains("chip")&&t.dataset.activity){var i=document.getElementById("activity");if(i)i.value=t.dataset.activity;}
   }
