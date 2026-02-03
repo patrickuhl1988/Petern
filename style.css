@@ -43,50 +43,66 @@ body {
   z-index: 0;
 }
 
-/* Couch hero: Petern title + Peter sliding in from left */
+/* Couch hero: blue couch + Peter animates in and lies down (GIF-like loop) */
 .couch-hero {
   position: relative;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 80px;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
   padding: 0.5rem 0 1rem;
 }
 
-.peter-slide-in {
-  width: 50px;
-  flex-shrink: 0;
-  animation: peterSlideIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+.petern-gif {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
 }
 
-.peter-slide-in svg {
+.petern-gif svg {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 2px 6px rgba(92, 74, 58, 0.3));
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+}
+
+.peter-anim {
+  animation: peterWalkInAndLie 3s ease-in-out infinite;
+  transform-origin: 90px 70px;
+}
+
+@keyframes peterWalkInAndLie {
+  0% {
+    opacity: 0;
+    transform: translateX(-120px) rotate(-15deg);
+  }
+  25% {
+    opacity: 1;
+    transform: translateX(-40px) rotate(-5deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+  60% {
+    transform: translateX(0) rotate(2deg) translateY(3px);
+  }
+  70%, 100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg) translateY(0);
+  }
 }
 
 .couch-label {
-  flex: 1;
-  min-width: 0;
+  width: 100%;
   text-align: center;
 }
 
-@keyframes peterSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-80px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .peter-slide-in {
+  .peter-anim {
     animation: none;
     opacity: 1;
+    transform: none;
   }
 }
 
