@@ -114,6 +114,25 @@
       </div>
     </header>
 
+    <section class="extras pet-today-first">
+      <div class="extra-card pet-today-card">
+        <h3 data-i18n="petTodayTitle">🛋️ Soll ich heute petern?</h3>
+        <p class="pet-today-intro" data-i18n="petTodayIntro">Was steht heute an? Peter sagt dir, ob du petern solltest oder nicht.</p>
+        <input type="text" id="pet-today-activity" class="pet-today-input" data-i18n-placeholder="petTodayPlaceholder" placeholder="z.B. Mit Freunden ins Kino eingeladen">
+        <div class="quick-activities pet-today-chips">
+          <span class="quick-label" data-i18n="petTodayQuick">Vorschläge:</span>
+          <button type="button" class="chip" data-activity="Mit Freunden ins Kino eingeladen">Kino</button>
+          <button type="button" class="chip" data-activity="Sport / Joggen">Sport</button>
+          <button type="button" class="chip" data-activity="Geburtstagsfeier">Feier</button>
+          <button type="button" class="chip" data-activity="Grillen im Park">Grillen</button>
+          <button type="button" class="chip" data-activity="Treffen mit Kollegen">Treffen</button>
+          <button type="button" class="chip" data-activity="Früh aufstehen">Früh aufstehen</button>
+        </div>
+        <div class="pet-today-result" id="pet-today-result"></div>
+        <button type="button" class="btn btn-primary" id="btn-pet-today" data-action="pet-today" data-i18n="btnPetOrNot">Petern oder nicht?</button>
+      </div>
+    </section>
+
     <section class="peter-section">
       <button type="button" class="collapse-trigger" id="btn-was-ist-petern" data-target="was-ist-petern-content" aria-expanded="false">
         <span data-i18n="peternWhatTitle">🛋️ Was ist „Petern“?</span>
@@ -191,22 +210,6 @@
         <h3 data-i18n="peteritisTitle">🩺 Peteritis-Check</h3>
         <div class="peteritis-result" id="peteritis-result" data-i18n="peteritisIntro">Habe ich eine Peteritis? Und wenn ja, in welcher Ausprägung?</div>
         <button type="button" class="btn btn-primary" id="btn-peteritis" data-i18n="measurePeteritis" data-action="peteritis">Peteritis messen</button>
-      </div>
-      <div class="extra-card pet-today-card">
-        <h3 data-i18n="petTodayTitle">🛋️ Soll ich heute petern?</h3>
-        <p class="pet-today-intro" data-i18n="petTodayIntro">Was steht heute an? Peter sagt dir, ob du petern solltest oder nicht.</p>
-        <input type="text" id="pet-today-activity" class="pet-today-input" data-i18n-placeholder="petTodayPlaceholder" placeholder="z.B. Mit Freunden ins Kino eingeladen">
-        <div class="quick-activities pet-today-chips">
-          <span class="quick-label" data-i18n="petTodayQuick">Vorschläge:</span>
-          <button type="button" class="chip" data-activity="Mit Freunden ins Kino eingeladen">Kino</button>
-          <button type="button" class="chip" data-activity="Sport / Joggen">Sport</button>
-          <button type="button" class="chip" data-activity="Geburtstagsfeier">Feier</button>
-          <button type="button" class="chip" data-activity="Grillen im Park">Grillen</button>
-          <button type="button" class="chip" data-activity="Treffen mit Kollegen">Treffen</button>
-          <button type="button" class="chip" data-activity="Früh aufstehen">Früh aufstehen</button>
-        </div>
-        <div class="pet-today-result" id="pet-today-result"></div>
-        <button type="button" class="btn btn-primary" id="btn-pet-today" data-action="pet-today" data-i18n="btnPetOrNot">Petern oder nicht?</button>
       </div>
       <div class="extra-card ausreden-bot">
         <h3 data-i18n="alibiTitle">📨 Eigene Peter-Ausreden</h3>
