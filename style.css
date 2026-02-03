@@ -55,7 +55,7 @@ body {
 
 .petern-gif {
   width: 100%;
-  max-width: 280px;
+  max-width: 320px;
   margin: 0 auto;
 }
 
@@ -68,7 +68,7 @@ body {
 
 .peter-anim {
   animation: peterWalkInAndLie 3s ease-in-out infinite;
-  transform-origin: 90px 70px;
+  transform-origin: 70px 75px;
 }
 
 @keyframes peterWalkInAndLie {

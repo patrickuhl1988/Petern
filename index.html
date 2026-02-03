@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
-<!-- v2.0 - DE/EN -->
+<!-- v3.0 - GIF redesign 2025 -->
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -30,7 +30,7 @@
     if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",applyLangOnLoad);}else{setTimeout(applyLangOnLoad,0);}
   })();
   </script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=30">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -49,21 +49,32 @@
       </div>
       <div class="couch-hero">
         <div class="petern-gif" aria-hidden="true">
-          <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
             <!-- Blue couch -->
-            <path d="M20 55 L20 85 Q20 95 35 95 L165 95 Q180 95 180 85 L180 55 Q180 45 165 45 L35 45 Q20 45 20 55 Z" fill="#4a7ba7" stroke="#2c5a7a" stroke-width="2"/>
-            <path d="M35 45 L40 30 Q45 20 60 20 L140 20 Q155 20 160 30 L165 45" fill="#5a8bb7" stroke="#2c5a7a" stroke-width="2"/>
-            <text x="100" y="75" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Nunito,sans-serif">Petern</text>
-            <!-- Peter - animates in and lies down -->
+            <rect x="20" y="60" width="240" height="50" rx="8" fill="#4a7ba7" stroke="#2c5a7a" stroke-width="2"/>
+            <rect x="30" y="30" width="220" height="35" rx="6" fill="#5a8bb7" stroke="#2c5a7a" stroke-width="2"/>
+            <text x="140" y="95" text-anchor="middle" fill="white" font-size="18" font-weight="bold" font-family="Nunito,sans-serif">Petern</text>
+            <!-- Peter: clear silhouette - head, torso, arm up with Cola, legs bent feet up -->
             <g class="peter-anim">
-              <ellipse cx="85" cy="72" rx="40" ry="14" fill="#5c4a3a"/>
-              <ellipse cx="85" cy="58" rx="18" ry="10" fill="#4a3d32"/>
-              <circle cx="85" cy="38" r="12" fill="#2d2520"/>
-              <circle cx="85" cy="40" r="9" fill="#e8d5c4"/>
-              <path d="M77 42 Q85 50 93 42" stroke="#2d2520" stroke-width="2" fill="none"/>
-              <rect x="95" y="30" width="8" height="18" rx="1" fill="#c41e2a"/>
-              <line x1="96" y1="34" x2="102" y2="34" stroke="#fff" stroke-width="1"/>
-              <path d="M82 48 L95 32 L98 35 L85 50 Z" fill="#e8d5c4"/>
+              <!-- Head -->
+              <circle cx="70" cy="42" r="14" fill="#1a1a2e"/>
+              <!-- Neck -->
+              <rect x="62" y="54" width="16" height="10" fill="#1a1a2e"/>
+              <!-- Torso -->
+              <path d="M58 64 L82 64 L92 72 L92 90 L48 90 L48 72 Z" fill="#1a1a2e"/>
+              <!-- Raised arm + Cola -->
+              <path d="M82 66 L98 48 L108 54 L94 72 Z" fill="#1a1a2e"/>
+              <rect x="96" y="38" width="16" height="30" rx="3" fill="#c41e2a"/>
+              <line x1="99" y1="45" x2="109" y2="45" stroke="#fff" stroke-width="1"/>
+              <text x="104" y="60" text-anchor="middle" fill="#fff" font-size="9" font-weight="bold">0</text>
+              <!-- Left leg: thigh, calf up, foot -->
+              <path d="M50 88 L42 92 L42 98 L56 98 L58 92 Z" fill="#1a1a2e"/>
+              <path d="M42 94 L32 78 L36 74 L48 90 Z" fill="#1a1a2e"/>
+              <ellipse cx="32" cy="74" rx="8" ry="6" fill="#1a1a2e"/>
+              <!-- Right leg -->
+              <path d="M90 88 L98 92 L98 98 L84 98 L82 92 Z" fill="#1a1a2e"/>
+              <path d="M98 94 L108 78 L104 74 L92 90 Z" fill="#1a1a2e"/>
+              <ellipse cx="108" cy="74" rx="8" ry="6" fill="#1a1a2e"/>
             </g>
           </svg>
         </div>
@@ -178,7 +189,7 @@
     </footer>
   </main>
 
-  <script src="script.js?v=24"></script>
+  <script src="script.js?v=30"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
