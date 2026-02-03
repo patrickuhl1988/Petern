@@ -11,6 +11,7 @@ const TRANSLATIONS = {
     title: "🛋️ Heute Petern?",
     tagline: "Dein Entscheidungshelfer für den inneren Couch-Potato",
     whoIsPeter: "👤 Wer ist Peter?",
+    peternWhatTitle: "🛋️ Was ist „Petern“?",
     manual: "📋 Peter-Gebrauchsanweisung",
     whatsOn: "Was steht an?",
     activityPlaceholder: "z.B. Feiern, Sport, Kino, Treffen...",
@@ -58,6 +59,9 @@ const TRANSLATIONS = {
     manual13: "Alternative anbieten: „Wenn nicht Kino, dann Spieleabend bei euch?" – Ausweich-Option erhöht Zusage.",
     manual14: "Keine offenen Fragen: Statt „Wollen wir mal was machen?" lieber „Samstag 14 Uhr Kaffee?“",
     manual15: "Realistisch bleiben: 90 % Ausrede ist normal. 10 % Zusage feiern wie einen Sieg.",
+    peternWhatIntro: "Wir kennen alle die Karens, die bei jeder Kleinigkeit eskalieren. Zeit, die Peters kennenzulernen – die Könige des passiven Nicht-Zusagens.",
+    peternWhatDefinition: "Petern = geplantes Nichtstun mit perfektionierter Ausrede. Statt klar Ja oder Nein zu sagen, wird verschoben, verwaschen und elegant ausgewichen.",
+    peternWhatExamples: "Typisch: lange auf der Couch strategieren, „mal schauen“ sagen, Exit-Strategien bauen und am Ende doch zu Hause bleiben – mit mindestens einer technisch klingenden Ausrede.",
     peter1: "Peter (*1987), Beamter (Polizist), verheiratet mit Annka, Vater von Leo (1) und Emilia (12). Verdient gut, achtet auf sein Auftreten – und will bloß nicht negativ auffallen.",
     peter2: "🛋️ Petern = geplantes Nichtstun: selten klares Ja/Nein. Standards: „Mal schauen“, „Ich meld mich später“, „Ist gerade schwierig“. Liebt Couch, Cola Zero, iPad, ruhige Abende. Aktivitäten existieren oft nur theoretisch.",
     peter3: "🧠 Typisch: 90 % Ausrede, 10 % Teilnahme. Wenn er zusagt: Exit-Strategien („nicht so lange“, „je nachdem wie Leo drauf ist“). Klassiker: Kind unruhig/krank, Annka gestresst, Erkältung, Spülmaschine, Update, Arbeit, Müdigkeit. Technik-Ausreden besonders beliebt.",
@@ -68,6 +72,7 @@ const TRANSLATIONS = {
     title: "🛋️ Petern Today?",
     tagline: "Your decision helper for the inner couch potato",
     whoIsPeter: "👤 Who is Peter?",
+    peternWhatTitle: "🛋️ What is “Petern”?",
     manual: "📋 Peter's User Manual",
     whatsOn: "What's on?",
     activityPlaceholder: "e.g. Party, Sports, Cinema, Meet-up...",
@@ -115,6 +120,9 @@ const TRANSLATIONS = {
     manual13: "Offer an alternative: „If not cinema, then game night at yours?" – backup option increases yes.",
     manual14: "No open questions: Instead of „Want to do something sometime?" try „Saturday 2 pm coffee?“",
     manual15: "Stay realistic: 90% excuse is normal. Celebrate the 10% yes like a victory.",
+    peternWhatIntro: "We all know the Karens who escalate instantly. Meet the Peters – champions of politely doing nothing.",
+    peternWhatDefinition: "Petern = planned inactivity with premium excuses. Instead of yes or no, everything is postponed, blurred, and gracefully avoided.",
+    peternWhatExamples: "Typical: strategising on the couch, saying “we'll see”, building exit strategies and eventually staying home with at least one tech-sounding excuse.",
     peter1: "Peter (*1987), civil servant (police officer), married to Annka, father of Leo (1) and Emilia (12). Earns well, cares about his appearance – and just doesn't want to stand out negatively.",
     peter2: "🛋️ Petern = planned inactivity: rarely a clear yes/no. Standards: \"We'll see\", \"I'll let you know later\", \"It's tricky right now\". Loves couch, Coke Zero, iPad, quiet evenings. Activities often only exist in theory.",
     peter3: "🧠 Typical: 90% excuse, 10% participation. When he agrees: exit strategies (\"not too long\", \"depends how Leo's doing\"). Classics: child restless/sick, Annka stressed, cold, dishwasher, update, work, fatigue. Tech excuses especially popular.",
@@ -930,6 +938,7 @@ function setupCollapse(triggerId, contentId) {
   content.hidden = true;
 }
 setupCollapse("btn-wer-ist-peter", "wer-ist-peter-content");
+setupCollapse("btn-was-ist-petern", "was-ist-petern-content");
 setupCollapse("btn-gebrauchsanweisung", "gebrauchsanweisung-content");
 
 // Peter-Standardphrasen

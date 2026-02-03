@@ -50,7 +50,7 @@
     </header>
 
     <section class="peter-section">
-      <button type="button" class="collapse-trigger" id="btn-wer-ist-peter" aria-expanded="false">
+      <button type="button" class="collapse-trigger" id="btn-wer-ist-peter" data-target="wer-ist-peter-content" aria-expanded="false">
         <span data-i18n="whoIsPeter">👤 Wer ist Peter?</span>
         <span class="collapse-icon" aria-hidden="true">▼</span>
       </button>
@@ -66,7 +66,21 @@
     </section>
 
     <section class="peter-section">
-      <button type="button" class="collapse-trigger" id="btn-gebrauchsanweisung" aria-expanded="false">
+      <button type="button" class="collapse-trigger" id="btn-was-ist-petern" data-target="was-ist-petern-content" aria-expanded="false">
+        <span data-i18n="peternWhatTitle">🛋️ Was ist „Petern“?</span>
+        <span class="collapse-icon" aria-hidden="true">▼</span>
+      </button>
+      <div class="collapse-content" id="was-ist-petern-content" hidden>
+        <div class="petern-definition">
+          <p data-i18n="peternWhatIntro">Wir kennen die Karens, die sofort eskalieren. Hier kommen die Peters – Meister des höflichen Nicht-Zusagens.</p>
+          <p data-i18n="peternWhatDefinition">Petern bedeutet geplantes Nichtstun mit perfekter Ausrede. Statt klar Ja oder Nein zu sagen, wird verschoben, verwaschen und elegant vermieden.</p>
+          <p data-i18n="peternWhatExamples">Typisch: Couch, „mal schauen“, Exit-Strategien – und am Ende doch daheimbleiben mit einer technisch klingenden Ausrede.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="peter-section">
+      <button type="button" class="collapse-trigger" id="btn-gebrauchsanweisung" data-target="gebrauchsanweisung-content" aria-expanded="false">
         <span data-i18n="manual">📋 Peter-Gebrauchsanweisung</span>
         <span class="collapse-icon" aria-hidden="true">▼</span>
       </button>
@@ -166,7 +180,7 @@
     </footer>
   </main>
 
-  <script src="script.js?v=11"></script>
+  <script src="script.js?v=12"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
@@ -190,7 +204,7 @@
     if(!t)return;
     var a=t.getAttribute("data-action"),id=t.id,l=t.getAttribute("data-lang");
     if((a==="lang"||t.classList.contains("lang-btn"))&&l&&window.setPeternLang){window.setPeternLang(l);return;}
-    if(t.classList.contains("collapse-trigger")||id==="btn-wer-ist-peter"||id==="btn-gebrauchsanweisung"){var cid=id==="btn-wer-ist-peter"?"wer-ist-peter-content":"gebrauchsanweisung-content";var c=document.getElementById(cid);if(c){var op=c.hidden;c.hidden=!op;t.setAttribute("aria-expanded",op);t.classList.toggle("open",op);}return;}
+    if(t.classList.contains("collapse-trigger")){var cid=t.getAttribute("data-target")||id&&id.replace("btn-","")+"-content";if(cid){var c=document.getElementById(cid);if(c){var op=c.hidden;c.hidden=!op;t.setAttribute("aria-expanded",op);t.classList.toggle("open",op);}}return;}
     if(a==="alibi"||id==="btn-alibi"){if(window.generateAlibiSprachnachricht)window.generateAlibiSprachnachricht();return;}
     if(a==="peteritis"||id==="btn-peteritis"){if(window.runPeteritisCheck)window.runPeteritisCheck();return;}
     if(a==="decide"||id==="btn-decide"){if(window.onDecide)window.onDecide();return;}
