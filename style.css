@@ -552,6 +552,18 @@ body {
   font-style: italic;
 }
 
+.visitor-counter {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--couch-muted);
+}
+
+.visitor-counter #visitor-count {
+  font-weight: 700;
+  color: var(--couch-dark);
+}
+
 @media (min-width: 500px) {
   .input-row {
     flex-direction: row;
