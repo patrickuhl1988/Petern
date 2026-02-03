@@ -42,6 +42,13 @@ const TRANSLATIONS = {
     peteritisStageLight: "Peteritis light",
     peteritisStageNormal: "Peteritis normal",
     peteritisStageChronic: "Peteritis chronisch",
+    petTodayTitle: "🛋️ Soll ich heute petern?",
+    petTodayIntro: "Was steht heute an? Peter sagt dir, ob du petern solltest oder nicht.",
+    petTodayPlaceholder: "z.B. Mit Freunden ins Kino eingeladen",
+    petTodayQuick: "Vorschläge:",
+    btnPetOrNot: "Petern oder nicht?",
+    petTodayChipL: ["Kino", "Sport", "Feier", "Grillen", "Treffen", "Früh aufstehen"],
+    petTodayChipA: ["Mit Freunden ins Kino eingeladen", "Sport / Joggen", "Geburtstagsfeier", "Grillen im Park", "Treffen mit Kollegen", "Früh aufstehen"],
     footer: "Mit 90 % Wahrscheinlichkeit sagt dir diese App, was du eh schon denkst. 🛋️",
     visitorLabel: "Besucher",
     noHistory: "Noch keine Entscheidungen.",
@@ -107,6 +114,13 @@ const TRANSLATIONS = {
     peteritisStageLight: "Peteritis light",
     peteritisStageNormal: "Peteritis normal",
     peteritisStageChronic: "Peteritis chronic",
+    petTodayTitle: "🛋️ Should I pet today?",
+    petTodayIntro: "What's on today? Peter tells you whether you should pet or not.",
+    petTodayPlaceholder: "e.g. Invited to cinema with friends",
+    petTodayQuick: "Suggestions:",
+    btnPetOrNot: "Pet or not?",
+    petTodayChipL: ["Cinema", "Sports", "Party", "BBQ", "Meet-up", "Early rise"],
+    petTodayChipA: ["Invited to cinema with friends", "Sports / Jogging", "Birthday party", "BBQ in the park", "Meeting with colleagues", "Getting up early"],
     footer: "With 90% probability, this app tells you what you were already thinking. 🛋️",
     visitorLabel: "Visitors",
     noHistory: "No decisions yet.",
@@ -859,6 +873,9 @@ const exitStrategyTextEl = document.getElementById("exit-strategy-text");
 const btnExit = document.getElementById("btn-exit");
 const peteritisResultEl = document.getElementById("peteritis-result");
 const btnPeteritis = document.getElementById("btn-peteritis");
+const petTodayActivityInput = document.getElementById("pet-today-activity");
+const petTodayResultEl = document.getElementById("pet-today-result");
+const btnPetToday = document.getElementById("btn-pet-today");
 
 // State
 let lastResult = null;
@@ -917,6 +934,45 @@ function decide(activity) {
 
   return lastResult;
 }
+
+// Pet today: 98% "Yes, pet today"
+const PET_TODAY_YES_DE = [
+  "Ja, heute solltest du petern. Couch gewinnt.",
+  "Ja, heute petern! Daheimbleiben ist die richtige Wahl.",
+  "Definitiv petern. Dein innerer Couch-Potato hat recht.",
+  "Ja! Heute heißt die Antwort: Petern.",
+  "98 % sagen: Ja, heute petern. Du gehörst dazu.",
+];
+const PET_TODAY_YES_EN = [
+  "Yes, today you should pet. Couch wins.",
+  "Yes, pet today! Staying home is the right choice.",
+  "Definitely pet. Your inner couch potato is right.",
+  "Yes! Today the answer is: pet.",
+  "98% say: Yes, pet today. You're one of them.",
+];
+const PET_TODAY_NO_DE = "Nein, heute nicht. Du darfst raus. Selten, aber heute ja.";
+const PET_TODAY_NO_EN = "No, not today. You may go out. Rare, but today yes.";
+
+function onPetToday() {
+  const activity = (petTodayActivityInput && petTodayActivityInput.value.trim()) ||
+    (currentLang === "en" ? "something" : "irgendwas");
+  const petern = Math.random() < 0.98;
+  const yesArr = currentLang === "en" ? PET_TODAY_YES_EN : PET_TODAY_YES_DE;
+  const noText = currentLang === "en" ? PET_TODAY_NO_EN : PET_TODAY_NO_DE;
+  const text = petern ? pick(yesArr) : noText;
+  const t = TRANSLATIONS[currentLang];
+  const title = petern
+    ? (currentLang === "en" ? "Yes, pet today!" : "Ja, heute petern!")
+    : (currentLang === "en" ? "No, not today." : "Nein, heute nicht.");
+  if (petTodayResultEl) {
+    petTodayResultEl.innerHTML = `
+      <p class="pet-today-answer ${petern ? "petern" : "go"}">🛋️ <strong>${title}</strong></p>
+      <p class="pet-today-text">${text}</p>
+      <p class="pet-today-activity">"${activity}"</p>`;
+    petTodayResultEl.classList.add("pet-today-done");
+  }
+}
+window.onPetToday = onPetToday;
 
 // Ergebnis anzeigen
 function showResult(result) {
@@ -1011,7 +1067,7 @@ if (activityInput) activityInput.addEventListener("keydown", (e) => {
 });
 
 function renderChips() {
-  const container = document.querySelector(".quick-activities");
+  const container = document.querySelector(".quick-activities:not(.pet-today-chips)");
   if (!container) return;
   const t = TRANSLATIONS[currentLang];
   const chips = getChips();
@@ -1024,6 +1080,19 @@ function renderChips() {
       activityInput.value = chip.dataset.activity;
       activityInput.focus();
     });
+  });
+}
+
+function renderPetTodayChips() {
+  const container = document.querySelector(".pet-today-chips");
+  if (!container) return;
+  const t = TRANSLATIONS[currentLang];
+  const labels = t.petTodayChipL || [];
+  const activities = t.petTodayChipA || [];
+  const chips = container.querySelectorAll(".chip");
+  chips.forEach((chip, i) => {
+    if (labels[i]) chip.textContent = labels[i];
+    if (activities[i]) chip.dataset.activity = activities[i];
   });
 }
 
@@ -1186,6 +1255,7 @@ function applyTranslations(clearDailyCache = false) {
     btn.classList.toggle("active", btn.dataset.lang === currentLang);
   });
   renderChips();
+  renderPetTodayChips();
   renderHistory();
   if (clearDailyCache) {
     localStorage.removeItem("petern-daily");
@@ -1220,6 +1290,16 @@ document.addEventListener("click", (e) => {
   }
   if (e.target.closest("#btn-peteritis") || e.target.id === "btn-peteritis") {
     runPeteritisCheck();
+    return;
+  }
+  if (e.target.closest("#btn-pet-today") || e.target.id === "btn-pet-today") {
+    onPetToday();
+    return;
+  }
+  const petTodayChip = e.target.closest(".pet-today-chips .chip");
+  if (petTodayChip && petTodayChip.dataset.activity && petTodayActivityInput) {
+    petTodayActivityInput.value = petTodayChip.dataset.activity;
+    petTodayActivityInput.focus();
     return;
   }
 });
