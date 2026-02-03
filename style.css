@@ -629,25 +629,29 @@ body {
 .pet-today-intro {
   font-size: 0.9rem;
   color: var(--couch-text);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   line-height: 1.4;
 }
 .pet-today-input {
   width: 100%;
-  padding: 0.6rem 0.75rem;
+  padding: 0.5rem 0.65rem;
   font-family: inherit;
   font-size: 0.95rem;
   border: 2px solid rgba(139, 115, 85, 0.35);
   border-radius: 8px;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   background: rgba(255, 255, 255, 0.8);
+}
+.pet-today-card .btn-pet-today-main {
+  width: 100%;
+  margin-bottom: 0.75rem;
 }
 .pet-today-chips {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 .pet-today-chips .chip {
   font-size: 0.85rem;
@@ -667,14 +671,14 @@ body {
 .pet-today-result {
   font-size: 0.95rem;
   color: var(--couch-text);
-  margin-bottom: 1rem;
-  min-height: 2em;
+  margin-bottom: 0.5rem;
+  min-height: 1em;
 }
 .pet-today-result.pet-today-done {
-  padding: 0.75rem;
+  padding: 0.6rem;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 .pet-today-answer {
   font-size: 1rem;
@@ -693,9 +697,6 @@ body {
 .pet-today-activity {
   font-size: 0.85rem;
   color: var(--couch-muted);
-}
-.pet-today-card .btn-primary {
-  width: 100%;
 }
 
 /* Footer */
@@ -719,6 +720,22 @@ body {
 .visitor-counter #visitor-count {
   font-weight: 700;
   color: var(--couch-dark);
+}
+
+/* Mobile: tighter spacing so button is visible above fold */
+@media (max-width: 480px) {
+  .header {
+    margin-bottom: 1rem;
+  }
+  .couch-hero {
+    padding: 0.25rem 0 0.5rem;
+  }
+  .extras.pet-today-first {
+    margin-top: 0;
+  }
+  .extra-card {
+    padding: 0.9rem;
+  }
 }
 
 @media (min-width: 500px) {

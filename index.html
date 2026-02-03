@@ -34,7 +34,7 @@
     if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",applyLangOnLoad);}else{setTimeout(applyLangOnLoad,0);}
   })();
   </script>
-  <link rel="stylesheet" href="style.css?v=41">
+  <link rel="stylesheet" href="style.css?v=42">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -119,6 +119,7 @@
         <h3 data-i18n="petTodayTitle">🛋️ Soll ich heute petern?</h3>
         <p class="pet-today-intro" data-i18n="petTodayIntro">Was steht heute an? Peter sagt dir, ob du petern solltest oder nicht.</p>
         <input type="text" id="pet-today-activity" class="pet-today-input" data-i18n-placeholder="petTodayPlaceholder" placeholder="z.B. Mit Freunden ins Kino eingeladen">
+        <button type="button" class="btn btn-primary btn-pet-today-main" id="btn-pet-today" data-action="pet-today" data-i18n="btnPetOrNot">Petern oder nicht?</button>
         <div class="quick-activities pet-today-chips">
           <span class="quick-label" data-i18n="petTodayQuick">Vorschläge:</span>
           <button type="button" class="chip" data-activity="Mit Freunden ins Kino eingeladen">Kino</button>
@@ -129,7 +130,6 @@
           <button type="button" class="chip" data-activity="Früh aufstehen">Früh aufstehen</button>
         </div>
         <div class="pet-today-result" id="pet-today-result"></div>
-        <button type="button" class="btn btn-primary" id="btn-pet-today" data-action="pet-today" data-i18n="btnPetOrNot">Petern oder nicht?</button>
       </div>
       <div class="extra-card peteritis-card">
         <h3 data-i18n="peteritisTitle">🩺 Peteritis-Check</h3>
