@@ -43,6 +43,31 @@ body {
   z-index: 0;
 }
 
+/* Peter on couch – animates in from left on load */
+.peter-on-couch {
+  position: fixed;
+  left: 0;
+  bottom: 1rem;
+  width: 140px;
+  max-width: 28vw;
+  z-index: 2;
+  pointer-events: none;
+  animation: peterSlideIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: translateX(-120%);
+}
+
+.peter-illustration {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(92, 74, 58, 0.25));
+}
+
+@keyframes peterSlideIn {
+  to {
+    transform: translateX(0);
+  }
+}
+
 .container {
   max-width: 560px;
   margin: 0 auto;
