@@ -935,13 +935,33 @@ function decide(activity) {
   return lastResult;
 }
 
-// Pet today: 98% "Yes, pet today"
+// Pet today: 98% "Yes, pet today" – mix of direct answers and classic Peter style
 const PET_TODAY_YES_DE = [
   "Ja, heute solltest du petern. Couch gewinnt.",
   "Ja, heute petern! Daheimbleiben ist die richtige Wahl.",
   "Definitiv petern. Dein innerer Couch-Potato hat recht.",
   "Ja! Heute heißt die Antwort: Petern.",
   "98 % sagen: Ja, heute petern. Du gehörst dazu.",
+  "Er denkt drüber nach. Er schaut sich das an. Klassiker Peter.",
+  "Mal schauen … sagt Peter. Und bleibt auf der Couch.",
+  "Peter schaut. Peter denkt. Peter petert.",
+  "Typisch Peter: kurz drüber nachdenken, dann – nee, lieber petern.",
+  "Peter nickt nachdenklich. Dann: Heute nicht. Couch ruft.",
+  "Hmm … Peter überlegt. Peter entscheidet: Petern.",
+  "Peter hat sich das angeschaut. Seine Antwort: Daheim bleibt besser.",
+  "Nach reiflicher Überlegung: Ja, heute petern. Kollegen verstehen das.",
+  "Peter prüft die Option. Ergebnis: Couch gewinnt. Wieder.",
+  "Peter schaut sich das an. Peter denkt. Peter sagt: Nee, heute lieber nicht.",
+  "Klassischer Peter-Moment: nachdenken, schauen, dann – petern.",
+  "Peter überlegt … und wählt wie immer: Couch vor Aktivität.",
+  "Typisch: Peter denkt drüber nach, schaut es sich an – und bleibt daheim.",
+  "Peter hat es sich angesehen. Sein Urteil: Petern. Definitiv.",
+  "Mal schauen, sagt Peter – und meint damit: nein. Heute petern.",
+  "Peter analysiert. Peter entscheidet. Peter petert. Wie immer.",
+  "Er schaut sich das an, denkt nach – und bleibt. Classic Peter.",
+  "Peter denkt: Hmm. Peter handelt: Petern. Fertig.",
+  "Nach kurzer Bedenkzeit: Peter bleibt. Couch 1, Welt 0.",
+  "Peter schaut. Peter nickt. Peter petert. So läuft das.",
 ];
 const PET_TODAY_YES_EN = [
   "Yes, today you should pet. Couch wins.",
@@ -949,17 +969,45 @@ const PET_TODAY_YES_EN = [
   "Definitely pet. Your inner couch potato is right.",
   "Yes! Today the answer is: pet.",
   "98% say: Yes, pet today. You're one of them.",
+  "He thinks about it. He looks at it. Classic Peter.",
+  "We'll see … says Peter. And stays on the couch.",
+  "Peter looks. Peter thinks. Peter pets.",
+  "Typical Peter: quick think, then – nah, better pet.",
+  "Peter nods thoughtfully. Then: Not today. Couch calls.",
+  "Hmm … Peter considers. Peter decides: Pet.",
+  "Peter has looked at it. His verdict: Staying home is better.",
+  "After careful consideration: Yes, pet today. People will understand.",
+  "Peter checks the option. Result: Couch wins. Again.",
+  "Peter looks at it. Peter thinks. Peter says: Nah, not today.",
+  "Classic Peter moment: think, look, then – pet.",
+  "Peter considers … and chooses as always: couch over activity.",
+  "Typical: Peter thinks about it, looks at it – and stays home.",
+  "Peter has had a look. His verdict: Pet. Definitely.",
+  "We'll see, says Peter – meaning: no. Pet today.",
+  "Peter analyzes. Peter decides. Peter pets. As usual.",
+  "He looks at it, thinks – and stays. Classic Peter.",
+  "Peter thinks: Hmm. Peter acts: Pet. Done.",
+  "After a brief moment: Peter stays. Couch 1, world 0.",
+  "Peter looks. Peter nods. Peter pets. That's how it goes.",
 ];
-const PET_TODAY_NO_DE = "Nein, heute nicht. Du darfst raus. Selten, aber heute ja.";
-const PET_TODAY_NO_EN = "No, not today. You may go out. Rare, but today yes.";
+const PET_TODAY_NO_DE = [
+  "Nein, heute nicht. Du darfst raus. Selten, aber heute ja.",
+  "Ausnahme! Heute sagt Peter: Du darfst. Nutze es.",
+  "Selten – aber heute: Raus! Peter nickt zustimmend.",
+];
+const PET_TODAY_NO_EN = [
+  "No, not today. You may go out. Rare, but today yes.",
+  "Exception! Today Peter says: You may go. Use it.",
+  "Rare – but today: Go out! Peter nods in agreement.",
+];
 
 function onPetToday() {
   const activity = (petTodayActivityInput && petTodayActivityInput.value.trim()) ||
     (currentLang === "en" ? "something" : "irgendwas");
   const petern = Math.random() < 0.98;
   const yesArr = currentLang === "en" ? PET_TODAY_YES_EN : PET_TODAY_YES_DE;
-  const noText = currentLang === "en" ? PET_TODAY_NO_EN : PET_TODAY_NO_DE;
-  const text = petern ? pick(yesArr) : noText;
+  const noArr = currentLang === "en" ? PET_TODAY_NO_EN : PET_TODAY_NO_DE;
+  const text = petern ? pick(yesArr) : pick(noArr);
   const t = TRANSLATIONS[currentLang];
   const title = petern
     ? (currentLang === "en" ? "Yes, pet today!" : "Ja, heute petern!")
