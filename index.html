@@ -153,7 +153,7 @@
     </footer>
   </main>
 
-  <script src="script.js?v=18"></script>
+  <script src="script.js?v=19"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
@@ -166,7 +166,6 @@
   var AUSREDE_DE=["Bin heute komplett durch.","Morgen vielleicht?","Hab grad keine Energie.","Couch gewinnt heute."];
   var AUSREDE_EN=["I'm completely drained today.","Maybe tomorrow?","Zero energy right now.","Couch wins today."];
   if(!window.generateExitStrategy){window.generateExitStrategy=function(){var el=document.getElementById("exit-strategy-text");var l=document.documentElement.lang==="en"?"en":"de";if(el)el.textContent=(l==="en"?EXIT_EN:EXIT_DE)[Math.floor(Math.random()*3)];};}
-  if(!window.runPeteritisCheck){window.runPeteritisCheck=function(){var el=document.getElementById("peteritis-result");if(el){el.textContent="Peteritis Maxima! Couch + spaeter = natuerlicher Zustand.";el.classList.add("peteritis-done");}};}
   if(!window.generateAlibiSprachnachricht){window.generateAlibiSprachnachricht=function(){var el=document.getElementById("alibi-text");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?ALIBI_EN:ALIBI_DE;window.lastAlibi=arr[Math.floor(Math.random()*arr.length)];if(el){el.textContent=window.lastAlibi;el.classList.add("alibi-generated");}};}
   if(!window.generateStandardphrase){window.generateStandardphrase=function(){var el=document.getElementById("standardphrase-text");var l=document.documentElement.lang==="en"?"en":"de";if(el)el.textContent=(l==="en"?PHRASE_EN:PHRASE_DE)[Math.floor(Math.random()*3)];};}
   if(!window.setNewDailyExcuse){window.setNewDailyExcuse=function(){var el=document.getElementById("daily-excuse");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?AUSREDE_EN:AUSREDE_DE;var exc=arr[Math.floor(Math.random()*arr.length)];if(el)el.textContent=exc;try{localStorage.setItem("petern-daily",exc);}catch(x){};};}
