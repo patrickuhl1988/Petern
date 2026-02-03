@@ -597,6 +597,7 @@ function showResult(result) {
   history = history.slice(0, 10);
   localStorage.setItem("petern-history", JSON.stringify(history));
   renderHistory();
+  window.lastResult = lastResult;
 }
 
 function renderHistory() {
@@ -643,13 +644,18 @@ function setNewDailyExcuse() {
   localStorage.setItem("petern-daily-date", getDailyExcuseKey());
 }
 
-// Event-Handler
+// Event-Handler (global fuer Delegation)
 function onDecide() {
   const t = TRANSLATIONS[currentLang];
   const activity = activityInput.value.trim() || t.defaultActivity;
   const result = decide(activity);
   showResult(result);
 }
+window.onDecide = onDecide;
+window.renderHistory = renderHistory;
+window.setNewDailyExcuse = setNewDailyExcuse;
+window.generateStandardphrase = generateStandardphrase;
+window.generateExitStrategy = generateExitStrategy;
 
 if (btnDecide) btnDecide.addEventListener("click", onDecide);
 
@@ -688,11 +694,9 @@ if (btnCopy) btnCopy.addEventListener("click", () => {
   });
 });
 
-if (btnClearHistory) btnClearHistory.addEventListener("click", () => {
-  history = [];
-  localStorage.setItem("petern-history", JSON.stringify(history));
-  renderHistory();
-});
+function clearHistory() { history = []; try { localStorage.setItem("petern-history", "[]"); } catch (_) {} renderHistory(); }
+window.clearHistory = clearHistory;
+if (btnClearHistory) btnClearHistory.addEventListener("click", clearHistory);
 
 if (btnNewDaily) btnNewDaily.addEventListener("click", setNewDailyExcuse);
 
@@ -701,9 +705,11 @@ let lastAlibi = null;
 
 function generateAlibiSprachnachricht() {
   lastAlibi = pick(getAlibi());
+  window.lastAlibi = lastAlibi;
   const el = document.getElementById("alibi-text");
   if (el) { el.textContent = lastAlibi; el.classList.add("alibi-generated"); }
 }
+window.generateAlibiSprachnachricht = generateAlibiSprachnachricht;
 
 if (btnAlibi) btnAlibi.addEventListener("click", generateAlibiSprachnachricht);
 
@@ -746,6 +752,7 @@ if (btnExit) btnExit.addEventListener("click", generateExitStrategy);
 
 // Peteritis-Check: interaktiver Fragebogen
 let peteritisStep = 0;
+window.peteritisStep = 0;
 let peteritisScore = 0;
 
 function runPeteritisCheck() {
@@ -756,10 +763,7 @@ function runPeteritisCheck() {
   const questions = getPeteritisQuestions();
   const t = TRANSLATIONS[currentLang];
 
-  if (peteritisStep === 0) {
-    peteritisScore = 0;
-    peteritisStep = 1;
-  }
+  if (peteritisStep === 0) { peteritisScore = 0; peteritisStep = 1; window.peteritisStep = 1; }
 
   if (peteritisStep <= questions.length) {
     const q = questions[peteritisStep - 1];
@@ -804,10 +808,11 @@ function showPeteritisResult(el, btn) {
   if (measureBtn) measureBtn.textContent = TRANSLATIONS[currentLang].measureAgain || (currentLang === "en" ? "Measure again" : "Nochmal messen");
 
   peteritisStep = 0;
+  window.peteritisStep = 0;
 }
 
-window.runPeteritisCheck = runPeteritisCheck;
-if (btnPeteritis) btnPeteritis.addEventListener("click", () => { peteritisStep = 0; runPeteritisCheck(); });
+window.runPeteritisCheck = function() { peteritisStep = 0; runPeteritisCheck(); };
+if (btnPeteritis) btnPeteritis.addEventListener("click", window.runPeteritisCheck);
 
 // Apply translations to all data-i18n elements
 function applyTranslations(clearDailyCache = false) {
