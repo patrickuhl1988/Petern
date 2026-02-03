@@ -406,8 +406,12 @@ const btnPeteritis = document.getElementById("btn-peteritis");
 
 // State
 let lastResult = null;
-let history = JSON.parse(localStorage.getItem("petern-history") || "[]");
-let currentLang = localStorage.getItem("petern-lang") || "de";
+let history = [];
+let currentLang = "de";
+try {
+  history = JSON.parse(localStorage.getItem("petern-history") || "[]");
+  currentLang = localStorage.getItem("petern-lang") || "de";
+} catch (_) {}
 
 // Content getters by language
 function getAusreden() { return currentLang === "en" ? AUSREDEN_EN : AUSREDEN_DE; }
@@ -485,12 +489,14 @@ function showResult(result) {
 }
 
 function renderHistory() {
+  const listEl = document.getElementById("history-list");
+  if (!listEl) return;
   const t = TRANSLATIONS[currentLang];
   if (history.length === 0) {
-    historyList.innerHTML = `<li>${t.noHistory}</li>`;
+    listEl.innerHTML = `<li>${t.noHistory}</li>`;
     return;
   }
-  historyList.innerHTML = history
+  listEl.innerHTML = history
     .map(
       (h) =>
         `<li><strong>${h.activity}</strong> → ${h.type === "petern" ? "🛋️" : "👍"} ${h.text.slice(0, 40)}… (${h.time})</li>`
@@ -510,8 +516,9 @@ function loadDailyExcuse() {
   const stored = localStorage.getItem(key);
   const storedDate = localStorage.getItem(dateKey);
 
+  const dailyEl = document.getElementById("daily-excuse");
   if (stored && storedDate === getDailyExcuseKey()) {
-    dailyExcuseEl.textContent = stored;
+    if (dailyEl) dailyEl.textContent = stored;
     return;
   }
   setNewDailyExcuse();
@@ -519,7 +526,8 @@ function loadDailyExcuse() {
 
 function setNewDailyExcuse() {
   const excuse = pick(getAusreden());
-  dailyExcuseEl.textContent = excuse;
+  const dailyEl = document.getElementById("daily-excuse");
+  if (dailyEl) dailyEl.textContent = excuse;
   localStorage.setItem("petern-daily", excuse);
   localStorage.setItem("petern-daily-date", getDailyExcuseKey());
 }
@@ -532,9 +540,9 @@ function onDecide() {
   showResult(result);
 }
 
-btnDecide.addEventListener("click", onDecide);
+if (btnDecide) btnDecide.addEventListener("click", onDecide);
 
-activityInput.addEventListener("keydown", (e) => {
+if (activityInput) activityInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") onDecide();
 });
 
@@ -555,12 +563,12 @@ function renderChips() {
   });
 }
 
-btnAgain.addEventListener("click", () => {
+if (btnAgain) btnAgain.addEventListener("click", () => {
   resultSection.classList.add("hidden");
   activityInput.focus();
 });
 
-btnCopy.addEventListener("click", () => {
+if (btnCopy) btnCopy.addEventListener("click", () => {
   if (!lastResult) return;
   navigator.clipboard.writeText(lastResult.copyText).then(() => {
     const old = btnCopy.textContent;
@@ -569,26 +577,26 @@ btnCopy.addEventListener("click", () => {
   });
 });
 
-btnClearHistory.addEventListener("click", () => {
+if (btnClearHistory) btnClearHistory.addEventListener("click", () => {
   history = [];
   localStorage.setItem("petern-history", JSON.stringify(history));
   renderHistory();
 });
 
-btnNewDaily.addEventListener("click", setNewDailyExcuse);
+if (btnNewDaily) btnNewDaily.addEventListener("click", setNewDailyExcuse);
 
 // Ausreden-Bot: Alibi-Sprachnachricht
 let lastAlibi = null;
 
 function generateAlibiSprachnachricht() {
   lastAlibi = pick(getAlibi());
-  alibiTextEl.textContent = lastAlibi;
-  alibiTextEl.classList.add("alibi-generated");
+  const el = document.getElementById("alibi-text");
+  if (el) { el.textContent = lastAlibi; el.classList.add("alibi-generated"); }
 }
 
-btnAlibi.addEventListener("click", generateAlibiSprachnachricht);
+if (btnAlibi) btnAlibi.addEventListener("click", generateAlibiSprachnachricht);
 
-btnCopyAlibi.addEventListener("click", () => {
+if (btnCopyAlibi) btnCopyAlibi.addEventListener("click", () => {
   if (!lastAlibi) return;
   navigator.clipboard.writeText(lastAlibi).then(() => {
     const old = btnCopyAlibi.textContent;
@@ -617,20 +625,20 @@ setupCollapse("btn-gebrauchsanweisung", "gebrauchsanweisung-content");
 function generateStandardphrase() {
   standardphraseTextEl.textContent = pick(getStandardphrasen());
 }
-btnStandardphrase.addEventListener("click", generateStandardphrase);
+if (btnStandardphrase) btnStandardphrase.addEventListener("click", generateStandardphrase);
 
 // Exit-Strategie
 function generateExitStrategy() {
   exitStrategyTextEl.textContent = pick(getExitStrategien());
 }
-btnExit.addEventListener("click", generateExitStrategy);
+if (btnExit) btnExit.addEventListener("click", generateExitStrategy);
 
 // Peteritis-Check
 function runPeteritisCheck() {
-  peteritisResultEl.textContent = pick(getPeteritisDiagnosen());
-  peteritisResultEl.classList.add("peteritis-done");
+  const el = document.getElementById("peteritis-result");
+  if (el) { el.textContent = pick(getPeteritisDiagnosen()); el.classList.add("peteritis-done"); }
 }
-btnPeteritis.addEventListener("click", runPeteritisCheck);
+if (btnPeteritis) btnPeteritis.addEventListener("click", runPeteritisCheck);
 
 // Apply translations to all data-i18n elements
 function applyTranslations(clearDailyCache = false) {
@@ -658,26 +666,41 @@ function applyTranslations(clearDailyCache = false) {
   loadDailyExcuse();
   // Reset intro texts to new language
   if (clearDailyCache) {
-    standardphraseTextEl.textContent = t.phrasesIntro;
-    peteritisResultEl.textContent = t.peteritisIntro;
-    peteritisResultEl.classList.remove("peteritis-done");
-    exitStrategyTextEl.textContent = t.exitIntro;
-    alibiTextEl.textContent = t.alibiIntro;
-    alibiTextEl.classList.remove("alibi-generated");
+    if (standardphraseTextEl) standardphraseTextEl.textContent = t.phrasesIntro;
+    if (peteritisResultEl) { peteritisResultEl.textContent = t.peteritisIntro; peteritisResultEl.classList.remove("peteritis-done"); }
+    if (exitStrategyTextEl) exitStrategyTextEl.textContent = t.exitIntro;
+    if (alibiTextEl) { alibiTextEl.textContent = t.alibiIntro; alibiTextEl.classList.remove("alibi-generated"); }
   }
 }
 
-// Language switcher
-document.querySelectorAll(".lang-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const lang = btn.dataset.lang;
+// Event delegation: Klick auf Document abfangen (funktioniert auch wenn Buttons spaeter gerendert werden)
+document.addEventListener("click", (e) => {
+  const langBtn = e.target.closest(".lang-btn");
+  if (langBtn) {
+    const lang = langBtn.dataset.lang;
     if (lang && (lang === "de" || lang === "en")) {
       currentLang = lang;
-      localStorage.setItem("petern-lang", lang);
-      applyTranslations(true); // clear daily cache on language switch
+      try { localStorage.setItem("petern-lang", lang); } catch (_) {}
+      applyTranslations(true);
     }
-  });
+    return;
+  }
+  if (e.target.closest("#btn-alibi") || e.target.id === "btn-alibi") {
+    generateAlibiSprachnachricht();
+    return;
+  }
+  if (e.target.closest("#btn-peteritis") || e.target.id === "btn-peteritis") {
+    runPeteritisCheck();
+    return;
+  }
 });
 
-// Init
-applyTranslations();
+// Init – erst wenn DOM bereit
+function init() {
+  applyTranslations();
+}
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
