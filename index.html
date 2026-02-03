@@ -40,10 +40,12 @@
 
   <main class="container">
     <header class="header">
-      <div class="lang-switcher">
-        <button type="button" class="lang-btn active" data-lang="de" data-action="lang" aria-label="Deutsch">DE</button>
-        <span class="lang-sep">|</span>
-        <button type="button" class="lang-btn" data-lang="en" data-action="lang" aria-label="English">EN</button>
+      <div class="header-top">
+        <div class="lang-switcher">
+          <button type="button" class="lang-btn active" data-lang="de" data-action="lang" aria-label="Deutsch">DE</button>
+          <span class="lang-sep">|</span>
+          <button type="button" class="lang-btn" data-lang="en" data-action="lang" aria-label="English">EN</button>
+        </div>
       </div>
       <h1 data-i18n="title">🛋️ Heute Petern?</h1>
       <p class="tagline" data-i18n="tagline">Dein Entscheidungshelfer für den inneren Couch-Potato</p>
@@ -153,7 +155,7 @@
     </footer>
   </main>
 
-  <script src="script.js?v=19"></script>
+  <script src="script.js?v=20"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
@@ -166,6 +168,37 @@
   var AUSREDE_DE=["Bin heute komplett durch.","Morgen vielleicht?","Hab grad keine Energie.","Couch gewinnt heute."];
   var AUSREDE_EN=["I'm completely drained today.","Maybe tomorrow?","Zero energy right now.","Couch wins today."];
   if(!window.generateExitStrategy){window.generateExitStrategy=function(){var el=document.getElementById("exit-strategy-text");var l=document.documentElement.lang==="en"?"en":"de";if(el)el.textContent=(l==="en"?EXIT_EN:EXIT_DE)[Math.floor(Math.random()*3)];};}
+  if(!window.runPeteritisCheck){
+    (function(){
+      var PQ_DE=[{q:"Wie viele Cola Zero hast du heute getrunken?",opts:[{t:"Keine",s:0},{t:"1 Dose",s:1},{t:"2-3 Dosen",s:2},{t:"Mehr als 3",s:3}]},{q:"Wie viele Stunden warst du diese Woche auf der Couch?",opts:[{t:"Weniger als 3",s:0},{t:"3-6",s:1},{t:"7-10",s:2},{t:"Mehr als 10",s:3}]},{q:"An wie vielen Aktivitaeten hast du diese Woche teilgenommen?",opts:[{t:"4 oder mehr",s:0},{t:"2-3",s:1},{t:"1",s:2},{t:"Keine",s:3}]}];
+      var PQ_EN=[{q:"How many Cola Zero did you drink today?",opts:[{t:"None",s:0},{t:"1 can",s:1},{t:"2-3 cans",s:2},{t:"More than 3",s:3}]},{q:"How many hours did you spend on the couch this week?",opts:[{t:"Less than 3",s:0},{t:"3-6",s:1},{t:"7-10",s:2},{t:"More than 10",s:3}]},{q:"How many activities did you join this week?",opts:[{t:"4 or more",s:0},{t:"2-3",s:1},{t:"1",s:2},{t:"None",s:3}]}];
+      var PD_DE={low:["Cola-Zero-Level im Rahmen, Couchzeit vertretbar. Du bist in der Peteritis-light-Zone."],mid:["Peteritis normal: Cola Zero ist Standard, Couchstunden haeufen sich."],high:["Peteritis chronisch: Cola Zero intravenoes, Couch = Hauptwohnsitz."]};
+      var PD_EN={low:["Cola Zero intake under control. You are in the Peteritis light zone."],mid:["Peteritis normal: Cola Zero is default, couch hours add up."],high:["Peteritis chronic: Cola Zero IV, couch = main residence."]};
+      var pStep=0,pScore=0;
+      window.runPeteritisCheck=function(){
+        var el=document.getElementById("peteritis-result");if(!el)return;
+        var l=document.documentElement.lang==="en"?"en":"de";
+        var qs=l==="en"?PQ_EN:PQ_DE;var diag=l==="en"?PD_EN:PD_DE;
+        var stages={low:l==="en"?"Peteritis light":"Peteritis light",mid:l==="en"?"Peteritis normal":"Peteritis normal",high:l==="en"?"Peteritis chronic":"Peteritis chronisch"};
+        if(pStep===0){pScore=0;pStep=1;}
+        if(pStep<=qs.length){
+          var q=qs[pStep-1];
+          var html='<p class="peteritis-question"><strong>\u2753 '+q.q+'</strong></p><div class="peteritis-options">';
+          q.opts.forEach(function(o){html+='<button type="button" class="peteritis-opt" data-score="'+o.s+'">'+o.t+'</button>';});
+          html+='</div>';
+          el.innerHTML=html;el.classList.remove("peteritis-done");el.classList.add("peteritis-questions");
+          el.querySelectorAll(".peteritis-opt").forEach(function(opt){
+            opt.addEventListener("click",function(){
+              pScore+=parseInt(opt.dataset.score||0,10);
+              pStep++;
+              if(pStep<=qs.length)window.runPeteritisCheck();
+              else{var tier=pScore<=2?"low":pScore>=6?"high":"mid";var r=diag[tier][Math.floor(Math.random()*diag[tier].length)];el.innerHTML='<p class="peteritis-stage">'+stages[tier]+'</p><p class="peteritis-diagnosis">'+r+'</p>';el.classList.remove("peteritis-questions");el.classList.add("peteritis-done");pStep=0;var btn=document.getElementById("btn-peteritis");if(btn)btn.textContent=l==="en"?"Measure again":"Nochmal messen";}
+            });
+          });
+        }
+      };
+    })();
+  }
   if(!window.generateAlibiSprachnachricht){window.generateAlibiSprachnachricht=function(){var el=document.getElementById("alibi-text");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?ALIBI_EN:ALIBI_DE;window.lastAlibi=arr[Math.floor(Math.random()*arr.length)];if(el){el.textContent=window.lastAlibi;el.classList.add("alibi-generated");}};}
   if(!window.generateStandardphrase){window.generateStandardphrase=function(){var el=document.getElementById("standardphrase-text");var l=document.documentElement.lang==="en"?"en":"de";if(el)el.textContent=(l==="en"?PHRASE_EN:PHRASE_DE)[Math.floor(Math.random()*3)];};}
   if(!window.setNewDailyExcuse){window.setNewDailyExcuse=function(){var el=document.getElementById("daily-excuse");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?AUSREDE_EN:AUSREDE_DE;var exc=arr[Math.floor(Math.random()*arr.length)];if(el)el.textContent=exc;try{localStorage.setItem("petern-daily",exc);}catch(x){};};}
