@@ -143,8 +143,8 @@
       </div>
       <div class="extra-card peteritis-card">
         <h3 data-i18n="peteritisTitle">🩺 Peteritis-Check</h3>
-        <p class="peteritis-result" id="peteritis-result" data-i18n="peteritisIntro">Bin ich petern-krank?</p>
-        <button type="button" class="btn btn-primary" id="btn-peteritis" data-i18n="measurePeteritis" onclick="typeof runPeteritisCheck==='function'&&runPeteritisCheck()">Peteritis messen</button>
+        <div class="peteritis-result" id="peteritis-result" data-i18n="peteritisIntro">Bin ich petern-krank?</div>
+        <button type="button" class="btn btn-primary" id="btn-peteritis" data-i18n="measurePeteritis" onclick="window.runPeteritisCheck && window.runPeteritisCheck()">Peteritis messen</button>
       </div>
     </section>
 
@@ -153,6 +153,6 @@
     </footer>
   </main>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

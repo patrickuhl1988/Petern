@@ -36,6 +36,7 @@ const TRANSLATIONS = {
     peteritisTitle: "🩺 Peteritis-Check",
     peteritisIntro: "Bin ich petern-krank?",
     measurePeteritis: "Peteritis messen",
+    measureAgain: "Nochmal messen",
     footer: "Mit 90 % Wahrscheinlichkeit sagt dir diese App, was du eh schon denkst. 🛋️",
     noHistory: "Noch keine Entscheidungen.",
     resultPetern: "Lieber nicht.",
@@ -83,6 +84,7 @@ const TRANSLATIONS = {
     peteritisTitle: "🩺 Peteritis check",
     peteritisIntro: "Am I petern-sick?",
     measurePeteritis: "Measure Peteritis",
+    measureAgain: "Measure again",
     footer: "With 90% probability, this app tells you what you were already thinking. 🛋️",
     noHistory: "No decisions yet.",
     resultPetern: "Better not.",
@@ -362,24 +364,111 @@ const EXIT_STRATEGIEN_EN = [
   "\"If it works, I'll come.\"",
 ];
 
-// Peteritis-Diagnosen (humorvoll)
-const PETERITIS_DIAGNOSEN_DE = [
-  "Peteritis leichte Form: Du denkst oft „mal schauen“. Heilbar durch konkrete Termine.",
-  "Peteritis Maxima: Spontane Erschöpfung vor jedem Termin. Einzige Heilung: Gruppendruck oder Bastis Geburtstag.",
-  "Chronische Verbindlichkeitsvermeidung. Symptom: „Ich meld mich später.“ Therapie: Peter-Gebrauchsanweisung befolgen.",
-  "Peteritis positiv. Du bist Meister:in des unverbindlichen Lebens. Couch + später = natürlicher Zustand.",
-  "Subklinische Peteritis: Rennrad und Trips = „irgendwann mal“. Prognose: stabil, keine Besserung in Sicht.",
-  "Peteritis mit Exit-Strategie: Du sagst Ja und baust direkt „nicht so lange“ ein. Klassiker.",
+// Peteritis-Fragen mit Optionen (score 0–3: höher = mehr Petern)
+const PETERITIS_QUESTIONS_DE = [
+  {
+    q: "Wann hast du zuletzt einen Termin abgesagt?",
+    opts: [
+      { t: "Heute", s: 3 },
+      { t: "Gestern", s: 3 },
+      { t: "Diese Woche", s: 2 },
+      { t: "Diesen Monat", s: 1 },
+      { t: "Kann mich nicht erinnern", s: 2 },
+      { t: "Nie – ich gehe immer hin", s: 0 },
+    ],
+  },
+  {
+    q: "Wann warst du zuletzt so richtig aktiv (Sport, Party, Ausgehen)?",
+    opts: [
+      { t: "Heute", s: 0 },
+      { t: "Diese Woche", s: 0 },
+      { t: "Diesen Monat", s: 1 },
+      { t: "Vor Monaten", s: 2 },
+      { t: "Kann mich nicht erinnern", s: 2 },
+      { t: "Nie – Couch ist genug", s: 3 },
+    ],
+  },
+  {
+    q: "Wie oft sagst du „Mal schauen" oder „Ich meld mich später" pro Woche?",
+    opts: [
+      { t: "Nie", s: 0 },
+      { t: "1–2 mal", s: 1 },
+      { t: "3–5 mal", s: 2 },
+      { t: "Täglich", s: 3 },
+      { t: "Weiß nicht – automatisch", s: 3 },
+    ],
+  },
 ];
 
-const PETERITIS_DIAGNOSEN_EN = [
-  "Mild Peteritis: You often think \"we'll see\". Curable with concrete dates.",
-  "Peteritis Maxima: Spontaneous exhaustion before every appointment. Only cure: peer pressure or Bestie's birthday.",
-  "Chronic commitment avoidance. Symptom: \"I'll let you know later.\" Therapy: follow Peter's user manual.",
-  "Peteritis positive. You're a master of the non-committal life. Couch + later = natural state.",
-  "Subclinical Peteritis: Road bike and trips = \"someday\". Prognosis: stable, no improvement in sight.",
-  "Peteritis with exit strategy: You say yes and immediately add \"not for too long\". Classic.",
+const PETERITIS_QUESTIONS_EN = [
+  {
+    q: "When did you last cancel an appointment?",
+    opts: [
+      { t: "Today", s: 3 },
+      { t: "Yesterday", s: 3 },
+      { t: "This week", s: 2 },
+      { t: "This month", s: 1 },
+      { t: "Can't remember", s: 2 },
+      { t: "Never – I always show up", s: 0 },
+    ],
+  },
+  {
+    q: "When were you last really active (sports, party, going out)?",
+    opts: [
+      { t: "Today", s: 0 },
+      { t: "This week", s: 0 },
+      { t: "This month", s: 1 },
+      { t: "Months ago", s: 2 },
+      { t: "Can't remember", s: 2 },
+      { t: "Never – couch is enough", s: 3 },
+    ],
+  },
+  {
+    q: "How often do you say „We'll see" or „I'll let you know later" per week?",
+    opts: [
+      { t: "Never", s: 0 },
+      { t: "1–2 times", s: 1 },
+      { t: "3–5 times", s: 2 },
+      { t: "Daily", s: 3 },
+      { t: "Don't know – it's automatic", s: 3 },
+    ],
+  },
 ];
+
+// Diagnosen nach Gesamtscore (0–9)
+const PETERITIS_DIAGNOSES_DE = {
+  low: [
+    "Peteritis negativ! Du bist fast zu zuverlässig. Ein bisschen Petern schadet nie. 🏆",
+    "Leichte Form: Du hast die Couch im Griff. Noch. Prognose: gut.",
+  ],
+  mid: [
+    "Peteritis leichte Form: Du denkst oft „mal schauen". Heilbar durch konkrete Termine.",
+    "Chronische Verbindlichkeitsvermeidung. Symptom: „Ich meld mich später." Therapie: Peter-Gebrauchsanweisung befolgen.",
+    "Subklinische Peteritis: Rennrad und Trips = „irgendwann mal". Prognose: stabil.",
+  ],
+  high: [
+    "Peteritis Maxima! Spontane Erschöpfung vor jedem Termin. Einzige Heilung: Gruppendruck oder Bastis Geburtstag.",
+    "Peteritis positiv: Du bist Meister:in des unverbindlichen Lebens. Couch + später = natürlicher Zustand. 🛋️",
+    "Peteritis mit Exit-Strategie: Du sagst Ja und baust direkt „nicht so lange" ein. Klassiker.",
+  ],
+};
+
+const PETERITIS_DIAGNOSES_EN = {
+  low: [
+    "Peteritis negative! You're almost too reliable. A little Petern never hurt. 🏆",
+    "Mild form: You've got the couch under control. For now. Prognosis: good.",
+  ],
+  mid: [
+    "Mild Peteritis: You often think \"we'll see\". Curable with concrete dates.",
+    "Chronic commitment avoidance. Symptom: \"I'll let you know later.\" Therapy: follow Peter's user manual.",
+    "Subclinical Peteritis: Road bike and trips = \"someday\". Prognosis: stable.",
+  ],
+  high: [
+    "Peteritis Maxima! Spontaneous exhaustion before every appointment. Only cure: peer pressure or Bestie's birthday.",
+    "Peteritis positive: You're a master of the non-committal life. Couch + later = natural state. 🛋️",
+    "Peteritis with exit strategy: You say yes and immediately add \"not for too long\". Classic.",
+  ],
+};
 
 // Chips (quick activities)
 const CHIPS_DE = [
@@ -441,7 +530,8 @@ function getAlibi() { return currentLang === "en" ? ALIBI_SPRACHNACHRICHTEN_EN :
 function getPeternLevels() { return currentLang === "en" ? PETERN_LEVELS_EN : PETERN_LEVELS_DE; }
 function getStandardphrasen() { return currentLang === "en" ? STANDARDPHRASEN_EN : STANDARDPHRASEN_DE; }
 function getExitStrategien() { return currentLang === "en" ? EXIT_STRATEGIEN_EN : EXIT_STRATEGIEN_DE; }
-function getPeteritisDiagnosen() { return currentLang === "en" ? PETERITIS_DIAGNOSEN_EN : PETERITIS_DIAGNOSEN_DE; }
+function getPeteritisQuestions() { return currentLang === "en" ? PETERITIS_QUESTIONS_EN : PETERITIS_QUESTIONS_DE; }
+function getPeteritisDiagnoses() { return currentLang === "en" ? PETERITIS_DIAGNOSES_EN : PETERITIS_DIAGNOSES_DE; }
 function getChips() { return currentLang === "en" ? CHIPS_EN : CHIPS_DE; }
 
 // Zufälliges Element aus Array
@@ -654,12 +744,70 @@ function generateExitStrategy() {
 }
 if (btnExit) btnExit.addEventListener("click", generateExitStrategy);
 
-// Peteritis-Check
+// Peteritis-Check: interaktiver Fragebogen
+let peteritisStep = 0;
+let peteritisScore = 0;
+
 function runPeteritisCheck() {
   const el = document.getElementById("peteritis-result");
-  if (el) { el.textContent = pick(getPeteritisDiagnosen()); el.classList.add("peteritis-done"); }
+  const btn = document.getElementById("btn-peteritis");
+  if (!el) return;
+
+  const questions = getPeteritisQuestions();
+  const t = TRANSLATIONS[currentLang];
+
+  if (peteritisStep === 0) {
+    peteritisScore = 0;
+    peteritisStep = 1;
+  }
+
+  if (peteritisStep <= questions.length) {
+    const q = questions[peteritisStep - 1];
+    let html = `<p class="peteritis-question"><strong>${q.q}</strong></p><div class="peteritis-options">`;
+    q.opts.forEach((opt, i) => {
+      html += `<button type="button" class="btn-chip peteritis-opt" data-score="${opt.s}">${opt.t}</button>`;
+    });
+    html += "</div>";
+    el.innerHTML = html;
+    el.classList.remove("peteritis-done");
+    el.classList.add("peteritis-questions");
+
+    el.querySelectorAll(".peteritis-opt").forEach((opt) => {
+      opt.addEventListener("click", () => {
+        peteritisScore += parseInt(opt.dataset.score || 0, 10);
+        peteritisStep++;
+        if (peteritisStep <= questions.length) {
+          runPeteritisCheck();
+        } else {
+          showPeteritisResult(el, btn);
+        }
+      });
+    });
+  } else {
+    showPeteritisResult(el, btn);
+  }
 }
-if (btnPeteritis) btnPeteritis.addEventListener("click", runPeteritisCheck);
+
+function showPeteritisResult(el, btn) {
+  const diagnoses = getPeteritisDiagnoses();
+  let tier = "mid";
+  if (peteritisScore <= 2) tier = "low";
+  else if (peteritisScore >= 6) tier = "high";
+  const result = pick(diagnoses[tier]);
+
+  el.innerHTML = `<p class="peteritis-diagnosis">${result}</p>`;
+  el.classList.remove("peteritis-questions");
+  el.classList.add("peteritis-done");
+
+  const t = TRANSLATIONS[currentLang];
+  const measureBtn = document.getElementById("btn-peteritis");
+  if (measureBtn) measureBtn.textContent = TRANSLATIONS[currentLang].measureAgain || (currentLang === "en" ? "Measure again" : "Nochmal messen");
+
+  peteritisStep = 0;
+}
+
+window.runPeteritisCheck = runPeteritisCheck;
+if (btnPeteritis) btnPeteritis.addEventListener("click", () => { peteritisStep = 0; runPeteritisCheck(); });
 
 // Apply translations to all data-i18n elements
 function applyTranslations(clearDailyCache = false) {
@@ -688,7 +836,8 @@ function applyTranslations(clearDailyCache = false) {
   // Reset intro texts to new language
   if (clearDailyCache) {
     if (standardphraseTextEl) standardphraseTextEl.textContent = t.phrasesIntro;
-    if (peteritisResultEl) { peteritisResultEl.textContent = t.peteritisIntro; peteritisResultEl.classList.remove("peteritis-done"); }
+    if (peteritisResultEl) { peteritisResultEl.textContent = t.peteritisIntro; peteritisResultEl.classList.remove("peteritis-done", "peteritis-questions"); }
+    peteritisStep = 0;
     if (exitStrategyTextEl) exitStrategyTextEl.textContent = t.exitIntro;
     if (alibiTextEl) { alibiTextEl.textContent = t.alibiIntro; alibiTextEl.classList.remove("alibi-generated"); }
   }
