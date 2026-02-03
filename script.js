@@ -21,9 +21,9 @@ const TRANSLATIONS = {
     copyExcuse: "📋 Ausrede kopieren",
     decideAgain: "Nochmal entscheiden",
     copied: "✓ Kopiert!",
-    alibiTitle: "📨 Peter-Ausreden – Textnachricht",
+    alibiTitle: "📨 Eigene Peter-Ausreden",
     alibiIntro: "Klick auf „Peter-Ausrede generieren\" – dann hast du einen Text zum Vorlesen oder Senden.",
-    generateAlibi: "🎙️ Peter-Ausrede generieren",
+    generateAlibi: "Eigene Peter-Ausrede generieren",
     copy: "📋 Kopieren",
     historyTitle: "📜 Letzte Entscheidungen",
     clearHistory: "Verlauf leeren",
@@ -83,9 +83,9 @@ const TRANSLATIONS = {
     copyExcuse: "📋 Copy excuse",
     decideAgain: "Decide again",
     copied: "✓ Copied!",
-    alibiTitle: "📨 Peter Excuses – Text Message",
+    alibiTitle: "📨 Generate Your Own Peter Excuses",
     alibiIntro: "Click \"Generate Peter excuse\" – then you have a text to read aloud or send.",
-    generateAlibi: "🎙️ Generate Peter excuse",
+    generateAlibi: "Generate your own Peter excuse",
     copy: "📋 Copy",
     historyTitle: "📜 Recent decisions",
     clearHistory: "Clear history",
@@ -883,7 +883,8 @@ function setNewDailyExcuse() {
 // Event-Handler (global fuer Delegation)
 function onDecide() {
   const t = TRANSLATIONS[currentLang];
-  const activity = activityInput.value.trim() || t.defaultActivity;
+  const rawValue = activityInput ? activityInput.value.trim() : "";
+  const activity = rawValue || t.defaultActivity;
   const result = decide(activity);
   showResult(result);
 }
