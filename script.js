@@ -93,6 +93,17 @@ const TRANSLATIONS = {
   },
 };
 
+// Sprachumschaltung – global fuer onclick="setPeternLang('en')" (wird beim Klick aufgerufen)
+window.setPeternLang = function(lang) {
+  if (lang !== "de" && lang !== "en") return;
+  currentLang = lang;
+  try { localStorage.setItem("petern-lang", lang); } catch (_) {}
+  if (typeof applyTranslations === "function") applyTranslations(true);
+  document.querySelectorAll(".lang-btn").forEach(function(btn) {
+    btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+  });
+};
+
 // Ausreden: locker, vage, relatable + Peters Klassiker (Leo, Annka, Technik, Arbeit …)
 const AUSREDEN_DE = [
   "Bin heute irgendwie komplett durch.",
@@ -673,7 +684,7 @@ function applyTranslations(clearDailyCache = false) {
   }
 }
 
-// Event delegation: Klick auf Document abfangen (funktioniert auch wenn Buttons spaeter gerendert werden)
+// Event delegation als Fallback
 document.addEventListener("click", (e) => {
   const langBtn = e.target.closest(".lang-btn");
   if (langBtn) {

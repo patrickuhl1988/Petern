@@ -17,9 +17,9 @@
   <main class="container">
     <header class="header">
       <div class="lang-switcher">
-        <button type="button" class="lang-btn active" data-lang="de" aria-label="Deutsch">DE</button>
+        <button type="button" class="lang-btn active" data-lang="de" onclick="setPeternLang('de')" aria-label="Deutsch">DE</button>
         <span class="lang-sep">|</span>
-        <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+        <button type="button" class="lang-btn" data-lang="en" onclick="setPeternLang('en')" aria-label="English">EN</button>
       </div>
       <h1 data-i18n="title">🛋️ Heute Petern?</h1>
       <p class="tagline" data-i18n="tagline">Dein Entscheidungshelfer für den inneren Couch-Potato</p>
@@ -97,7 +97,7 @@
         <h3 data-i18n="alibiTitle">🎙️ Ausreden-Bot – Alibi-Sprachnachricht</h3>
         <p class="alibi-text" id="alibi-text" data-i18n="alibiIntro">Klick auf „Sprachnachricht generieren“ – dann hast du einen Text zum Vorlesen oder Senden.</p>
         <div class="alibi-actions">
-          <button type="button" class="btn btn-primary" id="btn-alibi" data-i18n="generateAlibi">🎙️ Sprachnachricht generieren</button>
+          <button type="button" class="btn btn-primary" id="btn-alibi" data-i18n="generateAlibi" onclick="typeof generateAlibiSprachnachricht==='function'&&generateAlibiSprachnachricht()">🎙️ Sprachnachricht generieren</button>
           <button type="button" class="btn btn-secondary" id="btn-copy-alibi" data-i18n="copy">📋 Kopieren</button>
         </div>
       </div>
@@ -124,7 +124,7 @@
       <div class="extra-card peteritis-card">
         <h3 data-i18n="peteritisTitle">🩺 Peteritis-Check</h3>
         <p class="peteritis-result" id="peteritis-result" data-i18n="peteritisIntro">Bin ich petern-krank?</p>
-        <button type="button" class="btn btn-primary" id="btn-peteritis" data-i18n="measurePeteritis">Peteritis messen</button>
+        <button type="button" class="btn btn-primary" id="btn-peteritis" data-i18n="measurePeteritis" onclick="typeof runPeteritisCheck==='function'&&runPeteritisCheck()">Peteritis messen</button>
       </div>
     </section>
 
@@ -133,6 +133,6 @@
     </footer>
   </main>
 
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
