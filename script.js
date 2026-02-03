@@ -713,6 +713,24 @@ const PETERITIS_QUESTIONS_DE = [
       { t: "Keine", s: 3 },
     ],
   },
+  {
+    q: "Wie viele Termine hast du diese Woche abgesagt?",
+    opts: [
+      { t: "Keine", s: 0 },
+      { t: "1", s: 1 },
+      { t: "2–3", s: 2 },
+      { t: "4 oder mehr", s: 3 },
+    ],
+  },
+  {
+    q: "Wie oft haben dich andere diese Woche zu Aktivitäten gedrängt?",
+    opts: [
+      { t: "Gar nicht", s: 0 },
+      { t: "1–2 mal", s: 1 },
+      { t: "3–5 mal", s: 2 },
+      { t: "Ständig", s: 3 },
+    ],
+  },
 ];
 
 const PETERITIS_QUESTIONS_EN = [
@@ -743,9 +761,27 @@ const PETERITIS_QUESTIONS_EN = [
       { t: "None", s: 3 },
     ],
   },
+  {
+    q: "How many appointments did you cancel this week?",
+    opts: [
+      { t: "None", s: 0 },
+      { t: "1", s: 1 },
+      { t: "2–3", s: 2 },
+      { t: "4 or more", s: 3 },
+    ],
+  },
+  {
+    q: "How often were you pressured by others to do something this week?",
+    opts: [
+      { t: "Not at all", s: 0 },
+      { t: "1–2 times", s: 1 },
+      { t: "3–5 times", s: 2 },
+      { t: "Constantly", s: 3 },
+    ],
+  },
 ];
 
-// Diagnosen nach Gesamtscore (0–9)
+// Diagnosen nach Gesamtscore (0–15)
 const PETERITIS_DIAGNOSES_DE = {
   low: [
     "Cola-Zero-Level im Rahmen, Couchzeit vertretbar. Du bist in der komfortablen Peteritis-light-Zone.",
@@ -1107,8 +1143,8 @@ function runPeteritisCheck() {
 function showPeteritisResult(el, btn) {
   const diagnoses = getPeteritisDiagnoses();
   let tier = "mid";
-  if (peteritisScore <= 2) tier = "low";
-  else if (peteritisScore >= 6) tier = "high";
+  if (peteritisScore <= 4) tier = "low";
+  else if (peteritisScore >= 10) tier = "high";
   const result = pick(diagnoses[tier]);
 
   const t = TRANSLATIONS[currentLang];
