@@ -39,6 +39,9 @@ const TRANSLATIONS = {
     peteritisIntro: "Bin ich petern-krank?",
     measurePeteritis: "Peteritis messen",
     measureAgain: "Nochmal messen",
+    peteritisStageLight: "Peteritis light",
+    peteritisStageNormal: "Peteritis normal",
+    peteritisStageChronic: "Peteritis chronisch",
     footer: "Mit 90 % Wahrscheinlichkeit sagt dir diese App, was du eh schon denkst. 🛋️",
     noHistory: "Noch keine Entscheidungen.",
     resultPetern: "Lieber nicht.",
@@ -101,6 +104,9 @@ const TRANSLATIONS = {
     peteritisIntro: "Am I petern-sick?",
     measurePeteritis: "Measure Peteritis",
     measureAgain: "Measure again",
+    peteritisStageLight: "Peteritis light",
+    peteritisStageNormal: "Peteritis normal",
+    peteritisStageChronic: "Peteritis chronic",
     footer: "With 90% probability, this app tells you what you were already thinking. 🛋️",
     noHistory: "No decisions yet.",
     resultPetern: "Better not.",
@@ -603,70 +609,60 @@ const EXIT_STRATEGIEN_EN = [
 // Peteritis-Fragen mit Optionen (score 0–3: höher = mehr Petern)
 const PETERITIS_QUESTIONS_DE = [
   {
-    q: "Wann hast du zuletzt einen Termin abgesagt?",
+    q: "Wie viele Cola Zero hast du heute getrunken?",
     opts: [
-      { t: "Heute", s: 3 },
-      { t: "Gestern", s: 3 },
-      { t: "Diese Woche", s: 2 },
-      { t: "Diesen Monat", s: 1 },
-      { t: "Kann mich nicht erinnern", s: 2 },
-      { t: "Nie – ich gehe immer hin", s: 0 },
+      { t: "Keine", s: 0 },
+      { t: "1 Dose", s: 1 },
+      { t: "2–3 Dosen", s: 2 },
+      { t: "Mehr als 3", s: 3 },
     ],
   },
   {
-    q: "Wann warst du zuletzt so richtig aktiv (Sport, Party, Ausgehen)?",
+    q: "Wie viele Stunden warst du diese Woche auf der Couch?",
     opts: [
-      { t: "Heute", s: 0 },
-      { t: "Diese Woche", s: 0 },
-      { t: "Diesen Monat", s: 1 },
-      { t: "Vor Monaten", s: 2 },
-      { t: "Kann mich nicht erinnern", s: 2 },
-      { t: "Nie – Couch ist genug", s: 3 },
+      { t: "Weniger als 3", s: 0 },
+      { t: "3–6", s: 1 },
+      { t: "7–10", s: 2 },
+      { t: "Mehr als 10", s: 3 },
     ],
   },
   {
-    q: "Wie oft sagst du „Mal schauen" oder „Ich meld mich später" pro Woche?",
+    q: "An wie vielen Aktivitäten hast du diese Woche teilgenommen?",
     opts: [
-      { t: "Nie", s: 0 },
-      { t: "1–2 mal", s: 1 },
-      { t: "3–5 mal", s: 2 },
-      { t: "Täglich", s: 3 },
-      { t: "Weiß nicht – automatisch", s: 3 },
+      { t: "4 oder mehr", s: 0 },
+      { t: "2–3", s: 1 },
+      { t: "1", s: 2 },
+      { t: "Keine", s: 3 },
     ],
   },
 ];
 
 const PETERITIS_QUESTIONS_EN = [
   {
-    q: "When did you last cancel an appointment?",
+    q: "How many Cola Zero did you drink today?",
     opts: [
-      { t: "Today", s: 3 },
-      { t: "Yesterday", s: 3 },
-      { t: "This week", s: 2 },
-      { t: "This month", s: 1 },
-      { t: "Can't remember", s: 2 },
-      { t: "Never – I always show up", s: 0 },
+      { t: "None", s: 0 },
+      { t: "1 can", s: 1 },
+      { t: "2–3 cans", s: 2 },
+      { t: "More than 3", s: 3 },
     ],
   },
   {
-    q: "When were you last really active (sports, party, going out)?",
+    q: "How many hours did you spend on the couch this week?",
     opts: [
-      { t: "Today", s: 0 },
-      { t: "This week", s: 0 },
-      { t: "This month", s: 1 },
-      { t: "Months ago", s: 2 },
-      { t: "Can't remember", s: 2 },
-      { t: "Never – couch is enough", s: 3 },
+      { t: "Less than 3", s: 0 },
+      { t: "3–6", s: 1 },
+      { t: "7–10", s: 2 },
+      { t: "More than 10", s: 3 },
     ],
   },
   {
-    q: "How often do you say „We'll see" or „I'll let you know later" per week?",
+    q: "How many activities did you join this week?",
     opts: [
-      { t: "Never", s: 0 },
-      { t: "1–2 times", s: 1 },
-      { t: "3–5 times", s: 2 },
-      { t: "Daily", s: 3 },
-      { t: "Don't know – it's automatic", s: 3 },
+      { t: "4 or more", s: 0 },
+      { t: "2–3", s: 1 },
+      { t: "1", s: 2 },
+      { t: "None", s: 3 },
     ],
   },
 ];
@@ -674,35 +670,35 @@ const PETERITIS_QUESTIONS_EN = [
 // Diagnosen nach Gesamtscore (0–9)
 const PETERITIS_DIAGNOSES_DE = {
   low: [
-    "Peteritis negativ! Du bist fast zu zuverlässig. Ein bisschen Petern schadet nie. 🏆",
-    "Leichte Form: Du hast die Couch im Griff. Noch. Prognose: gut.",
+    "Cola-Zero-Level im Rahmen, Couchzeit vertretbar. Du bist in der komfortablen Peteritis-light-Zone.",
+    "Noch alles okay: bisschen Sofa, bisschen Aktivität – keine akute Gefahr, aber beobachte dich.",
   ],
   mid: [
-    "Peteritis leichte Form: Du denkst oft „mal schauen". Heilbar durch konkrete Termine.",
-    "Chronische Verbindlichkeitsvermeidung. Symptom: „Ich meld mich später." Therapie: Peter-Gebrauchsanweisung befolgen.",
-    "Subklinische Peteritis: Rennrad und Trips = „irgendwann mal". Prognose: stabil.",
+    "Peteritis normal: Cola Zero ist Standard, Couchstunden häufen sich. Ein Anruf von Freunden würde helfen.",
+    "Leichte chronische Symptome: Du nimmst ab und zu teil, aber die Couch gewinnt häufig.",
+    "Solide Peter-Dosis: Aktivitäten finden statt, aber nur wenn niemand auf dich wartet.",
   ],
   high: [
-    "Peteritis Maxima! Spontane Erschöpfung vor jedem Termin. Einzige Heilung: Gruppendruck oder Bastis Geburtstag.",
-    "Peteritis positiv: Du bist Meister:in des unverbindlichen Lebens. Couch + später = natürlicher Zustand. 🛋️",
-    "Peteritis mit Exit-Strategie: Du sagst Ja und baust direkt „nicht so lange" ein. Klassiker.",
+    "Peteritis chronisch: Cola Zero intravenös, Couch = Hauptwohnsitz. Sofortmaßnahmen nötig.",
+    "Chronische Form: Aktivitäten? Fehlanzeige. Nur Gruppendruck oder Annka bringen dich raus.",
+    "Peteritis Extrem: Du entwickelst Ausreden schneller als Updates laden. Absolute Spitzenklasse.",
   ],
 };
 
 const PETERITIS_DIAGNOSES_EN = {
   low: [
-    "Peteritis negative! You're almost too reliable. A little Petern never hurt. 🏆",
-    "Mild form: You've got the couch under control. For now. Prognosis: good.",
+    "Cola Zero intake under control, couch hours reasonable. You're in the Peteritis light zone.",
+    "All good for now: some sofa, some activity – keep an eye on it but you're fine.",
   ],
   mid: [
-    "Mild Peteritis: You often think \"we'll see\". Curable with concrete dates.",
-    "Chronic commitment avoidance. Symptom: \"I'll let you know later.\" Therapy: follow Peter's user manual.",
-    "Subclinical Peteritis: Road bike and trips = \"someday\". Prognosis: stable.",
+    "Peteritis normal: Cola Zero is a default beverage and the couch wins most evenings. Nudge required.",
+    "Mild chronic symptoms: You join occasionally, but the sofa often takes priority.",
+    "Solid Peter dosage: Activities happen only when nobody expects you.",
   ],
   high: [
-    "Peteritis Maxima! Spontaneous exhaustion before every appointment. Only cure: peer pressure or Bestie's birthday.",
-    "Peteritis positive: You're a master of the non-committal life. Couch + later = natural state. 🛋️",
-    "Peteritis with exit strategy: You say yes and immediately add \"not for too long\". Classic.",
+    "Peteritis chronic: Cola Zero IV, couch = main residence. Intervention time.",
+    "Chronic form: Activities? Nope. Only peer pressure or Annka can move you.",
+    "Peteritis extreme: You invent excuses faster than updates install. Hall-of-fame status.",
   ],
 };
 
@@ -1005,7 +1001,7 @@ function runPeteritisCheck() {
 
   if (peteritisStep <= questions.length) {
     const q = questions[peteritisStep - 1];
-    let html = `<p class="peteritis-question"><strong>${q.q}</strong></p><div class="peteritis-options">`;
+    let html = `<p class="peteritis-question"><strong>❓ ${q.q}</strong></p><div class="peteritis-options">`;
     q.opts.forEach((opt, i) => {
       html += `<button type="button" class="btn-chip peteritis-opt" data-score="${opt.s}">${opt.t}</button>`;
     });
@@ -1037,11 +1033,17 @@ function showPeteritisResult(el, btn) {
   else if (peteritisScore >= 6) tier = "high";
   const result = pick(diagnoses[tier]);
 
-  el.innerHTML = `<p class="peteritis-diagnosis">${result}</p>`;
+  const t = TRANSLATIONS[currentLang];
+  const stageLabelMap = {
+    low: t.peteritisStageLight,
+    mid: t.peteritisStageNormal,
+    high: t.peteritisStageChronic,
+  };
+  const stageLabel = stageLabelMap[tier] || "";
+  el.innerHTML = `<p class="peteritis-stage">${stageLabel}</p><p class="peteritis-diagnosis">${result}</p>`;
   el.classList.remove("peteritis-questions");
   el.classList.add("peteritis-done");
 
-  const t = TRANSLATIONS[currentLang];
   const measureBtn = document.getElementById("btn-peteritis");
   if (measureBtn) measureBtn.textContent = TRANSLATIONS[currentLang].measureAgain || (currentLang === "en" ? "Measure again" : "Nochmal messen");
 
