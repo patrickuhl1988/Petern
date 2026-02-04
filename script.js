@@ -1520,9 +1520,7 @@ function setupCollapse(triggerId, contentId) {
   });
   content.hidden = true;
 }
-setupCollapse("btn-wer-ist-peter", "wer-ist-peter-content");
 setupCollapse("btn-was-ist-petern", "was-ist-petern-content");
-setupCollapse("btn-gebrauchsanweisung", "gebrauchsanweisung-content");
 
 // Peter-Standardphrasen
 function generateStandardphrase() {

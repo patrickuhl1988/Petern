@@ -159,50 +159,6 @@
       </div>
     </section>
 
-    <section class="peter-section">
-      <button type="button" class="collapse-trigger" id="btn-wer-ist-peter" data-target="wer-ist-peter-content" aria-expanded="false">
-        <span data-i18n="whoIsPeter">👤 Wer ist Peter?</span>
-        <span class="collapse-icon" aria-hidden="true">▼</span>
-      </button>
-      <div class="collapse-content" id="wer-ist-peter-content" hidden>
-        <div class="peter-profile">
-          <p data-i18n="peter1"></p>
-          <p class="peter-sub" data-i18n="peter2"></p>
-          <p class="peter-sub" data-i18n="peter3"></p>
-          <p class="peter-sub" data-i18n="peter4"></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="peter-section">
-      <button type="button" class="collapse-trigger" id="btn-gebrauchsanweisung" data-target="gebrauchsanweisung-content" aria-expanded="false">
-        <span data-i18n="manual">📋 Peter-Gebrauchsanweisung</span>
-        <span class="collapse-icon" aria-hidden="true">▼</span>
-      </button>
-      <div class="collapse-content" id="gebrauchsanweisung-content" hidden>
-        <div class="gebrauchsanweisung">
-          <p><strong data-i18n="manualIntro">So erreichst du Peter (oder dich selbst):</strong></p>
-          <ul>
-            <li data-i18n="manual1"></li>
-            <li data-i18n="manual2"></li>
-            <li data-i18n="manual3"></li>
-            <li data-i18n="manual4"></li>
-            <li data-i18n="manual5"></li>
-            <li data-i18n="manual6"></li>
-            <li data-i18n="manual7"></li>
-            <li data-i18n="manual8"></li>
-            <li data-i18n="manual9"></li>
-            <li data-i18n="manual10"></li>
-            <li data-i18n="manual11"></li>
-            <li data-i18n="manual12"></li>
-            <li data-i18n="manual13"></li>
-            <li data-i18n="manual14"></li>
-            <li data-i18n="manual15"></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <section class="result-section hidden" id="result-section">
       <div class="result-card" id="result-card">
         <div class="result-icon" id="result-icon"></div>
@@ -241,7 +197,7 @@
     window.PETERN_SUPABASE_ANON_KEY = window.PETERN_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaHVwcHhpcHJrbnZmYm9mbXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxODc3MDMsImV4cCI6MjA4NTc2MzcwM30._MKUDaLfQj-Vs1unM5OR53gtMeXQ6LApELSCj3OMXpA";
   </script>
   <script src="supabase-config.js?v=2"></script>
-  <script src="script.js?v=52"></script>
+  <script src="script.js?v=53"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
@@ -319,23 +275,10 @@
   (function(){
     var vEl=document.getElementById("visitor-count");
     if(!vEl)return;
-    fetch("https://visitor.6developer.com/visit",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        domain:window.location.hostname||"petern",
-        timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||"UTC",
-        page_path:window.location.pathname||"/",
-        page_title:document.title,
-        referrer:document.referrer||""
-      })
-    }).then(function(r){return r.json();}).then(function(d){
-      if(d&&(typeof d.totalCount==="number"||d.totalCount))vEl.textContent=Number(d.totalCount).toLocaleString();
-    }).catch(function(){
-      fetch("https://countapi.mileshilliard.com/api/v1/hit/petern-patrickuhl-visits").then(function(r){return r.json();}).then(function(d){
-        if(d&&(d.value!==undefined))vEl.textContent=Number(d.value).toLocaleString();
-      }).catch(function(){vEl.textContent="—";});
-    });
+    fetch("https://api.countapi.xyz/hit/heutepetern/visits").then(function(r){return r.json();}).then(function(d){
+      if(d&&d.value!==undefined)vEl.textContent=Number(d.value).toLocaleString();
+      else vEl.textContent="—";
+    }).catch(function(){vEl.textContent="—";});
   })();
   })();
   </script>
