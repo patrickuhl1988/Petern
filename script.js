@@ -1108,21 +1108,21 @@ const SUPABASE_URL = (typeof window !== "undefined" && window.PETERN_SUPABASE_UR
 const SUPABASE_ANON = (typeof window !== "undefined" && window.PETERN_SUPABASE_ANON_KEY) || "";
 const useSupabase = !!(SUPABASE_URL && SUPABASE_ANON);
 
-function getSupabaseHeaders() {
-  return {
-    apikey: SUPABASE_ANON,
-    Authorization: `Bearer ${SUPABASE_ANON}`,
-    "Content-Type": "application/json",
-    Prefer: "return=minimal",
-  };
+let supabaseClient = null;
+if (useSupabase && typeof window !== "undefined" && window.supabase) {
+  try {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+  } catch (_) {}
 }
 
 async function fetchCommentsFromSupabase() {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/comments?order=created_at.desc`, {
-    headers: { apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}` },
-  });
-  if (!res.ok) throw new Error("Fetch failed");
-  return res.json();
+  if (!supabaseClient) throw new Error("No Supabase client");
+  const { data, error } = await supabaseClient
+    .from("comments")
+    .select("id, text, created_at")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return data || [];
 }
 
 function getCommentsLocal() {
@@ -1160,7 +1160,7 @@ function renderCommentsList(items, isEmpty) {
 async function loadComments() {
   if (!commentsList) return;
   const t = TRANSLATIONS[currentLang];
-  if (useSupabase) {
+  if (useSupabase && supabaseClient) {
     commentsList.innerHTML = `<p class="comments-empty comments-loading">${currentLang === "en" ? "Loading …" : "Laden …"}</p>`;
     try {
       const data = await fetchCommentsFromSupabase();
@@ -1183,16 +1183,12 @@ async function addComment() {
   const text = commentInput.value.trim();
   if (!text) return;
 
-  if (useSupabase) {
+  if (useSupabase && supabaseClient) {
     const btn = document.getElementById("btn-add-comment");
     if (btn) { btn.disabled = true; btn.textContent = currentLang === "en" ? "Posting …" : "Wird gesendet …"; }
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/comments`, {
-        method: "POST",
-        headers: getSupabaseHeaders(),
-        body: JSON.stringify({ text }),
-      });
-      if (!res.ok) throw new Error("Insert failed");
+      const { error } = await supabaseClient.from("comments").insert([{ text }]);
+      if (error) throw error;
       commentInput.value = "";
       if (commentCharCount) commentCharCount.textContent = "0";
       await loadComments();
@@ -1498,7 +1494,7 @@ function applyTranslations(clearDailyCache = false) {
   renderPetTodayChips();
   renderHistory();
   const noteEl = document.querySelector(".comments-note");
-  if (noteEl) noteEl.textContent = useSupabase ? t.commentsNoteShared : t.commentsNote;
+  if (noteEl) noteEl.textContent = (useSupabase && supabaseClient) ? t.commentsNoteShared : t.commentsNote;
   renderComments();
   if (clearDailyCache) {
     localStorage.removeItem("petern-daily");
