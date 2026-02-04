@@ -1677,10 +1677,6 @@ document.addEventListener("click", (e) => {
     addComment();
     return;
   }
-  if (e.target.closest("#btn-peteritis") || e.target.id === "btn-peteritis") {
-    runPeteritisCheck();
-    return;
-  }
   if (e.target.closest("#btn-peter-excuse") || e.target.id === "btn-peter-excuse") {
     runPeterExcuse();
     return;

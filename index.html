@@ -197,7 +197,8 @@
     window.PETERN_SUPABASE_ANON_KEY = window.PETERN_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaHVwcHhpcHJrbnZmYm9mbXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxODc3MDMsImV4cCI6MjA4NTc2MzcwM30._MKUDaLfQj-Vs1unM5OR53gtMeXQ6LApELSCj3OMXpA";
   </script>
   <script src="supabase-config.js?v=2"></script>
-  <script src="script.js?v=55"></script>
+  <script src="script.js?v=59"></script>
+  <script src="peteritis-core.js?v=1"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
@@ -210,37 +211,6 @@
   var AUSREDE_DE=["Bin heute komplett durch.","Morgen vielleicht?","Hab grad keine Energie.","Couch gewinnt heute."];
   var AUSREDE_EN=["I'm completely drained today.","Maybe tomorrow?","Zero energy right now.","Couch wins today."];
   if(!window.generateExitStrategy){window.generateExitStrategy=function(){var el=document.getElementById("exit-strategy-text");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?EXIT_EN:EXIT_DE;if(el)el.textContent=arr[Math.floor(Math.random()*arr.length)];};}
-  if(!window.runPeteritisCheck){
-    (function(){
-      var PQ_DE=[{q:"Wie viele Cola Zero hast du heute getrunken?",opts:[{t:"Keine",s:0},{t:"1 Dose",s:1},{t:"2-3 Dosen",s:2},{t:"Mehr als 3",s:3}]},{q:"Wie viele Stunden warst du diese Woche auf der Couch?",opts:[{t:"Weniger als 3",s:0},{t:"3-6",s:1},{t:"7-10",s:2},{t:"Mehr als 10",s:3}]},{q:"An wie vielen Aktivitaeten hast du diese Woche teilgenommen?",opts:[{t:"4 oder mehr",s:0},{t:"2-3",s:1},{t:"1",s:2},{t:"Keine",s:3}]},{q:"Wie viele Termine hast du diese Woche abgesagt?",opts:[{t:"Keine",s:0},{t:"1",s:1},{t:"2-3",s:2},{t:"4 oder mehr",s:3}]},{q:"Wie oft haben dich andere diese Woche zu Aktivitaeten gedraengt?",opts:[{t:"Gar nicht",s:0},{t:"1-2 mal",s:1},{t:"3-5 mal",s:2},{t:"Staendig",s:3}]}];
-      var PQ_EN=[{q:"How many Cola Zero did you drink today?",opts:[{t:"None",s:0},{t:"1 can",s:1},{t:"2-3 cans",s:2},{t:"More than 3",s:3}]},{q:"How many hours did you spend on the couch this week?",opts:[{t:"Less than 3",s:0},{t:"3-6",s:1},{t:"7-10",s:2},{t:"More than 10",s:3}]},{q:"How many activities did you join this week?",opts:[{t:"4 or more",s:0},{t:"2-3",s:1},{t:"1",s:2},{t:"None",s:3}]},{q:"How many appointments did you cancel this week?",opts:[{t:"None",s:0},{t:"1",s:1},{t:"2-3",s:2},{t:"4 or more",s:3}]},{q:"How often were you pressured by others to do something this week?",opts:[{t:"Not at all",s:0},{t:"1-2 times",s:1},{t:"3-5 times",s:2},{t:"Constantly",s:3}]}];
-      var PD_DE={low:["Cola-Zero-Level im Rahmen, Couchzeit vertretbar. Du bist in der Peteritis-light-Zone."],mid:["Peteritis normal: Cola Zero ist Standard, Couchstunden haeufen sich."],high:["Peteritis chronisch: Cola Zero intravenoes, Couch = Hauptwohnsitz."]};
-      var PD_EN={low:["Cola Zero intake under control. You are in the Peteritis light zone."],mid:["Peteritis normal: Cola Zero is default, couch hours add up."],high:["Peteritis chronic: Cola Zero IV, couch = main residence."]};
-      var pStep=0,pScore=0;
-      window.runPeteritisCheck=function(){
-        var el=document.getElementById("peteritis-result");if(!el)return;
-        var l=document.documentElement.lang==="en"?"en":"de";
-        var qs=l==="en"?PQ_EN:PQ_DE;var diag=l==="en"?PD_EN:PD_DE;
-        var stages={low:l==="en"?"Peteritis light":"Peteritis light",mid:l==="en"?"Peteritis normal":"Peteritis normal",high:l==="en"?"Peteritis chronic":"Peteritis chronisch"};
-        if(pStep===0){pScore=0;pStep=1;}
-        if(pStep<=qs.length){
-          var q=qs[pStep-1];
-          var html='<p class="peteritis-question"><strong>\u2753 '+q.q+'</strong></p><div class="peteritis-options">';
-          q.opts.forEach(function(o){html+='<button type="button" class="peteritis-opt" data-score="'+o.s+'">'+o.t+'</button>';});
-          html+='</div>';
-          el.innerHTML=html;el.classList.remove("peteritis-done");el.classList.add("peteritis-questions");
-          el.querySelectorAll(".peteritis-opt").forEach(function(opt){
-            opt.addEventListener("click",function(){
-              pScore+=parseInt(opt.dataset.score||0,10);
-              pStep++;
-              if(pStep<=qs.length)window.runPeteritisCheck();
-              else{var tier=pScore<=4?"low":pScore>=10?"high":"mid";var r=diag[tier][Math.floor(Math.random()*diag[tier].length)];el.innerHTML='<p class="peteritis-stage">'+stages[tier]+'</p><p class="peteritis-diagnosis">'+r+'</p>';el.classList.remove("peteritis-questions");el.classList.add("peteritis-done");pStep=0;var btn=document.getElementById("btn-peteritis");if(btn)btn.textContent=l==="en"?"Measure again":"Nochmal messen";}
-            });
-          });
-        }
-      };
-    })();
-  }
   if(!window.generateAlibiSprachnachricht){window.generateAlibiSprachnachricht=function(){var el=document.getElementById("alibi-text");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?ALIBI_EN:ALIBI_DE;window.lastAlibi=arr[Math.floor(Math.random()*arr.length)];if(el){el.textContent=window.lastAlibi;el.classList.add("alibi-generated");}};}
   if(!window.generateStandardphrase){window.generateStandardphrase=function(){var el=document.getElementById("standardphrase-text");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?PHRASE_EN:PHRASE_DE;if(el)el.textContent=arr[Math.floor(Math.random()*arr.length)];};}
   if(!window.setNewDailyExcuse){window.setNewDailyExcuse=function(){var el=document.getElementById("daily-excuse");var l=document.documentElement.lang==="en"?"en":"de";var arr=l==="en"?AUSREDE_EN:AUSREDE_DE;var exc=arr[Math.floor(Math.random()*arr.length)];if(el)el.textContent=exc;try{localStorage.setItem("petern-daily",exc);}catch(x){};};}
@@ -255,7 +225,7 @@
     if((a==="lang"||t.classList.contains("lang-btn"))&&l&&window.setPeternLang){window.setPeternLang(l);return;}
     if(t.classList.contains("collapse-trigger")){var cid=t.getAttribute("data-target")||id&&id.replace("btn-","")+"-content";if(cid){var c=document.getElementById(cid);if(c){var op=c.hidden;c.hidden=!op;t.setAttribute("aria-expanded",op);t.classList.toggle("open",op);}}return;}
     if(a==="alibi"||id==="btn-alibi"){if(window.generateAlibiSprachnachricht)window.generateAlibiSprachnachricht();return;}
-    if(a==="peteritis"||id==="btn-peteritis"){if(window.applyPeternTranslations){return;}if(window.runPeteritisCheck)window.runPeteritisCheck();return;}
+    if(a==="peteritis"||id==="btn-peteritis"){if(window.runPeteritisCheck)window.runPeteritisCheck();return;}
     if(a==="peter-excuse"||id==="btn-peter-excuse"){if(window.runPeterExcuse)window.runPeterExcuse();return;}
     if(a==="pet-today"||id==="btn-pet-today"){if(window.onPetToday)window.onPetToday();return;}
     if(a==="decide"||id==="btn-decide"){if(window.onDecide)window.onDecide();return;}
@@ -272,15 +242,6 @@
   function initDelegation(){document.addEventListener("click",handleClick,true);}
   if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",initDelegation);}else{initDelegation();}
   (function(){var list=document.getElementById("comments-list");var inp=document.getElementById("comment-input");var cnt=document.getElementById("comment-char-count");if(inp&&cnt)inp.addEventListener("input",function(){cnt.textContent=(inp.value||"").length;});if(list&&!window.renderComments){var arr=[];try{arr=JSON.parse(localStorage.getItem("petern-comments")||"[]");}catch(x){}var l=document.documentElement.lang==="en"?"en":"de";var anon=l==="en"?"Anonymous":"Anonym";var empty=l==="en"?"No comments yet. You could be the first – anonymously.":"Noch keine Kommentare. Du kannst der erste sein – anonym.";if(!arr.length){list.innerHTML='<p class="comments-empty">'+empty+'</p>';}else{list.innerHTML=arr.slice().reverse().map(function(c){var d=c.date?new Date(c.date).toLocaleDateString(l==="en"?"en-GB":"de-DE",{day:"numeric",month:"short",year:"numeric"}):"";var disp=(c.name||"").trim()||anon;return'<div class="comment-item"><p class="comment-meta"><span class="anonymous">'+String(disp).replace(/</g,"&lt;").replace(/>/g,"&gt;")+'</span> · '+d+'</p><p class="comment-text">'+String(c.text).replace(/</g,"&lt;").replace(/>/g,"&gt;")+'</p></div>';}).join("");}}})();
-  (function(){
-    var vEl=document.getElementById("visitor-count");
-    if(!vEl)return;
-    try{
-      var n=parseInt(localStorage.getItem("petern-visits")||"0",10);
-      n++;localStorage.setItem("petern-visits",String(n));
-      vEl.textContent=n.toLocaleString();
-    }catch(e){vEl.textContent="—";}
-  })();
   })();
   </script>
 </body>
