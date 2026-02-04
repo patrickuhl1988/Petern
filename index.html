@@ -229,9 +229,13 @@
     </footer>
   </main>
 
-  <script src="supabase-config.js?v=1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js?v=45"></script>
+  <script>
+    window.PETERN_SUPABASE_URL = window.PETERN_SUPABASE_URL || "https://pmhuppxiprknvfbofmpd.supabase.co";
+    window.PETERN_SUPABASE_ANON_KEY = window.PETERN_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaHVwcHhpcHJrbnZmYm9mbXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxODc3MDMsImV4cCI6MjA4NTc2MzcwM30._MKUDaLfQj-Vs1unM5OR53gtMeXQ6LApELSCj3OMXpA";
+  </script>
+  <script src="supabase-config.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="script.js?v=46"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
