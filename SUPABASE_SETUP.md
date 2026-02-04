@@ -49,6 +49,11 @@ window.PETERN_SUPABASE_URL = "https://DEIN-PROJEKT.supabase.co";
 window.PETERN_SUPABASE_ANON_KEY = "dein-anon-key-hier";
 ```
 
-## 4. Deploy
+## 4. Besucherzähler (optional, global)
+
+Für einen globalen Besucherzähler: SQL Editor → neuer Query → `supabase-visitor-counter.sql` ausführen.
+Danach wird der Zähler in Supabase gespeichert (alle Besucher sehen dieselbe Zahl).
+
+## 5. Deploy
 
 Änderungen committen und auf GitHub pushen. Das Gästebuch ist danach für alle Besucher gemeinsam sichtbar.

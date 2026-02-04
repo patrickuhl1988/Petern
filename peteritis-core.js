@@ -66,15 +66,32 @@
 
   function initVisitor() {
     var vEl = document.getElementById("visitor-count");
-    if (vEl) {
+    if (!vEl) return;
+    var url = (window.PETERN_SUPABASE_URL || "").replace(/\/$/, "");
+    var key = (window.PETERN_SUPABASE_ANON_KEY || "").trim();
+    var fallback = function() {
       try {
         var n = parseInt(localStorage.getItem("petern-visits") || "0", 10);
         n++;
         localStorage.setItem("petern-visits", String(n));
         vEl.textContent = n.toLocaleString();
-      } catch (e) {
-        vEl.textContent = "-";
-      }
+      } catch (e) { vEl.textContent = "-"; }
+    };
+    if (url && key) {
+      fetch(url + "/rest/v1/rpc/increment_visitor_count", {
+        method: "POST",
+        headers: {
+          "apikey": key,
+          "Authorization": "Bearer " + key,
+          "Content-Type": "application/json"
+        },
+        body: "{}"
+      }).then(function(r) { return r.json(); }).then(function(n) {
+        if (typeof n === "number") vEl.textContent = n.toLocaleString();
+        else fallback();
+      }).catch(fallback);
+    } else {
+      fallback();
     }
   }
 
