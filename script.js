@@ -30,7 +30,7 @@ const TRANSLATIONS = {
     dailyTitle: "🎲 Petern des Tages",
     newDailyExcuse: "Neue Tages-Ausrede",
     phrasesTitle: "💬 Peter-Standardphrasen",
-    phrasesIntro: "„Mal schauen", „Ich meld mich später" …",
+    phrasesIntro: "„Mal schauen“, „Ich meld mich später“ …",
     newPhrase: "Neue Phrase",
     exitTitle: "🚪 Exit-Strategie (wenn du doch zugesagt hast)",
     exitIntro: "Bau dir eine Hintertür ein.",
