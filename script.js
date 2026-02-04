@@ -1602,7 +1602,6 @@ function showPeteritisResult(el, btn) {
 }
 
 window.runPeteritisCheck = function() { peteritisStep = 0; runPeteritisCheck(); };
-if (btnPeteritis) btnPeteritis.addEventListener("click", window.runPeteritisCheck);
 
 // Peter-Ausrede
 function runPeterExcuse() {
@@ -1619,8 +1618,6 @@ function runPeterExcuse() {
   }
 }
 window.runPeterExcuse = runPeterExcuse;
-if (btnPeterExcuse) btnPeterExcuse.addEventListener("click", runPeterExcuse);
-
 // Apply translations to all data-i18n elements
 function applyTranslations(clearDailyCache = false) {
   const t = TRANSLATIONS[currentLang];
