@@ -69,6 +69,7 @@
     if (!vEl) return;
     var url = (window.PETERN_SUPABASE_URL || "").replace(/\/$/, "");
     var key = (window.PETERN_SUPABASE_ANON_KEY || "").trim();
+    var hdrs = { "apikey": key, "Authorization": "Bearer " + key, "Content-Type": "application/json", "Prefer": "return=minimal" };
     var fallback = function() {
       try {
         var n = parseInt(localStorage.getItem("petern-visits") || "0", 10);
@@ -78,18 +79,19 @@
       } catch (e) { vEl.textContent = "-"; }
     };
     if (url && key) {
-      fetch(url + "/rest/v1/rpc/increment_visitor_count", {
-        method: "POST",
-        headers: {
-          "apikey": key,
-          "Authorization": "Bearer " + key,
-          "Content-Type": "application/json"
-        },
-        body: "{}"
-      }).then(function(r) { return r.json(); }).then(function(n) {
-        if (typeof n === "number") vEl.textContent = n.toLocaleString();
-        else fallback();
-      }).catch(fallback);
+      fetch(url + "/rest/v1/visits", { method: "POST", headers: hdrs, body: "{}" })
+        .then(function() {
+          return fetch(url + "/rest/v1/visits?select=id&limit=1", { headers: { "apikey": key, "Authorization": "Bearer " + key, "Prefer": "count=exact" } });
+        })
+        .then(function(r) {
+          var range = r.headers.get("Content-Range");
+          if (range) {
+            var m = range.match(/\/(\d+)$/);
+            if (m) { vEl.textContent = parseInt(m[1], 10).toLocaleString(); return; }
+          }
+          fallback();
+        })
+        .catch(fallback);
     } else {
       fallback();
     }

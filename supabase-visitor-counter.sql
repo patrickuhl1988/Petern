@@ -1,26 +1,15 @@
--- Visitor Counter für Petern
+-- Visitor Counter für Petern (einfach: jede Visite = eine Zeile)
 -- In Supabase: SQL Editor → New Query → einfügen → Run
 
-CREATE TABLE IF NOT EXISTS visitor_counter (
-  key TEXT PRIMARY KEY,
-  count INTEGER NOT NULL DEFAULT 0
+CREATE TABLE IF NOT EXISTS visits (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-INSERT INTO visitor_counter (key, count) VALUES ('visits', 0)
-ON CONFLICT (key) DO NOTHING;
+ALTER TABLE visits ENABLE ROW LEVEL SECURITY;
 
-CREATE OR REPLACE FUNCTION increment_visitor_count()
-RETURNS INTEGER
-LANGUAGE plpgsql
-SECURITY DEFINER
-AS $$
-DECLARE new_count INTEGER;
-BEGIN
-  UPDATE visitor_counter SET count = count + 1 WHERE key = 'visits'
-  RETURNING count INTO new_count;
-  RETURN new_count;
-END;
-$$;
+DROP POLICY IF EXISTS "Allow public insert visits" ON visits;
+DROP POLICY IF EXISTS "Allow public read visits" ON visits;
 
-GRANT USAGE ON SCHEMA public TO anon;
-GRANT EXECUTE ON FUNCTION increment_visitor_count() TO anon;
+CREATE POLICY "Allow public insert visits" ON visits FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "Allow public read visits" ON visits FOR SELECT TO anon USING (true);

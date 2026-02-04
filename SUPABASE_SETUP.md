@@ -51,8 +51,8 @@ window.PETERN_SUPABASE_ANON_KEY = "dein-anon-key-hier";
 
 ## 4. Besucherzähler (optional, global)
 
-Für einen globalen Besucherzähler: SQL Editor → neuer Query → `supabase-visitor-counter.sql` ausführen.
-Danach wird der Zähler in Supabase gespeichert (alle Besucher sehen dieselbe Zahl).
+Für einen globalen Besucherzähler: SQL Editor → neuer Query → Inhalt von `supabase-visitor-counter.sql` einfügen → Run.
+Es wird eine Tabelle `visits` erstellt (jede Visite = eine Zeile). Alle Besucher sehen dieselbe Gesamtzahl.
 
 ## 5. Deploy
 
