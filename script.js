@@ -1108,10 +1108,13 @@ window.onPetToday = onPetToday;
 // Comments – Supabase REST API (no SDK) or localStorage fallback
 const COMMENTS_KEY = "petern-comments";
 
+const SUPABASE_URL_FALLBACK = "https://pmhuppxiprknvfbofmpd.supabase.co";
+const SUPABASE_ANON_FALLBACK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaHVwcHhpcHJrbnZmYm9mbXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxODc3MDMsImV4cCI6MjA4NTc2MzcwM30._MKUDaLfQj-Vs1unM5OR53gtMeXQ6LApELSCj3OMXpA";
+
 function getSupabaseConfig() {
-  const url = (typeof window !== "undefined" && window.PETERN_SUPABASE_URL) || "";
-  const key = (typeof window !== "undefined" && window.PETERN_SUPABASE_ANON_KEY) || "";
-  return { url: url.replace(/\/$/, ""), key };
+  const url = (typeof window !== "undefined" && window.PETERN_SUPABASE_URL) || SUPABASE_URL_FALLBACK;
+  const key = (typeof window !== "undefined" && window.PETERN_SUPABASE_ANON_KEY) || SUPABASE_ANON_FALLBACK;
+  return { url: String(url).replace(/\/$/, ""), key: String(key).trim() };
 }
 
 function useSupabase() {
@@ -1130,27 +1133,29 @@ function getSupabaseHeaders() {
 
 async function fetchCommentsFromSupabase() {
   const { url } = getSupabaseConfig();
-  const res = await fetch(url + "/rest/v1/comments?select=id,text,name,created_at&order=created_at.desc", {
+  // Only select columns that exist (id, text, created_at). 'name' may not exist yet.
+  const res = await fetch(url + "/rest/v1/comments?select=id,text,created_at&order=created_at.desc", {
     method: "GET",
     headers: { ...getSupabaseHeaders(), "Accept": "application/json" },
   });
-  if (!res.ok) throw new Error("Supabase fetch failed: " + res.status);
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error("Fetch " + res.status + ": " + err);
+  }
   const data = await res.json();
   return Array.isArray(data) ? data : [];
 }
 
-async function insertCommentToSupabase(text, name) {
+async function insertCommentToSupabase(text) {
   const { url } = getSupabaseConfig();
-  const body = { text };
-  if (name) body.name = name;
   const res = await fetch(url + "/rest/v1/comments", {
     method: "POST",
-    headers: getSupabaseHeaders(),
-    body: JSON.stringify(body),
+    headers: { ...getSupabaseHeaders(), "Prefer": "return=minimal" },
+    body: JSON.stringify({ text }),
   });
   if (!res.ok) {
     const err = await res.text();
-    throw new Error("Supabase insert failed: " + res.status + " " + err);
+    throw new Error("Insert " + res.status + ": " + err);
   }
 }
 
@@ -1216,9 +1221,8 @@ async function addComment() {
   if (useSupabase()) {
     const btn = document.getElementById("btn-add-comment");
     if (btn) { btn.disabled = true; btn.textContent = currentLang === "en" ? "Posting …" : "Wird gesendet …"; }
-    const name = (commentNameInput && commentNameInput.value.trim()) || "";
     try {
-      await insertCommentToSupabase(text, name || null);
+      await insertCommentToSupabase(text);
       commentInput.value = "";
       if (commentNameInput) commentNameInput.value = "";
       if (commentCharCount) commentCharCount.textContent = "0";
