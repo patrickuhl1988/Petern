@@ -586,6 +586,44 @@ body {
   width: 100%;
 }
 
+/* Peter-Ausrede card */
+.peter-excuse-card {
+  margin-top: 1rem;
+}
+.peter-excuse-intro {
+  font-size: 0.9rem;
+  color: var(--couch-text);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+.peter-excuse-input {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border: 2px solid rgba(139, 115, 85, 0.35);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.8);
+}
+.peter-excuse-input:focus {
+  outline: none;
+  border-color: var(--couch-accent);
+}
+.peter-excuse-result {
+  font-size: 0.95rem;
+  color: var(--couch-text);
+  margin-top: 1rem;
+  line-height: 1.5;
+  min-height: 1.5em;
+}
+.peter-excuse-result.peter-excuse-done {
+  font-style: italic;
+  color: var(--couch-dark);
+}
+.peter-excuse-answer {
+  margin: 0;
+}
 
 .peteritis-question {
   margin-bottom: 0.75rem;

@@ -42,6 +42,10 @@ const TRANSLATIONS = {
     peteritisStageLight: "Peteritis light",
     peteritisStageNormal: "Peteritis normal",
     peteritisStageChronic: "Peteritis chronisch",
+    peterExcuseTitle: "🛋️ Peter-Ausrede",
+    peterExcuseIntro: "Was brauchst du? Eine Peter-Ausrede?",
+    peterExcusePlaceholder: "z.B. Kind krank, Paket kommt, zu müde...",
+    generatePeterExcuse: "Ausrede generieren",
     petTodayTitle: "🛋️ Soll ich heute petern?",
     petTodayIntro: "Was steht heute an? Peter sagt dir, ob du petern solltest oder nicht.",
     petTodayPlaceholder: "z.B. Mit Freunden ins Kino eingeladen",
@@ -123,6 +127,10 @@ const TRANSLATIONS = {
     peteritisStageLight: "Peteritis light",
     peteritisStageNormal: "Peteritis normal",
     peteritisStageChronic: "Peteritis chronic",
+    peterExcuseTitle: "🛋️ Peter Excuse",
+    peterExcuseIntro: "What do you need? A Peter excuse?",
+    peterExcusePlaceholder: "e.g. kid sick, package arriving, too tired...",
+    generatePeterExcuse: "Generate excuse",
     petTodayTitle: "🛋️ Should I Peter today?",
     petTodayIntro: "What's on today? Peter tells you whether you should Peter or not.",
     petTodayPlaceholder: "e.g. Invited to cinema with friends",
@@ -557,6 +565,91 @@ const ALIBI_SPRACHNACHRICHTEN_EN = [
   "Um … inbox is calling. Gotta deal with it. Can't today. Sorry!",
 ];
 
+// Peter-Ausreden (35–40 Stück) – typische Peter-Antworten
+const PETER_EXCUSES_DE = [
+  "Mal schaun.",
+  "Kind ist gerade krank, schau ich ob's kurz besser wird.",
+  "Muss ich mit Anika absprechen.",
+  "Paket kommt heute.",
+  "Je nachdem wie Theo drauf ist.",
+  "Ist gerade schwierig.",
+  "Ich meld mich später.",
+  "Nicht so lange vielleicht.",
+  "Lass mich kurz checken.",
+  "Klingt gut, aber … mal schauen.",
+  "Muss ich mir überlegen.",
+  "Hängt davon ab, wie der Tag läuft.",
+  "Keine Ahnung ob ich kann.",
+  "Bin mir nicht sicher.",
+  "Will nichts versprechen.",
+  "Schauen wir.",
+  "Meld mich, sobald ich weiß.",
+  "Passt zeitlich vielleicht nicht.",
+  "Habe da noch was offen.",
+  "Bin noch am Überlegen.",
+  "Theo könnte jeden Moment … du weißt schon.",
+  "Anika ruft bestimmt gleich – muss erreichbar bleiben.",
+  "Update läuft noch, kann nicht weg.",
+  "Router spinnt, muss ich checken.",
+  "Hab grad keine Energie.",
+  "Social Battery ist bei null.",
+  "Couch gewinnt heute.",
+  "Bin schon im Pyjama. Mental.",
+  "Download läuft noch.",
+  "Muss morgen früh raus.",
+  "Hab zu viel diese Woche.",
+  "Kopf will nicht mehr.",
+  "Ist so ein Tag.",
+  "Müsste ich spontan entscheiden.",
+  "Passt vielleicht nicht so.",
+  "Weiß ich noch nicht so genau.",
+  "Kann ich nicht versprechen.",
+  "Bin noch nicht so weit.",
+  "Lass mich schauen.",
+];
+
+const PETER_EXCUSES_EN = [
+  "We'll see.",
+  "Kid's sick right now, I'll check if it gets better shortly.",
+  "Need to check with Anika.",
+  "Package arriving today.",
+  "Depends how Theo's doing.",
+  "It's tricky right now.",
+  "I'll let you know later.",
+  "Maybe not for too long.",
+  "Let me check quickly.",
+  "Sounds good, but … we'll see.",
+  "Need to think about it.",
+  "Depends how the day goes.",
+  "No idea if I can.",
+  "Not sure yet.",
+  "Don't want to promise.",
+  "We'll see.",
+  "I'll let you know as soon as I know.",
+  "Timing might not work.",
+  "Got something else pending.",
+  "Still thinking about it.",
+  "Theo could need me any moment … you know.",
+  "Anika will probably call soon – need to stay reachable.",
+  "Update still running, can't leave.",
+  "Router's acting up, need to check.",
+  "Zero energy right now.",
+  "Social battery at zero.",
+  "Couch wins today.",
+  "Already in my PJs. Mentally.",
+  "Download still running.",
+  "Early start tomorrow.",
+  "Too much this week.",
+  "Head says no.",
+  "It's that kind of day.",
+  "Would have to decide spontaneously.",
+  "Might not fit.",
+  "Not sure yet.",
+  "Can't promise.",
+  "Not quite there yet.",
+  "Let me see.",
+];
+
 // Petern-Level-Namen
 const PETERN_LEVELS_DE = [
   "Petern-Level: Sofa-Pilot",
@@ -891,6 +984,9 @@ const exitStrategyTextEl = document.getElementById("exit-strategy-text");
 const btnExit = document.getElementById("btn-exit");
 const peteritisResultEl = document.getElementById("peteritis-result");
 const btnPeteritis = document.getElementById("btn-peteritis");
+const peterExcuseInput = document.getElementById("peter-excuse-input");
+const btnPeterExcuse = document.getElementById("btn-peter-excuse");
+const peterExcuseResultEl = document.getElementById("peter-excuse-result");
 const petTodayActivityInput = document.getElementById("pet-today-activity");
 const petTodayResultEl = document.getElementById("pet-today-result");
 const btnPetToday = document.getElementById("btn-pet-today");
@@ -1510,6 +1606,23 @@ function showPeteritisResult(el, btn) {
 window.runPeteritisCheck = function() { peteritisStep = 0; runPeteritisCheck(); };
 if (btnPeteritis) btnPeteritis.addEventListener("click", window.runPeteritisCheck);
 
+// Peter-Ausrede
+function runPeterExcuse() {
+  const arr = currentLang === "en" ? PETER_EXCUSES_EN : PETER_EXCUSES_DE;
+  const excuse = pick(arr);
+  const userInput = (peterExcuseInput && peterExcuseInput.value.trim()) || "";
+  const safeInput = userInput ? escapeHtml(userInput) : "";
+  const prefix = safeInput
+    ? (currentLang === "en" ? `For \u201C${safeInput}\u201D? Peter says: ` : `Für \u201C${safeInput}\u201D? Peter sagt: `)
+    : (currentLang === "en" ? "Peter says: " : "Peter sagt: ");
+  if (peterExcuseResultEl) {
+    peterExcuseResultEl.innerHTML = `<p class="peter-excuse-answer">${prefix}<strong>${escapeHtml(excuse)}</strong></p>`;
+    peterExcuseResultEl.classList.add("peter-excuse-done");
+  }
+}
+window.runPeterExcuse = runPeterExcuse;
+if (btnPeterExcuse) btnPeterExcuse.addEventListener("click", runPeterExcuse);
+
 // Apply translations to all data-i18n elements
 function applyTranslations(clearDailyCache = false) {
   const t = TRANSLATIONS[currentLang];
@@ -1543,6 +1656,7 @@ function applyTranslations(clearDailyCache = false) {
     if (standardphraseTextEl) standardphraseTextEl.textContent = t.phrasesIntro;
     if (peteritisResultEl) { peteritisResultEl.textContent = t.peteritisIntro; peteritisResultEl.classList.remove("peteritis-done", "peteritis-questions"); }
     peteritisStep = 0;
+    if (peterExcuseResultEl) { peterExcuseResultEl.innerHTML = ""; peterExcuseResultEl.classList.remove("peter-excuse-done"); }
     if (exitStrategyTextEl) exitStrategyTextEl.textContent = t.exitIntro;
     if (alibiTextEl) { alibiTextEl.textContent = t.alibiIntro; alibiTextEl.classList.remove("alibi-generated"); }
   }
@@ -1570,6 +1684,10 @@ document.addEventListener("click", (e) => {
   }
   if (e.target.closest("#btn-peteritis") || e.target.id === "btn-peteritis") {
     runPeteritisCheck();
+    return;
+  }
+  if (e.target.closest("#btn-peter-excuse") || e.target.id === "btn-peter-excuse") {
+    runPeterExcuse();
     return;
   }
   if (e.target.closest("#btn-pet-today") || e.target.id === "btn-pet-today") {
