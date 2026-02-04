@@ -1105,30 +1105,13 @@ function onPetToday() {
 }
 window.onPetToday = onPetToday;
 
-// Comments – Supabase (shared) or localStorage (local fallback)
+// Comments – Supabase REST API (no SDK) or localStorage fallback
 const COMMENTS_KEY = "petern-comments";
 
 function getSupabaseConfig() {
   const url = (typeof window !== "undefined" && window.PETERN_SUPABASE_URL) || "";
   const key = (typeof window !== "undefined" && window.PETERN_SUPABASE_ANON_KEY) || "";
-  return { url, key };
-}
-
-let supabaseClient = null;
-function getSupabaseClient() {
-  if (supabaseClient) return supabaseClient;
-  const { url, key } = getSupabaseConfig();
-  if (!url || !key) return null;
-  try {
-    const lib = typeof window !== "undefined" && window.supabase;
-    if (!lib) return null;
-    const createClient = lib.createClient || (lib.default && lib.default.createClient);
-    if (typeof createClient !== "function") return null;
-    supabaseClient = createClient(url, key);
-    return supabaseClient;
-  } catch (_) {
-    return null;
-  }
+  return { url: url.replace(/\/$/, ""), key };
 }
 
 function useSupabase() {
@@ -1136,15 +1119,39 @@ function useSupabase() {
   return !!(url && key);
 }
 
+function getSupabaseHeaders() {
+  const { key } = getSupabaseConfig();
+  return {
+    "apikey": key,
+    "Authorization": "Bearer " + key,
+    "Content-Type": "application/json",
+  };
+}
+
 async function fetchCommentsFromSupabase() {
-  const client = getSupabaseClient();
-  if (!client) throw new Error("No Supabase client");
-  const { data, error } = await client
-    .from("comments")
-    .select("id, text, name, created_at")
-    .order("created_at", { ascending: false });
-  if (error) throw error;
-  return data || [];
+  const { url } = getSupabaseConfig();
+  const res = await fetch(url + "/rest/v1/comments?select=id,text,name,created_at&order=created_at.desc", {
+    method: "GET",
+    headers: { ...getSupabaseHeaders(), "Accept": "application/json" },
+  });
+  if (!res.ok) throw new Error("Supabase fetch failed: " + res.status);
+  const data = await res.json();
+  return Array.isArray(data) ? data : [];
+}
+
+async function insertCommentToSupabase(text, name) {
+  const { url } = getSupabaseConfig();
+  const body = { text };
+  if (name) body.name = name;
+  const res = await fetch(url + "/rest/v1/comments", {
+    method: "POST",
+    headers: getSupabaseHeaders(),
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error("Supabase insert failed: " + res.status + " " + err);
+  }
 }
 
 function getCommentsLocal() {
@@ -1183,7 +1190,7 @@ function renderCommentsList(items, isEmpty) {
 async function loadComments() {
   if (!commentsList) return;
   const t = TRANSLATIONS[currentLang];
-  if (useSupabase && supabaseClient) {
+  if (useSupabase()) {
     commentsList.innerHTML = `<p class="comments-empty comments-loading">${currentLang === "en" ? "Loading …" : "Laden …"}</p>`;
     try {
       const data = await fetchCommentsFromSupabase();
@@ -1206,14 +1213,12 @@ async function addComment() {
   const text = commentInput.value.trim();
   if (!text) return;
 
-  const client = getSupabaseClient();
-  if (useSupabase() && client) {
+  if (useSupabase()) {
     const btn = document.getElementById("btn-add-comment");
     if (btn) { btn.disabled = true; btn.textContent = currentLang === "en" ? "Posting …" : "Wird gesendet …"; }
     const name = (commentNameInput && commentNameInput.value.trim()) || "";
     try {
-      const { error } = await client.from("comments").insert([{ text, name: name || null }]);
-      if (error) throw error;
+      await insertCommentToSupabase(text, name || null);
       commentInput.value = "";
       if (commentNameInput) commentNameInput.value = "";
       if (commentCharCount) commentCharCount.textContent = "0";
@@ -1522,7 +1527,7 @@ function applyTranslations(clearDailyCache = false) {
   renderPetTodayChips();
   renderHistory();
   const noteEl = document.querySelector(".comments-note");
-  if (noteEl) noteEl.textContent = (useSupabase() && getSupabaseClient()) ? t.commentsNoteShared : t.commentsNote;
+  if (noteEl) noteEl.textContent = useSupabase() ? t.commentsNoteShared : t.commentsNote;
   renderComments();
   if (clearDailyCache) {
     localStorage.removeItem("petern-daily");
