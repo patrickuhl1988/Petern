@@ -197,7 +197,7 @@
     window.PETERN_SUPABASE_ANON_KEY = window.PETERN_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaHVwcHhpcHJrbnZmYm9mbXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxODc3MDMsImV4cCI6MjA4NTc2MzcwM30._MKUDaLfQj-Vs1unM5OR53gtMeXQ6LApELSCj3OMXpA";
   </script>
   <script src="supabase-config.js?v=2"></script>
-  <script src="script.js?v=53"></script>
+  <script src="script.js?v=54"></script>
   <script>
   (function(){
   var lang=document.documentElement.lang==="en"?"en":"de";
@@ -255,7 +255,7 @@
     if((a==="lang"||t.classList.contains("lang-btn"))&&l&&window.setPeternLang){window.setPeternLang(l);return;}
     if(t.classList.contains("collapse-trigger")){var cid=t.getAttribute("data-target")||id&&id.replace("btn-","")+"-content";if(cid){var c=document.getElementById(cid);if(c){var op=c.hidden;c.hidden=!op;t.setAttribute("aria-expanded",op);t.classList.toggle("open",op);}}return;}
     if(a==="alibi"||id==="btn-alibi"){if(window.generateAlibiSprachnachricht)window.generateAlibiSprachnachricht();return;}
-    if(a==="peteritis"||id==="btn-peteritis"){if(window.runPeteritisCheck)window.runPeteritisCheck();return;}
+    if(a==="peteritis"||id==="btn-peteritis"){if(window.applyPeternTranslations){return;}if(window.runPeteritisCheck)window.runPeteritisCheck();return;}
     if(a==="peter-excuse"||id==="btn-peter-excuse"){if(window.runPeterExcuse)window.runPeterExcuse();return;}
     if(a==="pet-today"||id==="btn-pet-today"){if(window.onPetToday)window.onPetToday();return;}
     if(a==="decide"||id==="btn-decide"){if(window.onDecide)window.onDecide();return;}
@@ -275,7 +275,8 @@
   (function(){
     var vEl=document.getElementById("visitor-count");
     if(!vEl)return;
-    fetch("https://countapi.mileshilliard.com/api/v1/hit/heutepetern-visits",{mode:"cors"})
+    var url="https://countapi.mileshilliard.com/api/v1/hit/heutepetern-visits";
+    fetch("https://api.allorigins.win/raw?url="+encodeURIComponent(url))
       .then(function(r){return r.json();})
       .then(function(d){if(vEl&&d&&d.value!=null)vEl.textContent=Number(d.value).toLocaleString();})
       .catch(function(){vEl.textContent="—";});
