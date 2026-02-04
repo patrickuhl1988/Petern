@@ -275,10 +275,10 @@
   (function(){
     var vEl=document.getElementById("visitor-count");
     if(!vEl)return;
-    var done=function(){clearTimeout(t);};
-    var t=setTimeout(function(){if(vEl.textContent==="…")vEl.textContent="—";},6000);
-    window._peternVisitorCb=function(d){done();if(vEl&&d&&d.value!==undefined)vEl.textContent=Number(d.value).toLocaleString();else if(vEl)vEl.textContent="—";};
-    var s=document.createElement("script");s.src="https://api.countapi.xyz/hit/heutepetern/visits?callback=_peternVisitorCb";s.onerror=function(){done();if(vEl)vEl.textContent="—";};document.body.appendChild(s);
+    fetch("https://countapi.mileshilliard.com/api/v1/hit/heutepetern-visits",{mode:"cors"})
+      .then(function(r){return r.json();})
+      .then(function(d){if(vEl&&d&&d.value!=null)vEl.textContent=Number(d.value).toLocaleString();})
+      .catch(function(){vEl.textContent="—";});
   })();
   })();
   </script>
