@@ -51,6 +51,13 @@ const TRANSLATIONS = {
     petTodayChipA: ["Mit Freunden ins Kino eingeladen", "Sport / Joggen", "Geburtstagsfeier", "Grillen im Park", "Treffen mit Kollegen", "Früh aufstehen"],
     footer: "Mit 90 % Wahrscheinlichkeit sagt dir diese App, was du eh schon denkst. 🛋️",
     visitorLabel: "Besucher",
+    commentsTitle: "💬 Petern-Gästebuch",
+    commentsIntro: "Feedback, News, Wünsche oder dein bestes Peter-Moment – anonym. Mal schauen, wer sich traut …",
+    commentsPlaceholder: "z.B. Mein bester Peter-Moment: Ich habe gesagt 'Paket kommt' und bin auf der Couch geblieben. 10/10.",
+    commentsSubmit: "Anonymous posten",
+    commentsNote: "Kommentare werden lokal gespeichert (nur auf deinem Gerät sichtbar).",
+    commentsEmpty: "Noch keine Kommentare. Du kannst der erste sein – anonym.",
+    commentsAnonymous: "Anonym",
     noHistory: "Noch keine Entscheidungen.",
     resultPetern: "Lieber nicht.",
     resultGo: "Darfst du.",
@@ -123,6 +130,13 @@ const TRANSLATIONS = {
     petTodayChipA: ["Invited to cinema with friends", "Sports / Jogging", "Birthday party", "BBQ in the park", "Meeting with colleagues", "Getting up early"],
     footer: "With 90% probability, this app tells you what you were already thinking. 🛋️",
     visitorLabel: "Visitors",
+    commentsTitle: "💬 Peter Guestbook",
+    commentsIntro: "Feedback, news, wishes, or your best Peter moment – anonymous. We'll see who dares …",
+    commentsPlaceholder: "e.g. My best Peter moment: I said 'package arriving' and stayed on the couch. 10/10.",
+    commentsSubmit: "Post anonymously",
+    commentsNote: "Comments are saved locally (only visible on your device).",
+    commentsEmpty: "No comments yet. You could be the first – anonymously.",
+    commentsAnonymous: "Anonymous",
     noHistory: "No decisions yet.",
     resultPetern: "Better not.",
     resultGo: "You're allowed.",
@@ -876,6 +890,10 @@ const btnPeteritis = document.getElementById("btn-peteritis");
 const petTodayActivityInput = document.getElementById("pet-today-activity");
 const petTodayResultEl = document.getElementById("pet-today-result");
 const btnPetToday = document.getElementById("btn-pet-today");
+const commentInput = document.getElementById("comment-input");
+const btnAddComment = document.getElementById("btn-add-comment");
+const commentsList = document.getElementById("comments-list");
+const commentCharCount = document.getElementById("comment-char-count");
 
 // State
 let lastResult = null;
@@ -1081,6 +1099,51 @@ function onPetToday() {
   }
 }
 window.onPetToday = onPetToday;
+
+// Comments – localStorage, anonymous
+const COMMENTS_KEY = "petern-comments";
+function getComments() {
+  try {
+    return JSON.parse(localStorage.getItem(COMMENTS_KEY) || "[]");
+  } catch (_) { return []; }
+}
+function saveComments(comments) {
+  try { localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments)); } catch (_) {}
+}
+function renderComments() {
+  if (!commentsList) return;
+  const comments = getComments();
+  const t = TRANSLATIONS[currentLang];
+  if (!comments.length) {
+    commentsList.innerHTML = `<p class="comments-empty">${t.commentsEmpty}</p>`;
+    return;
+  }
+  commentsList.innerHTML = comments
+    .slice()
+    .reverse()
+    .map((c) => {
+      const date = c.date ? new Date(c.date).toLocaleDateString(currentLang === "en" ? "en-GB" : "de-DE", { day: "numeric", month: "short", year: "numeric" }) : "";
+      return `<div class="comment-item"><p class="comment-meta"><span class="anonymous">${t.commentsAnonymous}</span> · ${date}</p><p class="comment-text">${escapeHtml(c.text)}</p></div>`;
+    })
+    .join("");
+}
+function escapeHtml(s) {
+  const d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
+function addComment() {
+  if (!commentInput) return;
+  const text = commentInput.value.trim();
+  if (!text) return;
+  const comments = getComments();
+  comments.push({ text, date: new Date().toISOString() });
+  saveComments(comments);
+  commentInput.value = "";
+  if (commentCharCount) commentCharCount.textContent = "0";
+  renderComments();
+}
+window.addComment = addComment;
 
 // Ergebnis anzeigen
 function showResult(result) {
@@ -1365,6 +1428,7 @@ function applyTranslations(clearDailyCache = false) {
   renderChips();
   renderPetTodayChips();
   renderHistory();
+  renderComments();
   if (clearDailyCache) {
     localStorage.removeItem("petern-daily");
     localStorage.removeItem("petern-daily-date");
@@ -1396,6 +1460,10 @@ document.addEventListener("click", (e) => {
     generateAlibiSprachnachricht();
     return;
   }
+  if (e.target.closest("#btn-add-comment") || e.target.id === "btn-add-comment") {
+    addComment();
+    return;
+  }
   if (e.target.closest("#btn-peteritis") || e.target.id === "btn-peteritis") {
     runPeteritisCheck();
     return;
@@ -1423,6 +1491,12 @@ window.applyPeternTranslations = function(lang) {
 // Init – erst wenn DOM bereit
 function init() {
   applyTranslations();
+  renderComments();
+  if (commentInput && commentCharCount) {
+    commentInput.addEventListener("input", () => {
+      commentCharCount.textContent = (commentInput.value || "").length;
+    });
+  }
 }
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init);
