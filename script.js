@@ -56,6 +56,7 @@ const TRANSLATIONS = {
     commentsPlaceholder: "z.B. Grüß dich, Peter! Mein bester Moment: Ich hab 'Paket kommt' gesagt und bin auf der Couch geblieben. 10/10.",
     commentsSubmit: "Anonymous posten",
     commentsNote: "Kommentare werden lokal gespeichert (nur auf deinem Gerät sichtbar).",
+    commentsNoteShared: "Kommentare werden gemeinsam gespeichert – alle Besucher sehen sie.",
     commentsEmpty: "Noch keine Kommentare. Du kannst der erste sein – anonym.",
     commentsAnonymous: "Anonym",
     noHistory: "Noch keine Entscheidungen.",
@@ -135,6 +136,7 @@ const TRANSLATIONS = {
     commentsPlaceholder: "e.g. Hi Peter! My best moment: I said 'package arriving' and stayed on the couch. 10/10.",
     commentsSubmit: "Post anonymously",
     commentsNote: "Comments are saved locally (only visible on your device).",
+    commentsNoteShared: "Comments are shared – all visitors can see them.",
     commentsEmpty: "No comments yet. You could be the first – anonymously.",
     commentsAnonymous: "Anonymous",
     noHistory: "No decisions yet.",
@@ -1100,48 +1102,115 @@ function onPetToday() {
 }
 window.onPetToday = onPetToday;
 
-// Comments – localStorage, anonymous
+// Comments – Supabase (shared) or localStorage (local fallback)
 const COMMENTS_KEY = "petern-comments";
-function getComments() {
+const SUPABASE_URL = (typeof window !== "undefined" && window.PETERN_SUPABASE_URL) || "";
+const SUPABASE_ANON = (typeof window !== "undefined" && window.PETERN_SUPABASE_ANON_KEY) || "";
+const useSupabase = !!(SUPABASE_URL && SUPABASE_ANON);
+
+function getSupabaseHeaders() {
+  return {
+    apikey: SUPABASE_ANON,
+    Authorization: `Bearer ${SUPABASE_ANON}`,
+    "Content-Type": "application/json",
+    Prefer: "return=minimal",
+  };
+}
+
+async function fetchCommentsFromSupabase() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/comments?order=created_at.desc`, {
+    headers: { apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}` },
+  });
+  if (!res.ok) throw new Error("Fetch failed");
+  return res.json();
+}
+
+function getCommentsLocal() {
   try {
     return JSON.parse(localStorage.getItem(COMMENTS_KEY) || "[]");
   } catch (_) { return []; }
 }
-function saveComments(comments) {
+
+function saveCommentsLocal(comments) {
   try { localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments)); } catch (_) {}
 }
-function renderComments() {
-  if (!commentsList) return;
-  const comments = getComments();
-  const t = TRANSLATIONS[currentLang];
-  if (!comments.length) {
-    commentsList.innerHTML = `<p class="comments-empty">${t.commentsEmpty}</p>`;
-    return;
-  }
-  commentsList.innerHTML = comments
-    .slice()
-    .reverse()
-    .map((c) => {
-      const date = c.date ? new Date(c.date).toLocaleDateString(currentLang === "en" ? "en-GB" : "de-DE", { day: "numeric", month: "short", year: "numeric" }) : "";
-      return `<div class="comment-item"><p class="comment-meta"><span class="anonymous">${t.commentsAnonymous}</span> · ${date}</p><p class="comment-text">${escapeHtml(c.text)}</p></div>`;
-    })
-    .join("");
-}
+
 function escapeHtml(s) {
   const d = document.createElement("div");
   d.textContent = s;
   return d.innerHTML;
 }
-function addComment() {
+
+function renderCommentsList(items, isEmpty) {
+  if (!commentsList) return;
+  const t = TRANSLATIONS[currentLang];
+  if (isEmpty || !items.length) {
+    commentsList.innerHTML = `<p class="comments-empty">${t.commentsEmpty}</p>`;
+    return;
+  }
+  const locale = currentLang === "en" ? "en-GB" : "de-DE";
+  commentsList.innerHTML = items.map((c) => {
+    const dateStr = (c.created_at || c.date)
+      ? new Date(c.created_at || c.date).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })
+      : "";
+    return `<div class="comment-item"><p class="comment-meta"><span class="anonymous">${t.commentsAnonymous}</span> · ${dateStr}</p><p class="comment-text">${escapeHtml(c.text)}</p></div>`;
+  }).join("");
+}
+
+async function loadComments() {
+  if (!commentsList) return;
+  const t = TRANSLATIONS[currentLang];
+  if (useSupabase) {
+    commentsList.innerHTML = `<p class="comments-empty comments-loading">${currentLang === "en" ? "Loading …" : "Laden …"}</p>`;
+    try {
+      const data = await fetchCommentsFromSupabase();
+      renderCommentsList(data, false);
+    } catch (e) {
+      commentsList.innerHTML = `<p class="comments-empty comments-error">${currentLang === "en" ? "Could not load comments." : "Kommentare konnten nicht geladen werden."}</p>`;
+    }
+  } else {
+    const local = getCommentsLocal();
+    renderCommentsList(local, local.length === 0);
+  }
+}
+
+function renderComments() {
+  loadComments();
+}
+
+async function addComment() {
   if (!commentInput) return;
   const text = commentInput.value.trim();
   if (!text) return;
-  const comments = getComments();
-  comments.push({ text, date: new Date().toISOString() });
-  saveComments(comments);
-  commentInput.value = "";
-  if (commentCharCount) commentCharCount.textContent = "0";
-  renderComments();
+
+  if (useSupabase) {
+    const btn = document.getElementById("btn-add-comment");
+    if (btn) { btn.disabled = true; btn.textContent = currentLang === "en" ? "Posting …" : "Wird gesendet …"; }
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/comments`, {
+        method: "POST",
+        headers: getSupabaseHeaders(),
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) throw new Error("Insert failed");
+      commentInput.value = "";
+      if (commentCharCount) commentCharCount.textContent = "0";
+      await loadComments();
+    } catch (e) {
+      if (btn) btn.textContent = TRANSLATIONS[currentLang].commentsSubmit;
+      btn.disabled = false;
+      alert(currentLang === "en" ? "Could not post comment. Please try again." : "Kommentar konnte nicht gesendet werden. Bitte erneut versuchen.");
+      return;
+    }
+    if (btn) { btn.disabled = false; btn.textContent = TRANSLATIONS[currentLang].commentsSubmit; }
+  } else {
+    const comments = getCommentsLocal();
+    comments.push({ text, date: new Date().toISOString() });
+    saveCommentsLocal(comments);
+    commentInput.value = "";
+    if (commentCharCount) commentCharCount.textContent = "0";
+    renderCommentsList(comments, false);
+  }
 }
 window.addComment = addComment;
 
@@ -1428,6 +1497,8 @@ function applyTranslations(clearDailyCache = false) {
   renderChips();
   renderPetTodayChips();
   renderHistory();
+  const noteEl = document.querySelector(".comments-note");
+  if (noteEl) noteEl.textContent = useSupabase ? t.commentsNoteShared : t.commentsNote;
   renderComments();
   if (clearDailyCache) {
     localStorage.removeItem("petern-daily");
