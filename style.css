@@ -712,6 +712,20 @@ body {
 .comments-form {
   margin-bottom: 0.5rem;
 }
+.comments-name-input {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  border: 2px solid rgba(139, 115, 85, 0.35);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.8);
+}
+.comments-name-input:focus {
+  outline: none;
+  border-color: var(--couch-accent);
+}
 .comments-textarea {
   width: 100%;
   padding: 0.6rem 0.75rem;

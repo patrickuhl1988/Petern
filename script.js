@@ -55,6 +55,7 @@ const TRANSLATIONS = {
     commentsIntro: "Lass eine nette Grüße an Peter da oder erzähl von deinem besten Peter-Moment. Sei kreativ – aber bitte freundlich und nicht beleidigend. Danke und Grüße.",
     commentsPlaceholder: "z.B. Grüß dich, Peter! Mein bester Moment: Ich hab 'Paket kommt' gesagt und bin auf der Couch geblieben. 10/10.",
     commentsSubmit: "Anonymous posten",
+    commentsNamePlaceholder: "Dein Name (optional)",
     commentsNote: "Kommentare werden lokal gespeichert (nur auf deinem Gerät sichtbar).",
     commentsNoteShared: "Kommentare werden gemeinsam gespeichert – alle Besucher sehen sie.",
     commentsEmpty: "Noch keine Kommentare. Du kannst der erste sein – anonym.",
@@ -135,6 +136,7 @@ const TRANSLATIONS = {
     commentsIntro: "Leave a nice greeting for Peter or tell us about your best Peter moment. Be creative – but please keep it friendly and not offensive. Thank you and greetings.",
     commentsPlaceholder: "e.g. Hi Peter! My best moment: I said 'package arriving' and stayed on the couch. 10/10.",
     commentsSubmit: "Post anonymously",
+    commentsNamePlaceholder: "Your name (optional)",
     commentsNote: "Comments are saved locally (only visible on your device).",
     commentsNoteShared: "Comments are shared – all visitors can see them.",
     commentsEmpty: "No comments yet. You could be the first – anonymously.",
@@ -893,6 +895,7 @@ const petTodayActivityInput = document.getElementById("pet-today-activity");
 const petTodayResultEl = document.getElementById("pet-today-result");
 const btnPetToday = document.getElementById("btn-pet-today");
 const commentInput = document.getElementById("comment-input");
+const commentNameInput = document.getElementById("comment-name");
 const btnAddComment = document.getElementById("btn-add-comment");
 const commentsList = document.getElementById("comments-list");
 const commentCharCount = document.getElementById("comment-char-count");
@@ -1119,7 +1122,7 @@ async function fetchCommentsFromSupabase() {
   if (!supabaseClient) throw new Error("No Supabase client");
   const { data, error } = await supabaseClient
     .from("comments")
-    .select("id, text, created_at")
+    .select("id, text, name, created_at")
     .order("created_at", { ascending: false });
   if (error) throw error;
   return data || [];
@@ -1153,7 +1156,8 @@ function renderCommentsList(items, isEmpty) {
     const dateStr = (c.created_at || c.date)
       ? new Date(c.created_at || c.date).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })
       : "";
-    return `<div class="comment-item"><p class="comment-meta"><span class="anonymous">${t.commentsAnonymous}</span> · ${dateStr}</p><p class="comment-text">${escapeHtml(c.text)}</p></div>`;
+    const displayName = (c.name || "").trim() || t.commentsAnonymous;
+    return `<div class="comment-item"><p class="comment-meta"><span class="anonymous">${escapeHtml(displayName)}</span> · ${dateStr}</p><p class="comment-text">${escapeHtml(c.text)}</p></div>`;
   }).join("");
 }
 
@@ -1186,10 +1190,12 @@ async function addComment() {
   if (useSupabase && supabaseClient) {
     const btn = document.getElementById("btn-add-comment");
     if (btn) { btn.disabled = true; btn.textContent = currentLang === "en" ? "Posting …" : "Wird gesendet …"; }
+    const name = (commentNameInput && commentNameInput.value.trim()) || "";
     try {
-      const { error } = await supabaseClient.from("comments").insert([{ text }]);
+      const { error } = await supabaseClient.from("comments").insert([{ text, name: name || null }]);
       if (error) throw error;
       commentInput.value = "";
+      if (commentNameInput) commentNameInput.value = "";
       if (commentCharCount) commentCharCount.textContent = "0";
       await loadComments();
     } catch (e) {
@@ -1200,10 +1206,12 @@ async function addComment() {
     }
     if (btn) { btn.disabled = false; btn.textContent = TRANSLATIONS[currentLang].commentsSubmit; }
   } else {
+    const name = (commentNameInput && commentNameInput.value.trim()) || "";
     const comments = getCommentsLocal();
-    comments.push({ text, date: new Date().toISOString() });
+    comments.push({ text, name, date: new Date().toISOString() });
     saveCommentsLocal(comments);
     commentInput.value = "";
+    if (commentNameInput) commentNameInput.value = "";
     if (commentCharCount) commentCharCount.textContent = "0";
     renderCommentsList(comments, false);
   }

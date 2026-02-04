@@ -4,6 +4,7 @@
 CREATE TABLE IF NOT EXISTS comments (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   text TEXT NOT NULL,
+  name TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
